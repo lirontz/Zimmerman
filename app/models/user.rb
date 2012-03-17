@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :requests, :class_name => "Request", :foreign_key => "user_id"
 
-  validates_presence_of :first_name
-  validates_presence_of :last_name
+  #validates_presence_of :first_name
+  #validates_presence_of :last_name
   validates_uniqueness_of :username
 end
