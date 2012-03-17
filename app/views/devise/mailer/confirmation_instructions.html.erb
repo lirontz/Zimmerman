@@ -1,0 +1,5 @@
+<p>שלום <%= @resource.email %>!</p>
+
+<p>אתה יכול לאשר את חשבון הדוא"ל שלך בלחיצה על הלינק הבא:</p>
+
+<p><%= link_to 'אשר את חשבוני', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

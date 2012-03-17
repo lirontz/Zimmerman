@@ -1,2 +1,47 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>ברוכים הבאים</h1>
+<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
+<div style="height:550px;">
+	<br />
+	<br />
+	<br />
+	<br />
+	<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
+	<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
+
+	<%= f.label(:room_type_id, "סוג החדר:") -%>
+	<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+
+	<%= f.label(:region_id, "אזור:") -%>
+	<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+
+	<br />
+	<br />
+
+	<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :style => "color:#0088CC;"})-%>
+
+	<br />
+	<br />
+
+	<%= f.text_field(:price_from, {:value => "ממחיר", :style => "color:#0088CC;"})-%>
+	<%= f.text_field(:price_to, {:value => "עד מחיר", :style => "color:#0088CC;"})-%>
+
+	<br />
+	<br />
+
+	<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:style => "width:110px;display:inline"}) -%>
+	<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
+
+	<br />
+	<br />
+
+	<% @room_porperties.each do |prop| -%>
+		<%= label(prop, :name, prop.name, {:style => "width:110px;display:inline"}) -%>
+		<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
+	<% end -%>
+
+	<%= submit_tag('שלח', :style => "color:#0088CC;") -%>
+	<% end -%>
+
+	<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
+	<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
+</div>

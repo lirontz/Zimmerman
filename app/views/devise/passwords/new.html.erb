@@ -1,0 +1,12 @@
+<h2>שכחת את הסיסמה?</h2><br />
+
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label "דוא\"ל" %>
+  <%= f.email_field :email %></div><br />
+
+  <div><%= f.submit "שלח לי הוראות איפוס סיסמה" %></div>
+<% end %>
+
+<%= render "links" %>

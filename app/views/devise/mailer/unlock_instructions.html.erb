@@ -1,0 +1,8 @@
+<p>שלום <%= @resource.email %>!</p>
+
+<p>חשבונך ננעל בעקבות כמות לא חוקית של ניסיונות כניסה שגוייםץ</p>
+
+<p>Click the link below to unlock your account:</p>
+<p>לחץ על הלינק הבא לשחרר את חשבונך:</p>
+
+<p><%= link_to 'שחרר את חשבוני', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>

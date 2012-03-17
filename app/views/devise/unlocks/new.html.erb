@@ -1,0 +1,12 @@
+<h2>שלח הוראות שחרוו נעילת חשבון</h2>
+
+<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label "דוא\"ל" %><br />
+  <%= f.email_field :email %></div>
+
+  <div><%= f.submit "שלח הוראות שחרור נעילה" %></div>
+<% end %>
+
+<%= render "links" %>

@@ -1,0 +1,36 @@
+<h2>ערוך <%= resource_name.to_s.humanize %></h2><br />
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label "שם פרטי" %>
+  <%= f.email_field :first_name %></div><br />
+
+  <div><%= f.label "שם משפחה" %>
+  <%= f.email_field :last_name %></div><br />
+
+  <!--div><%= f.label :email %><br /-->
+  <div><%= f.label :email %>
+  <%= f.email_field :email %></div><br />
+
+  <!--div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br /-->
+  <div><%= f.label "סיסמה"%> <i>(השאר ריק אם אין ברצונך לשנות שדה זה)</i><br />
+  <%= f.password_field :password, :autocomplete => "off" %></div><br />
+
+  <!--div><%= f.label ":password_confirmation" %>-->
+  <div><%= f.label "אימות סיסמה" %>
+  <%= f.password_field :password_confirmation %></div><br />
+
+  <!--div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br /-->
+  <div><%= f.label "סיסמה נוכחית" %> <i>(אנו צריכים את הסיסמה שלך לאשר את השינויים)</i><br />
+  <%= f.password_field :current_password %></div>
+
+  <!--div><%= f.submit "Update" %></div-->
+  <div><%= f.submit "עדכון" %></div>
+<% end %>
+
+<h3>בטל את חשבוני</h3>
+
+<p>לא מרוצה? <%= link_to "בטל את חשבוני", registration_path(resource_name), :confirm => "האם אתה בטוח?", :method => :delete %>.</p>
+
+<%= link_to "חזרה", :back %>
