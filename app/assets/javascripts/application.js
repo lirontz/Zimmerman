@@ -30,8 +30,9 @@ function initRequestFields() {
 	});
 	$("#request_how_many_rooms").blur(function () {
 		var self = $(this);
-		
-		if (isNaN(self.val())) {
+		var val = self.val();
+
+		if (val === '' || isNaN(val)) {
 			self.val("מספר חדרים");
 		}
 	});
@@ -44,8 +45,9 @@ function initRequestFields() {
 	});
 	$("#request_price_from").blur(function () {
 		var self = $(this);
-		
-		if (isNaN(self.val())) {
+		var val = self.val();
+
+		if (val === '' || isNaN(val)) {
 			self.val("ממחיר");
 		}
 	});
@@ -58,8 +60,9 @@ function initRequestFields() {
 	});
 	$("#request_price_to").blur(function () {
 		var self = $(this);
-		
-		if (isNaN(self.val())) {
+		var val = self.val();
+
+		if (val === '' || isNaN(val)) {
 			self.val("עד מחיר");
 		}
 	});
