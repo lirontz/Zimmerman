@@ -22,6 +22,12 @@
 	<br />
 	<br />
 
+	<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :style => "color:#0088CC;"})-%>
+	<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :style => "color:#0088CC;"})-%>
+
+	<br />
+	<br />
+
 	<%= f.text_field(:price_from, {:value => "ממחיר", :style => "color:#0088CC;"})-%>
 	<%= f.text_field(:price_to, {:value => "עד מחיר", :style => "color:#0088CC;"})-%>
 
@@ -37,6 +43,10 @@
 	<% @room_porperties.each do |prop| -%>
 		<%= label(prop, :name, prop.name, {:style => "width:110px;display:inline"}) -%>
 		<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
+	<% end -%>
+
+	<% if user_signed_in? %>
+		<%= f.hidden_field(:user_id, :value => current_user.id) %>
 	<% end -%>
 
 	<%= submit_tag('שלח', :style => "color:#0088CC;") -%>
