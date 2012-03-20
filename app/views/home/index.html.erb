@@ -1,57 +1,62 @@
-<h1>ברוכים הבאים</h1>
-<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
 <div style="height:550px;">
-	<br />
-	<br />
-	<br />
-	<br />
-	<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
-	<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
+	<div style="width: 400px;float: right;">
+		<h1>ברוכים הבאים</h1>
+		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
+		<%= link_to "בעל צימר? הרשם / הכנס", 'home' %>
+	</div>
+	<div style="float: right;">
+		<br />
+		<br />
+		<h3>קבל הצעה:</h3>
+		<br />
+		<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
+		<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
 
-	<%= f.label(:room_type_id, "סוג החדר:") -%>
-	<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+		<%= f.label(:room_type_id, "סוג החדר:") -%>
+		<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
 
-	<%= f.label(:region_id, "אזור:") -%>
-	<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+		<%= f.label(:region_id, "אזור:") -%>
+		<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
 
-	<br />
-	<br />
+		<br />
+		<br />
 
-	<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :style => "color:#0088CC;"})-%>
 
-	<br />
-	<br />
+		<br />
+		<br />
 
-	<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :style => "color:#0088CC;"})-%>
-	<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :style => "color:#0088CC;"})-%>
 
-	<br />
-	<br />
+		<br />
+		<br />
 
-	<%= f.text_field(:price_from, {:value => "ממחיר", :style => "color:#0088CC;"})-%>
-	<%= f.text_field(:price_to, {:value => "עד מחיר", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:price_from, {:value => "ממחיר", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:price_to, {:value => "עד מחיר", :style => "color:#0088CC;"})-%>
 
-	<br />
-	<br />
+		<br />
+		<br />
 
-	<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:style => "width:110px;display:inline"}) -%>
-	<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
+		<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:style => "width:110px;display:inline"}) -%>
+		<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
 
-	<br />
-	<br />
+		<br />
+		<br />
 
-	<% @room_porperties.each do |prop| -%>
-		<%= label(prop, :name, prop.name, {:style => "width:110px;display:inline"}) -%>
-		<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
-	<% end -%>
+		<% @room_porperties.each do |prop| -%>
+			<%= label(prop, :name, prop.name, {:style => "width:110px;display:inline"}) -%>
+			<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
+		<% end -%>
 
-	<% if user_signed_in? %>
-		<%= f.hidden_field(:user_id, :value => current_user.id) %>
-	<% end -%>
+		<% if user_signed_in? %>
+			<%= f.hidden_field(:user_id, :value => current_user.id) %>
+		<% end -%>
 
-	<%= submit_tag('שלח', :style => "color:#0088CC;") -%>
-	<% end -%>
+		<%= submit_tag('שלח', :style => "color:#0088CC;") -%>
+		<% end -%>
 
-	<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
-	<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
+		<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
+		<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
+	</div>
 </div>

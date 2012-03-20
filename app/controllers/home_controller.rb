@@ -13,10 +13,9 @@ class HomeController < ApplicationController
   	#print out params:
   	#return render :text => "The object is #{params.inspect}"
   	#return render :text => "The object is #{params[:request]}"
-  	
+  	#return render :text => "RAILS_ENV is #{Rails.env.development?}"
   	#return render :text => "The room type id is #{ params[:room_type][:id] }"
   	
-
   	@request = Request.new(params[:request])
   	if @request.save
   		#@request.room_porperties_id = @request.id #this line is not needed, tables are based on has_and_belongs_to_many
@@ -25,16 +24,16 @@ class HomeController < ApplicationController
   			if prop_id != ""
   				@request.room_properties << RoomProperty.find(prop_id.to_i)
   			end
-  		end
+  	  end
   		if @request.save
-  			#@request = Request.new
-  			render :index
+  			render ('request_confirmation')
   		else
-  			render :index
+  			#TODO: add error which indicates that room properties doesn't saved! --> return render :text => "save failed!!! errors: #{@request.errors.inspect}"
+        render :index
   		end
-	else
-  		render :index
-  		#return render :text => "save failed!!! errors: #{@request.errors.inspect}"
-	end
+	  else
+  		#TODO: add error which indicates that request doesn't saved! --> return render :text => "save failed!!! errors: #{@request.errors.inspect}"
+      render :index
+	  end
   end
 end

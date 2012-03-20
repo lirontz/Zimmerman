@@ -25,10 +25,12 @@ end
 group :development, :test do
 	gem 'rspec'
 	gem 'rspec-rails'
+	gem 'sqlite3'
 end
 
 group :production do
 	gem 'pg'
+	#gem 'sqlite3'
 end
 
 gem 'jquery-rails'
