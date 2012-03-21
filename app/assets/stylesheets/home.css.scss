@@ -1,3 +1,40 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user_nav {
+	
+}
+.siteOwnerLoginButton {
+	height: 25px;
+	width: 160px;
+	font-size: 16px;
+	padding-top: 10px;
+}
+
+.welcomeContainer {
+	width: 400px;
+	float: right;
+}
+
+.welcomeMainContainer {
+	height: 350px;
+}
+
+.requestContainer {
+	width: 530px;
+	float: right;
+}
+
+.mainContainer {
+	height: 550px;
+}
+
+.elementDefaultColor {
+	color: #0088CC;
+}
+
+.labelDefault {
+	width: 110px;
+	display: inline
+}

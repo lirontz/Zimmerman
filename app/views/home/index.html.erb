@@ -1,10 +1,11 @@
-<div style="height:550px;">
-	<div style="width: 400px;float: right;">
+<div class="mainContainer">
+	<div class="welcomeContainer">
 		<h1>ברוכים הבאים</h1>
 		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
-		<%= link_to "בעל צימר? הרשם / הכנס", 'home' %>
+		<div class="welcomeMainContainer">&nbsp;</div>
+		<%= link_to "בעל צימר? הרשם / הכנס", 'site_owners/sign_up', :class => "btn btn-primary siteOwnerLoginButton" %>
 	</div>
-	<div style="float: right;">
+	<div class="requestContainer">
 		<br />
 		<br />
 		<h3>קבל הצעה:</h3>
@@ -13,39 +14,39 @@
 		<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
 
 		<%= f.label(:room_type_id, "סוג החדר:") -%>
-		<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+		<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "2"}, {:class => "elementDefaultColor"}) -%>
 
 		<%= f.label(:region_id, "אזור:") -%>
-		<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "2"}, {:style => "color:#0088CC;"}) -%>
+		<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "2"}, {:class => "elementDefaultColor"}) -%>
 
 		<br />
 		<br />
 
-		<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :class => "elementDefaultColor"})-%>
 
 		<br />
 		<br />
 
-		<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :style => "color:#0088CC;"})-%>
-		<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :class => "elementDefaultColor"})-%>
+		<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefaultColor"})-%>
 
 		<br />
 		<br />
 
-		<%= f.text_field(:price_from, {:value => "ממחיר", :style => "color:#0088CC;"})-%>
-		<%= f.text_field(:price_to, {:value => "עד מחיר", :style => "color:#0088CC;"})-%>
+		<%= f.text_field(:price_from, {:value => "ממחיר", :class => "elementDefaultColor"})-%>
+		<%= f.text_field(:price_to, {:value => "עד מחיר", :class => "elementDefaultColor"})-%>
 
 		<br />
 		<br />
 
-		<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:style => "width:110px;display:inline"}) -%>
+		<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
 		<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
 
 		<br />
 		<br />
 
 		<% @room_porperties.each do |prop| -%>
-			<%= label(prop, :name, prop.name, {:style => "width:110px;display:inline"}) -%>
+			<%= label(prop, :name, prop.name, {:class => "labelDefault"}) -%>
 			<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
 		<% end -%>
 
@@ -53,10 +54,19 @@
 			<%= f.hidden_field(:user_id, :value => current_user.id) %>
 		<% end -%>
 
-		<%= submit_tag('שלח', :style => "color:#0088CC;") -%>
+		<%= submit_tag('שלח', {:class => "btn btn-primary"}) -%>
+		
 		<% end -%>
 
 		<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
 		<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
 	</div>
+    <div class="user_nav">
+      <% if user_signed_in? %>
+        רשום כ - <%= current_user.email %>. לא אתה?
+        <%= link_to "צא", destroy_user_session_path, :method => :delete %>
+      <% else %>
+        <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
+      <% end %>
+    </div>
 </div>
