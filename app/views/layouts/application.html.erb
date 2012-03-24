@@ -4,22 +4,18 @@
     <meta charset="utf-8">
     <title>גברת צימר</title>
 
-    <link type="text/css" href="/assets/jquery-ui-1.8.18.custom/css/redmond/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />  
-    <script type="text/javascript" src="/assets/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="/assets/jquery-ui-1.8.18.custom/js/jquery.ui.datepicker-he.js"></script>
-    <script src="/assets/monkeecreate-jquery.simpleWeather-e550019/jquery.simpleWeather-2.0.1.min.js"></script>
     <%= csrf_meta_tags %>
+
+    <!-- styles -->
+    <link type="text/css" href="/assets/jquery-ui-1.8.18.custom/css/redmond/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    <%= stylesheet_link_tag "application", :media => "all" %>
 
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
 
-    <!-- styles -->
-    <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
-
-    <!-- Le fav and touch icons -->
+    <!-- fav and touch icons -->
     <link href="images/favicon.ico" rel="shortcut icon">
     <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
@@ -36,13 +32,12 @@
             <span class="i-bar"></span>
           </a>
           <%= link_to "גב' צימר", root_url, :class => 'brand i-brand' %>
-          <!--div class="container nav-collapse">
-            <ul class="nav">
-                <li><%= link_to "Link1", "/path1"  %></li>
-                <li><%= link_to "Link2", "/path2"  %></li>
-                <li><%= link_to "Link3", "/path3"  %></li>
+          <div class="container nav-collapse">
+            <ul class="nav i-navbar-nav">
+                <li><%= link_to "אודותינו", "home"  %></li>
+                <li><%= link_to "צור קשר", "home"  %></li>
             </ul>
-          </div--><!--/.nav-collapse -->
+          </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
@@ -67,6 +62,5 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
-
   </body>
 </html>

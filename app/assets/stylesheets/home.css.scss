@@ -22,19 +22,40 @@
 }
 
 .requestContainer {
-	width: 530px;
 	float: right;
+}
+
+.requestSubContainerRight {
+	float: right;
+}
+
+.requestSubContainerLeft {
+	float: right;
+	margin-right: 150px;
 }
 
 .mainContainer {
 	height: 550px;
 }
 
-.elementDefaultColor {
+.elementDefault {
 	color: #0088CC;
+	width: 120px;
+}
+
+.elementWide {
+	width: 200px;
 }
 
 .labelDefault {
 	width: 110px;
 	display: inline
+}
+
+.searchPropertiesAccordion {
+	width: 264px;
+}
+
+.submitBtn {
+	font-size: 16px;
 }

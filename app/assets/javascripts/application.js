@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
-$().ready(function () {
+$(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
 });
@@ -66,6 +66,87 @@ function initRequestFields() {
 			self.val("עד מחיר");
 		}
 	});
+	$("#user_email").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'דוא"ל') {
+			self.val("");
+		}
+	});
+	$("#user_email").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('דוא"ל');
+		}
+	});
+	/*$("#user_email_confirmation").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'אימות דוא"ל') {
+			self.val("");
+		}
+	});
+	$("#user_email_confirmation").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('אימות דוא"ל');
+		}
+	});*/
+	$("#user_first_name").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'שם פרטי') {
+			self.val("");
+		}
+	});
+	$("#user_first_name").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('שם פרטי');
+		}
+	});
+	$("#user_last_name").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'שם משפחה') {
+			self.val("");
+		}
+	});
+	$("#user_last_name").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('שם משפחה');
+		}
+	});
+	$("#user_phone").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'טלפון') {
+			self.val("");
+		}
+	});
+	$("#user_phone").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('טלפון');
+		}
+	});
+	//$("#accordion2").collapse({toggle: false});//TODO: check why collapse is undefined
 }
 
 function initDatepicker() {

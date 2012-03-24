@@ -4,7 +4,7 @@
 <div style="height: 550px; ">
 	<div style="float: right;">
 		<h1>גברת צימר מודה לך על פנייתך</h1>
-		<p>ב-24 השעות הקרובות יישלחו אלייך כל ההצעות הרלוונטיות!</p>
+		<p><%= @request.user.first_name -%>, ב-24 השעות הקרובות יישלחו אלייך כל ההצעות הרלוונטיות!</p>
 		<div style="width: 250px; background-color: lightblue; padding-right: 40px;">
 			<br />
 			<p>פרטי הבקשה:</p>
@@ -15,8 +15,12 @@
 				<li>מספר חדרים:&nbsp;<%= @request.how_many_rooms -%></li>
 				<li>מאפייני צימר / חדר:&nbsp;
 					<ul style="margin: 0; padding-right: 20px;">
-						<% @request.room_properties.each do |prop| %>
-							<li><%= prop.name -%></li>
+						<% if @request.room_properties.nil? || @request.room_properties.empty? %>
+							לא נבחרו מאפייני חיפוש.
+						<% else %>
+							<% @request.room_properties.each do |prop| %>
+								<li><%= prop.name -%></li>
+							<% end -%>
 						<% end -%>
 					</ul>
 				</li>
