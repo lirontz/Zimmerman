@@ -1,5 +1,7 @@
 Zimmerman::Application.routes.draw do
-  devise_for :site_owners
+  get "site_owner/index"
+
+  devise_for :site_owners, :controller => {:registrations => 'site_owner'}
 
   devise_for :users
 

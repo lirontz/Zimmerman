@@ -1,9 +1,17 @@
+<div class="user_nav">
+  <% if user_signed_in? %>
+    רשום כ - <%= current_user.email %>. לא אתה?
+    <%= link_to "צא", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
+  <% end %>
+</div>
 <div class="mainContainer">
 	<div class="welcomeContainer">
 		<h1>ברוכים הבאים</h1>
 		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
 		<div class="welcomeMainContainer">&nbsp;</div>
-		<%= link_to "בעל צימר? הרשם / הכנס", 'site_owners/sign_up', :class => "btn btn-primary siteOwnerLoginButton" %>
+		<%= link_to "בעל צימר? הרשם / הכנס", {:controller => 'site_owner'}, :class => "btn btn-primary siteOwnerLoginButton" %>
 	</div>
 	<div class="requestContainer">
 		<div class="requestSubContainerRight">
@@ -86,8 +94,8 @@
 
 				<div>
 					<center>
-						<%= label(:user, :sms_enabled, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
-						<%= check_box(:user, :sms_enabled, {}, "true", "false") -%><br />
+						<%= label(:user, :terms_of_service_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
+						<%= check_box(:user, :terms_of_service_confirmed, {}, "true", "false") -%><br />
 
 						<%= submit_tag('שלח', {:class => "btn-primary submitBtn"}) -%>
 					</center>
@@ -100,14 +108,6 @@
 		<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
 		<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
 	</div>
-    <div class="user_nav">
-      <% if user_signed_in? %>
-        רשום כ - <%= current_user.email %>. לא אתה?
-        <%= link_to "צא", destroy_user_session_path, :method => :delete %>
-      <% else %>
-        <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
-      <% end %>
-    </div>
 </div>
 
 

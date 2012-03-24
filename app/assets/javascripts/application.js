@@ -146,6 +146,22 @@ function initRequestFields() {
 			self.val('טלפון');
 		}
 	});
+	$("#site_owner_email").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'דוא"ל') {
+			self.val("");
+		}
+	});
+	$("#site_owner_email").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('דוא"ל');
+		}
+	});
 	//$("#accordion2").collapse({toggle: false});//TODO: check why collapse is undefined
 }
 
@@ -196,4 +212,43 @@ function initWeatherComponent() {
                 $("#weather").html("<p>"+error+"</p>");
         }
 	});
+}
+
+function changePassBox() {
+    $('#div1').hide();
+    $('#div2').show();
+    $('#site_owner_password').focus();
+}
+ 
+function restorePassBox() {
+    if($('#site_owner_password').val() == '') {
+      $('#div1').show();
+      $('#div2').hide();
+    }
+}
+
+function changePassBox1() {
+    $('#div3').hide();
+    $('#div4').show();
+    $('#site_owner_password_confirmation').focus();
+}
+ 
+function restorePassBox1() {
+    if($('#site_owner_password_confirmation').val() == '') {
+      $('#div3').show();
+      $('#div4').hide();
+    }
+}
+
+function changePassBox2() {
+    $('#div5').hide();
+    $('#div6').show();
+    //$('#site_owner_password').focus();
+}
+ 
+function restorePassBox2() {
+    if($('#site_owner_password').val() == '') {
+      $('#div5').show();
+      $('#div6').hide();
+    }
 }
