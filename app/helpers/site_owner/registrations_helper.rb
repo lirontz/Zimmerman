@@ -1,0 +1,2 @@
+module SiteOwner::RegistrationsHelper
+end

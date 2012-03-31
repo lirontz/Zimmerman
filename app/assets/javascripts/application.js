@@ -20,6 +20,7 @@ $(document).ready(function () {
 });
 
 function initRequestFields() {
+	$("#accordion2").collapse({hide:true});
 	//TODO: merge all following function to one function
 	$("#request_how_many_rooms").focus(function () {
 		var self = $(this);
@@ -33,7 +34,7 @@ function initRequestFields() {
 		var val = self.val();
 
 		if (val === '' || isNaN(val)) {
-			self.val("מספר חדרים");
+			self.val("מספר יחידות");
 		}
 	});
 	$("#request_price_from").focus(function () {
@@ -162,20 +163,21 @@ function initRequestFields() {
 			self.val('דוא"ל');
 		}
 	});
-	//$("#accordion2").collapse({toggle: false});//TODO: check why collapse is undefined
+	//$("#accordion2").on('click', function (e) { e.preventDefault(); })
 }
 
 function initDatepicker() {
 	var $datepickerElem = $('#request_start_date, #request_end_date');
 	var $startDateElem = $('#request_start_date');
 	var $endDateElem = $('#request_end_date');
-	var dates = $( "#request_start_date, #request_end_date" ).datepicker({
-		changeMonth: true,
-		minDate: 0, 
+	
+
+
+	var dates = $datepickerElem.datepicker({
+		minDate: 0,
 		maxDate: "+6M +15D",
-		options: {
-			dateFormat: "dd/mm/yy"
-		},
+		changeMonth: true,
+		showAnim: "slideDown",
 		onSelect: function( selectedDate ) {
 			var option = this.id == "request_end_date" ?  "maxDate" : "minDate",
 				instance = $( this ).data( "datepicker" ),
@@ -186,32 +188,9 @@ function initDatepicker() {
 			dates.not( this ).datepicker( "option", option, date );
 		}
 	});
-	$datepickerElem.datepicker($.datepicker.regional[ "he" ]);
 	$datepickerElem.datepicker( "option", "showAnim", "slideDown" );
 	$startDateElem.val('מתאריך');
 	$endDateElem.val('עד תאריך');
-}
-
-function initWeatherComponent() {
-	$.simpleWeather({
-        zipcode: 'ISXX0022',
-        unit: 'c',
-        success: function(weather) {
-                html = '<div style=\'width: 100%; text-align: center;\'><br /><br /><p><strong>התחזית ב-'+weather.city+'</strong></p>';
-                html += '<p><strong>היום</strong>: '+weather.high+'&deg; / '+weather.low+'&deg; </p>';
-                html += '<p><strong>טמפרטורה נוכחית</strong>: '+weather.temp+'&deg;</p>';
-                html += '<p><strong>נוכחי</strong>: '+weather.currently+' - <strong>תחזית</strong>: '+weather.forecast+'</p>';
-                html += '<p><img src="'+weather.thumbnail+'"></p>';
-                html += '<p><strong>לחות</strong>: '+weather.humidity+', <strong>לחץ</strong>: '+weather.pressure+', <strong>ראות</strong>: '+weather.visibility+'</p>';
-                html += '<p><strong>התאריך מחר</strong>: '+weather.tomorrow.day+' '+weather.tomorrow.date+'<br /><strong>מחר</strong>: '+weather.tomorrow.high+'&deg; / '+weather.tomorrow.low+'&deg;<br /><strong>תחזית</strong>: '+weather.tomorrow.forecast+'<br /></p>';
-                html += '<p>צפה בתחזית מלאה: <a href="'+weather.link+'">Yahoo! Weather</a></p></div>';
-
-                $("#weather").html(html);
-        },
-        error: function(error) {
-                $("#weather").html("<p>"+error+"</p>");
-        }
-	});
 }
 
 function changePassBox() {

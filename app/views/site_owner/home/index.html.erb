@@ -1,0 +1,8 @@
+<div class="user_nav">
+  <% if site_owner_signed_in? %>
+    רשום כ - <%= current_site_owner.email %>. לא אתה?
+    <%= link_to "צא", destroy_site_owner_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "הרשם", new_site_owner_registration_path %> או <%= link_to "הכנס", new_site_owner_session_path %>
+  <% end %>
+</div>

@@ -1,7 +1,25 @@
 Zimmerman::Application.routes.draw do
-  get "site_owner/index"
+  get 'site_owner/home/' => 'site_owner/home#index'
 
-  devise_for :site_owners, :controller => {:registrations => 'site_owner'}
+  devise_for :site_owners, :controllers => {:registrations => 'site_owner/registrations', :sessions => 'site_owner/sessions'}
+  devise_scope :site_owners do 
+    #get 'signin' => 'home#index', :as => :new_site_owner_session
+  end
+
+  #devise_for :site_owners, :skip => [:registrations, :sessions] do
+  #  # devise/registrations:
+  #  get 'signup' => 'site_owner/sign_up#sign_up', :as => :new_user_registration
+  #  post 'signup' => 'site_owner/sign_up#sign_up', :as => :user_registration
+  #  get 'users/cancel' => 'devise/registrations#cancel', :as => :cancel_user_registration
+  #  get 'users/edit' => 'devise/registrations#edit', :as => :edit_user_registration
+  #  put 'users' => 'devise/registrations#update'
+  #  delete 'users/cancel' => 'devise/registrations#destroy'
+   
+    # devise/sessions:
+  #  get 'signin' => 'devise/sessions#new', :as => :new_user_session
+  #  post 'signin' => 'devise/sessions#create', :as => :user_session
+  #  get 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
+  #end
 
   devise_for :users
 
@@ -60,5 +78,5 @@ Zimmerman::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  match ':controller(/:action(/:id))(.:format)'
+  #match ':controller(/:action(/:id))(.:format)'
 end

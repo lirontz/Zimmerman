@@ -11,7 +11,7 @@
 		<h1>ברוכים הבאים</h1>
 		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
 		<div class="welcomeMainContainer">&nbsp;</div>
-		<%= link_to "בעל צימר? הרשם / הכנס", {:controller => 'site_owner'}, :class => "btn btn-primary siteOwnerLoginButton" %>
+		<%= link_to "הצטרף", new_site_owner_registration_path, :class => "btn btn-primary siteOwnerLoginButton" %>
 	</div>
 	<div class="requestContainer">
 		<div class="requestSubContainerRight">
@@ -22,7 +22,7 @@
 			<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
 			<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
 
-				<%= f.label(:room_type_id, "סוג החדר:") -%>
+				<%= f.label(:room_type_id, "סוג:") -%>
 				<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
 
 				<%= f.label(:region_id, "אזור:") -%>
@@ -31,7 +31,7 @@
 				<br />
 				<br />
 
-				<%= f.text_field(:how_many_rooms, {:value => "מספר חדרים", :class => "elementDefault"})-%>
+				<%= f.text_field(:how_many_rooms, {:value => "מספר יחידות", :class => "elementDefault"})-%>
 
 				<br />
 				<br />
@@ -48,14 +48,14 @@
 				<br />
 				<br />
 
-				<div class="accordion 	" id="accordion2">
+				<div class="accordion" id="accordion2">
 					<div class="accordion-group">
 						<div class="accordion-heading">
 							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
 								מאפייני חיפוש
 							</a>
 						</div>
-						<div id="collapseOne" class="accordion-body collapse">
+						<div id="collapseOne" class="accordion-body collapse in">
 							<div class="accordion-inner">
 								<% @room_porperties.each_with_index do |prop, i| -%>
 									<% if ((i % 3) == 0) && i != 0 -%>
@@ -94,8 +94,8 @@
 
 				<div>
 					<center>
-						<%= label(:user, :terms_of_service_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
-						<%= check_box(:user, :terms_of_service_confirmed, {}, "true", "false") -%><br />
+						<%= label(:user, :terms_of_use_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
+						<%= check_box(:user, :terms_of_use_confirmed, {}, "true", "false") -%><br />
 
 						<%= submit_tag('שלח', {:class => "btn-primary submitBtn"}) -%>
 					</center>

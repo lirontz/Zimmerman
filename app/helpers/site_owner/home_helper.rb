@@ -1,0 +1,2 @@
+module SiteOwner::HomeHelper
+end
