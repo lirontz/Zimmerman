@@ -14,13 +14,14 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
 $(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
 });
 
 function initRequestFields() {
-	$("#accordion2").collapse({hide:true});
+	//$("#accordion2").collapse({hide:true});
 	//TODO: merge all following function to one function
 	$("#request_how_many_rooms").focus(function () {
 		var self = $(this);
@@ -163,6 +164,22 @@ function initRequestFields() {
 			self.val('דוא"ל');
 		}
 	});
+	$("#user_password").focus(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === 'סיסמה') {
+			self.val('');
+		}
+	});
+	$("#user_password").blur(function () {
+		var self = $(this);
+		var val = self.val();
+
+		if (val === '') {
+			self.val('סיסמה');
+		}
+	});
 	//$("#accordion2").on('click', function (e) { e.preventDefault(); })
 }
 
@@ -170,14 +187,10 @@ function initDatepicker() {
 	var $datepickerElem = $('#request_start_date, #request_end_date');
 	var $startDateElem = $('#request_start_date');
 	var $endDateElem = $('#request_end_date');
-	
-
-
 	var dates = $datepickerElem.datepicker({
 		minDate: 0,
 		maxDate: "+6M +15D",
 		changeMonth: true,
-		showAnim: "slideDown",
 		onSelect: function( selectedDate ) {
 			var option = this.id == "request_end_date" ?  "maxDate" : "minDate",
 				instance = $( this ).data( "datepicker" ),
@@ -194,26 +207,34 @@ function initDatepicker() {
 }
 
 function changePassBox() {
+	var elem = $('#site_owner_password').length > 0 ? $('#site_owner_password') : $('#user_password').length > 0 ? $('#user_password') : null;
+
     $('#div1').hide();
     $('#div2').show();
-    $('#site_owner_password').focus();
+    elem.focus();
 }
  
 function restorePassBox() {
-    if($('#site_owner_password').val() == '') {
+    var elem = $('#site_owner_password').length > 0 ? $('#site_owner_password') : $('#user_password').length > 0 ? $('#user_password') : null;
+    
+    if(elem && elem.val() == '') {
       $('#div1').show();
       $('#div2').hide();
     }
 }
 
 function changePassBox1() {
+	var elem = $('#site_owner_password_confirmation').length > 0 ? $('#site_owner_password_confirmation') : $('#user_password_confirmation').length > 0 ? $('#user_password_confirmation') : null;
+    
     $('#div3').hide();
     $('#div4').show();
-    $('#site_owner_password_confirmation').focus();
+    elem.focus();
 }
  
 function restorePassBox1() {
-    if($('#site_owner_password_confirmation').val() == '') {
+	var elem = $('#site_owner_password_confirmation').length > 0 ? $('#site_owner_password_confirmation') : $('#user_password_confirmation').length > 0 ? $('#user_password_confirmation') : null;
+
+    if(elem && elem.val() == '') {
       $('#div3').show();
       $('#div4').hide();
     }
@@ -230,4 +251,112 @@ function restorePassBox2() {
       $('#div5').show();
       $('#div6').hide();
     }
+}
+
+function validateNewUserForm(elem) {
+	var $firstNameElem = $("#user_first_name");
+	var $lastNameElem = $("#user_last_name");
+	var firstNameVal = $firstNameElem.val();
+	var lastNameVal = $lastNameElem.val();
+	var $phoneElem = $("#user_phone");
+	var phoneVal = $phoneElem.val();
+	var $userTermOfUseConfirmed = $("#user_terms_of_use_confirmed");
+	var $userTermOfUseConfirmedLabel = $("label[for='user_terms_of_use_confirmed']");
+	//var regexPhone1 = /^[0][5][0]-\d{7}|[0][5][2]-\d{7}|[0][5][4]-\d{7}|[0][5][7]-\d{7}|[0][7][7]-\d{7}|[0][2]-\d{7}|[0][3]-\d{7}|[0][4]-\d{7}|[0][8]-\d{7}|[0][9]-\d{7}|[0][5][0]\d{7}|[0][5][2]\d{7}|[0][5][4]\d{7}|[0][5][7]\d{7}|[0][7][7]\d{7}|[0][2]\d{7}|[0][3]\d{7}|[0][4]\d{7}|[0][8]\d{7}|[0][9]\d{7}$/;
+	var regexPhone2 = /^\b\d{2,3}-*\d{7}\b$/;
+
+	if (firstNameVal == "" || firstNameVal == "שם פרטי") {
+		$firstNameElem.focus();
+		return false;
+	}
+	if (lastNameVal == "" || lastNameVal == "שם משפחה") {
+		$lastNameElem.focus();
+		return false;
+	}
+	if (!regexPhone2.test(phoneVal)) {
+		$phoneElem.val("");	
+		$phoneElem.focus();
+		return false;
+	}
+	if (!$userTermOfUseConfirmed.is(':checked')) {
+		$userTermOfUseConfirmedLabel.css('color', 'red');
+		return false;
+	} else {
+		$userTermOfUseConfirmedLabel.css('color', '#000000');
+	}
+	return true;
+}
+
+function validateRequestForm(elem) {
+	var $howManyRoomsElem = $("#request_how_many_rooms");
+	var howManyRoomsVal = parseInt($howManyRoomsElem.val());
+	var $priceFromElem = $('#request_price_from');
+	var $priceToElem = $('#request_price_to');
+	var priceFromVal = parseInt($priceFromElem.val());
+	var priceToVal = parseInt($priceToElem.val());
+	var $startDateElem = $('#request_start_date');
+	var $endDateElem = $('#request_end_date');
+	var startDateVal = $startDateElem.val();
+	var endDateVal = $endDateElem.val();
+	var $firstNameElem = $("#user_first_name");
+	var $lastNameElem = $("#user_last_name");
+	var firstNameVal = $firstNameElem.val();
+	var lastNameVal = $lastNameElem.val();
+	var $phoneElem = $("#user_phone");
+	var phoneVal = $phoneElem.val();
+	var $userTermOfUseConfirmed = $("#user_terms_of_use_confirmed");
+	var $userTermOfUseConfirmedLabel = $("label[for='user_terms_of_use_confirmed']");
+	var regexDate = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+	//var regexPhone1 = /^[0][5][0]-\d{7}|[0][5][2]-\d{7}|[0][5][4]-\d{7}|[0][5][7]-\d{7}|[0][7][7]-\d{7}|[0][2]-\d{7}|[0][3]-\d{7}|[0][4]-\d{7}|[0][8]-\d{7}|[0][9]-\d{7}|[0][5][0]\d{7}|[0][5][2]\d{7}|[0][5][4]\d{7}|[0][5][7]\d{7}|[0][7][7]\d{7}|[0][2]\d{7}|[0][3]\d{7}|[0][4]\d{7}|[0][8]\d{7}|[0][9]\d{7}$/;
+	var regexPhone2 = /^\b\d{2,3}-*\d{7}\b$/;
+
+	if (isNaN(howManyRoomsVal) || howManyRoomsVal < 0 || howManyRoomsVal > 100) {
+		$howManyRoomsElem.val("");
+		$howManyRoomsElem.focus();
+		return false;
+	}
+	if (!regexDate.test(startDateVal)) {
+		$startDateElem.focus();
+		return false;
+	}
+	if (!regexDate.test(endDateVal)) {
+		$endDateElem.focus();
+		return false;
+	}
+	if (isNaN(priceFromVal) || priceFromVal < 0 || priceFromVal > 10000) {
+		$priceFromElem.val("");
+		$priceFromElem.focus();
+		return false;
+	}
+	if (isNaN(priceToVal) || priceToVal < 0 || priceToVal > 10000) {
+		$priceToElem.val("");
+		$priceToElem.focus();
+		return false;
+	}
+	if (priceToVal < priceFromVal) {
+		$priceToElem.val("");
+		$priceFromElem.val("");
+		$priceFromElem.focus();
+		return false;
+	}
+	if (firstNameVal == "" || firstNameVal == "שם פרטי") {
+		$firstNameElem.focus();
+		return false;
+	}
+	if (lastNameVal == "" || lastNameVal == "שם משפחה") {
+		$lastNameElem.focus();
+		return false;
+	}
+	if (!regexPhone2.test(phoneVal)) {
+		$phoneElem.val("");	
+		$phoneElem.focus();
+		return false;
+	}
+	if (!$userTermOfUseConfirmed.is(':checked')) {
+		$userTermOfUseConfirmedLabel.css('color', 'red');
+		return false;
+	} else {
+		$userTermOfUseConfirmedLabel.css('color', '#000000');
+	}
+	return true;
 }

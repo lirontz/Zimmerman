@@ -6,7 +6,6 @@
     <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
   <% end %>
 </div>
-<div class="mainContainer">
 	<div class="welcomeContainer">
 		<h1>ברוכים הבאים</h1>
 		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
@@ -20,7 +19,7 @@
 			<h3>קבל הצעה:</h3>
 			<br />
 			<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
-			<%= form_for(@request, :url => {:action => "create"}) do |f| -%>
+			<%= form_for(@request, :url => {:action => "create"}, :html => { :onsubmit => "return validateRequestForm(this);" }) do |f| -%>
 
 				<%= f.label(:room_type_id, "סוג:") -%>
 				<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
@@ -55,7 +54,7 @@
 								מאפייני חיפוש
 							</a>
 						</div>
-						<div id="collapseOne" class="accordion-body collapse in">
+						<div id="collapseOne" class="accordion-body collapse">
 							<div class="accordion-inner">
 								<% @room_porperties.each_with_index do |prop, i| -%>
 									<% if ((i % 3) == 0) && i != 0 -%>
@@ -108,6 +107,5 @@
 		<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
 		<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
 	</div>
-</div>
 
 

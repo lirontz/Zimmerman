@@ -1,0 +1,2 @@
+module SiteOwner::CpHelper
+end

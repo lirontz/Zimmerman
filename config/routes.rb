@@ -1,10 +1,16 @@
 Zimmerman::Application.routes.draw do
+  devise_for :users
+
   get 'site_owner/home/' => 'site_owner/home#index'
+  get 'site_owner/cp/' => 'site_owner/cp#index'
+  get 'site_owner/cp/main' => 'site_owner/cp#main'
 
   devise_for :site_owners, :controllers => {:registrations => 'site_owner/registrations', :sessions => 'site_owner/sessions'}
-  devise_scope :site_owners do 
-    #get 'signin' => 'home#index', :as => :new_site_owner_session
-  end
+  #devise_scope :site_owners do 
+  #  get 'signin' => 'site_owner/sessions#new', :as => :new_site_owners_session
+  #  post 'signin' => 'site_owner/sessions#create', :as => :site_owners_session
+  #  delete 'signout' => 'site_owner/sessions#destroy', :as => :destroy_site_owners_session
+  #end
 
   #devise_for :site_owners, :skip => [:registrations, :sessions] do
   #  # devise/registrations:
@@ -21,7 +27,7 @@ Zimmerman::Application.routes.draw do
   #  get 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
   #end
 
-  devise_for :users
+ 
 
     # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
@@ -78,5 +84,5 @@ Zimmerman::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  #match ':controller(/:action(/:id))(.:format)'
+  match ':controller(/:action(/:id))(.:format)'
 end

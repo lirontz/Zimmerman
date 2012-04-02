@@ -29,7 +29,7 @@ class SiteOwner::SessionsController < Devise::SessionsController
   #end
 
   def after_sign_in_path_for(resource)
-    '/site_owner/home'
+    '/site_owner/cp'
   end
 
   def after_sign_out_path_for(resource)

@@ -30,6 +30,6 @@ class SiteOwner::RegistrationsController < Devise::RegistrationsController
   #end
 
   def after_sign_in_path_for(resource)
-    '/site_owner/home'
+    '/site_owner/cp'
   end
 end

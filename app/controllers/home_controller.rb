@@ -13,6 +13,9 @@ class HomeController < ApplicationController
     #return render :text => "RAILS_ENV is #{Rails.env.development?}"
     #return render :text => "The room type id is #{ params[:room_type][:id] }"
 
+    params[:request][:start_date] = DateTime.strptime(params[:request][:start_date], "%d/%m/%Y").to_time()
+    params[:request][:end_date] = DateTime.strptime(params[:request][:end_date], "%d/%m/%Y").to_time()
+    
     @regions = Region.all
   	@room_types = RoomType.all
   	@room_porperties = RoomProperty.all
@@ -46,12 +49,16 @@ class HomeController < ApplicationController
         if @user.save
           #TODO: add error handling
         end
+      else 
+        @user.first_name = params[:user][:first_name]
+        @user.last_name = params[:user][:last_name]
+        @user.phone = params[:user][:phone]
+        @user.save
       end
       @request.user = @user
     end
 
   	if @request.save
-  		
       #@request.room_porperties_id = @request.id #this line is not needed, tables are based on has_and_belongs_to_many
   		request_room_porperty_list = params[:room_porperty_request][:list]
   		request_room_porperty_list.each do |prop_id|
