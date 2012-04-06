@@ -360,3 +360,32 @@ function validateRequestForm(elem) {
 	}
 	return true;
 }
+
+function fillAutoForm() {
+	var $howManyRoomsElem = $("#request_how_many_rooms");
+	var $priceFromElem = $('#request_price_from');
+	var $priceToElem = $('#request_price_to');
+	var $userEmail = $("#user_email");
+	var $startDateElem = $('#request_start_date');
+	var $endDateElem = $('#request_end_date');
+	var $firstNameElem = $("#user_first_name");
+	var $lastNameElem = $("#user_last_name");
+	var $phoneElem = $("#user_phone");
+	var $userTermOfUseConfirmed = $("#user_terms_of_use_confirmed");
+
+	
+	$howManyRoomsElem.val("2");
+	$priceFromElem.val("500");
+	$priceToElem.val("1000");
+	$userEmail.val("lirontz@gmail.com");
+	$startDateElem.val("23/06/2012");
+	$endDateElem.val("23/07/2012");
+	$firstNameElem.val("liron");
+	$lastNameElem.val("tzarfati");
+	$phoneElem.val("0546911012");
+	$userTermOfUseConfirmed.prop("checked", true);
+}
+
+
+
+

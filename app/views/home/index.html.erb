@@ -97,6 +97,9 @@
 						<%= check_box(:user, :terms_of_use_confirmed, {}, "true", "false") -%><br />
 
 						<%= submit_tag('שלח', {:class => "btn-primary submitBtn"}) -%>
+						<% if (ENV['RAILS_ENV'] == "development") %>
+							<br /><input type="button" value="Fill From" class="btn btn-primary" onclick="fillAutoForm()" />
+						<% end %>
 					</center>
 				</div>
 
@@ -104,8 +107,6 @@
 		
 		<% end -%>
 
-		<!--%= f.datetime_select(Time.now, :order => [:day, :month, :year]) -%-->
-		<!--%= select("group_users", "group_id", @room_types.collect {|p| [p.name, p.id ] }, { :include_blank => true }) %-->
 	</div>
 
 

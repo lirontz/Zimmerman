@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120324090852) do
+ActiveRecord::Schema.define(:version => 20120403183137) do
 
   create_table "cities", :force => true do |t|
     t.datetime "created_at",                 :null => false
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20120324090852) do
     t.integer  "room_type_id",       :default => 0,                     :null => false
     t.integer  "region_id",          :default => 0,                     :null => false
     t.integer  "city_id"
+    t.integer  "status",             :default => 0,                     :null => false
   end
 
   create_table "requests_room_properties", :id => false, :force => true do |t|
