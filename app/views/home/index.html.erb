@@ -1,3 +1,6 @@
+<%= root_url[0...-1] + image_path('mail1_04.jpg') %>
+<%= root_url + image_path('mail1_04.jpg') %>
+
 <div class="user_nav">
   <% if user_signed_in? %>
     רשום כ - <%= current_user.email %>. לא אתה?
