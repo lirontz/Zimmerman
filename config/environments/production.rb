@@ -67,4 +67,7 @@ Zimmerman::Application.configure do
 
   # My Configurations: 
   config.action_mailer.default_url_options = { :host => 'http://freezing-samurai-8093.herokuapp.com', :only_path => false }
+
+  config.action_mailer.asset_host = "http://freezing-samurai-8093.herokuapp.com"
+
 end
