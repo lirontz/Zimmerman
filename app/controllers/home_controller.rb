@@ -15,12 +15,6 @@ class HomeController < ApplicationController
   end
 
   def create
-    #print out params:
-    #return render :text => "The object is #{params.inspect}"
-    #return render :text => "The object is #{params[:request]}"
-    #return render :text => "RAILS_ENV is #{Rails.env.development?}"
-    #return render :text => "The room type id is #{ params[:room_type][:id] }"
-
     params[:request][:start_date] = DateTime.strptime(params[:request][:start_date], "%d/%m/%Y").to_time()
     params[:request][:end_date] = DateTime.strptime(params[:request][:end_date], "%d/%m/%Y").to_time()
     
@@ -67,8 +61,10 @@ class HomeController < ApplicationController
   			if prop_id != ""
   				@request.room_properties << RoomProperty.find(prop_id.to_i)
   			end
-  	  end
+	    end
 
+      #@request.responses << Response.new
+#debugger;
   		if @request.save
   			render ('request_confirmation')
   		else

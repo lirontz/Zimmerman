@@ -1,4 +1,6 @@
 class SiteOwner::CpController < ApplicationController
+	before_filter :authenticate_site_owner!
+	
 	def index
 		
 	end
