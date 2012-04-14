@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class HomeController < ApplicationController
   require 'timeout'
 
@@ -54,7 +55,6 @@ class HomeController < ApplicationController
     @request.status = 1 #1 = pending TODO: add constants for status
 
   	if @request.save
-      send_mail @user, MAIL_TYPES[:confirmation], @request
       #@request.room_porperties_id = @request.id #this line is not needed, tables are based on has_and_belongs_to_many
   		request_room_porperty_list = params[:room_porperty_request][:list]
   		request_room_porperty_list.each do |prop_id|
@@ -63,10 +63,24 @@ class HomeController < ApplicationController
   			end
 	    end
 
-      #@request.responses << Response.new
-#debugger;
   		if @request.save
-  			render ('request_confirmation')
+        sites_counter = 0
+        matched_sites = Site.where(:region_id => params[:request][:region_id], :room_type_id => params[:request][:room_type_id])
+        matched_sites.each do |site|
+          if is_array_included(@request.room_properties, site.room_properties)
+            sites_counter += 1
+            @request.responses << Response.new( :site_id => site.id)
+          end
+        end
+
+        if sites_counter > 0
+          flash[:notice] = nil
+          send_mail @user, MAIL_TYPES[:confirmation], @request
+          render 'request_confirmation'
+        else
+          flash[:notice] = "לא נמצאו צימרים העונים לדרישתך! אנא שנה את מאפייני החיפוש שלך ונסה שוב."
+          render :index
+        end
   		else
   			#TODO: add error which indicates that room properties doesn't saved! --> return render :text => "save failed!!! errors: #{@request.errors.inspect}"
         render :index
@@ -78,6 +92,10 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def is_array_included arr_1, arr_2
+    (arr_1 - arr_2).size == 0
+  end
 
   def send_mail user, type, request = nil
     #begin

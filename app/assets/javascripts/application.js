@@ -380,8 +380,8 @@ function fillAutoForm() {
 	$userEmail.val("lirontz@gmail.com");
 	$startDateElem.val("23/06/2012");
 	$endDateElem.val("23/07/2012");
-	$firstNameElem.val("liron");
-	$lastNameElem.val("tzarfati");
+	$firstNameElem.val("לירון");
+	$lastNameElem.val("צרפתי");
 	$phoneElem.val("0546911012");
 	$userTermOfUseConfirmed.prop("checked", true);
 }
