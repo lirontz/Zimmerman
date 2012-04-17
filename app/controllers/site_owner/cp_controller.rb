@@ -22,7 +22,7 @@ class SiteOwner::CpController < ApplicationController
 		@requests = []
 
 		if (@site.length > 0)
-			@requests = Request.joins(:responses).where(:responses => {:site_id => @site.id}).order("created_at DESC")
+			@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
 		else
 			
 		end
