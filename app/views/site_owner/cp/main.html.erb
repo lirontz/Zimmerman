@@ -1,19 +1,23 @@
 <div>בקשות אחרונות:</div>
 <div class="accordion" id="accordionRequests">
-	<% @requests.each_with_index do |request, i| -%>
-	    <div class="accordion-group">
-	      <div class="accordion-heading">
-	        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
-	          <% user = User.find(request.user_id) %>
-	          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
-	        </a>
-	      </div>
-	      <div id="collapse<%= i -%>" class="accordion-body collapse">
-	        <div class="accordion-inner">
-	          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
-	        </div>
-	      </div>
-	    </div>
+	<% if @requests.length > 0 %>
+		<% @requests.each_with_index do |request, i| -%>
+		    <div class="accordion-group">
+		      <div class="accordion-heading">
+		        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
+		          <% user = User.find(request.user_id) %>
+		          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+		        </a>
+		      </div>
+		      <div id="collapse<%= i -%>" class="accordion-body collapse">
+		        <div class="accordion-inner">
+		          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
+		        </div>
+		      </div>
+		    </div>
+		<% end -%>
+	<% else %>
+		&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
 	<% end -%>
 </div>
 <br />

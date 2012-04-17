@@ -1,5 +1,5 @@
-<div class="well site_editor_nav" style="width:200px;padding: 8px 0;">
-  <ul class="nav nav-list">
+<!--div class="well site_editor_nav" style="width:200px;padding: 8px 0;">
+  <ul class="nav nav-pills nav-stacked">
     <li class="nav-header">כללי</li>
     <li class="active"><a href="#">עריכת תוכן</a></li>
     <li><a href="#">תמחורים</a></li>
@@ -7,7 +7,52 @@
     <li class="nav-header">עריכת חדרים</li>
     <li><a href="#">חדר 1</a></li>
     <li><a href="#">חדר 2</a></li>
-    <li class="divider"></li>
     <li><a href="#">הוסף חדר +</a></li>
   </ul>
+</div-->
+
+<div class="tabbable tabs-right">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#rA" data-toggle="tab">עריכת תוכן כללי</a></li>
+    <li><a href="#rB" data-toggle="tab">תמחורים</a></li>
+    <li><a href="#rC" data-toggle="tab">גלריית תמונות כללי</a></li>
+    <li><a href="#rD" data-toggle="tab">חדר 1</a></li>
+    <li><a href="#rE" data-toggle="tab">חדר 2</a></li>
+    <li><a href="#rF" data-toggle="tab">הוסף חדר +</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="rA">
+      <%= form_for(@site[0], :url => {:action => 'requests'}) do |f| -%>
+          <%= f.text_field(:name, {:value => "שם אתר", :class => "elementDefault"})-%>
+          <%= f.text_field(:description, {:value => "תאור כללי אודות המקום", :class => "elementDefault"})-%>
+          <%= f.text_field(:what_included, {:value => "כלול באירוח", :class => "elementDefault"})-%>
+          <%= f.text_field(:name, {:value => "מה במקום?", :class => "elementDefault"})-%>
+          <%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
+          <%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
+          <%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
+          <%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
+          <%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
+          <%= f.text_field(:name, {:value => "אזור", :class => "elementDefault"})-%>
+          <%= f.text_field(:name, {:value => "ישוב", :class => "elementDefault"})-%>
+          <%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
+          <%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+          <%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
+      <% end -%>
+    </div>
+    <div class="tab-pane" id="rB">
+      <p>תמחורים</p>
+    </div>
+    <div class="tab-pane" id="rC">
+      <p>גלריית תמונות כללי</p>
+    </div>
+    <div class="tab-pane" id="rD">
+      <p>חדר 1</p>
+    </div>
+    <div class="tab-pane" id="rE">
+      <p>חדר 2</p>
+    </div>
+    <div class="tab-pane" id="rF">
+      <p>הוסף חדר +</p>
+    </div>
+  </div>
 </div>

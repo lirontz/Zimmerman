@@ -6,21 +6,41 @@ class SiteOwner::CpController < ApplicationController
 	end
 
 	def main
-		@site = Site.find(current_site_owner.id)
-		@requests = Request.joins(:responses).where(:responses => {:site_id => @site.id}).order("created_at DESC").limit(3)
-		#return render :text => @requests.size
-		render :layout => 'siteOwnerTabContent'
-	end
+		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
+		@requests = []
 
-	def site_editor
-		@site = Site.find(current_site_owner.id)
-		@requests = Request.joins(:responses).where(:responses => {:site_id => @site.id}).order("created_at DESC")
+		if (@site.length > 0)
+			@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC").limit(3)
+		else
+			
+		end
 		render :layout => 'siteOwnerTabContent'
 	end
 
 	def requests
-		@site = Site.find(current_site_owner.id)
-		@requests = Request.joins(:responses).where(:responses => {:site_id => @site.id}).order("created_at DESC")
+		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
+		@requests = []
+
+		if (@site.length > 0)
+			@requests = Request.joins(:responses).where(:responses => {:site_id => @site.id}).order("created_at DESC")
+		else
+			
+		end
 		render :layout => 'siteOwnerTabContent'
+	end
+
+	def site_editor
+		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
+		
+		if (@site.length > 0)
+
+		else
+			@site[0] = Site.new
+		end
+		render :layout => 'siteOwnerTabContent'		
+	end
+
+	def update_site
+		render :site_editor, :layout => 'siteOwnerTabContent'
 	end
 end

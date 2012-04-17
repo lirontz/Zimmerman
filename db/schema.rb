@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120409184820) do
+ActiveRecord::Schema.define(:version => 20120417185901) do
 
   create_table "cities", :force => true do |t|
     t.datetime "created_at",                 :null => false
@@ -121,10 +121,18 @@ ActiveRecord::Schema.define(:version => 20120409184820) do
     t.string   "name"
     t.integer  "city_id"
     t.integer  "region_id"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.integer  "site_owner_id", :default => 0, :null => false
-    t.integer  "room_type_id",  :default => 0, :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "site_owner_id",      :default => 0,  :null => false
+    t.integer  "room_type_id",       :default => 0,  :null => false
+    t.text     "description",        :default => "", :null => false
+    t.text     "what_included",      :default => "", :null => false
+    t.string   "phone"
+    t.string   "mobile"
+    t.string   "fax"
+    t.string   "email",              :default => "", :null => false
+    t.string   "contact_point_name", :default => "", :null => false
+    t.string   "address",            :default => "", :null => false
   end
 
   create_table "users", :force => true do |t|
