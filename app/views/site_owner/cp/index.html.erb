@@ -16,9 +16,9 @@
 <br />
 
 <ul id="tab" class="nav nav-tabs">
-	<li class="active"><a href="#home" data-toggle="tab">ראשי</a></li>
-	<li><a href="#requests" data-toggle="tab">בקשות</a></li>
-	<li><a href="#siteEditor" data-toggle="tab">ערוך אתר</a></li>
+	<li class="<%= @main_focused %>"><a href="#home" data-toggle="tab">ראשי</a></li>
+	<li class="<%= @request_focused %>"><a href="#requests" data-toggle="tab">בקשות</a></li>
+	<li class="<%= @update_focused %>"><a href="#siteEditor" data-toggle="tab">ערוך אתר</a></li>
 	<!--li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 		<ul class="dropdown-menu">
@@ -29,14 +29,167 @@
 </ul>
 
 <div id="myTabContent" class="tab-content">
-	<div class="tab-pane fade in active" id="home">
-		<iframe src="/site_owner/cp/main" class="tabFrame"></iframe>
+	<div class="tab-pane fade <%= @main_focused_active %> <%= @main_focused %>" id="home">
+		<!--iframe src="/site_owner/cp/main" class="tabFrame"></iframe-->
+			<div>בקשות אחרונות:</div>
+			<div class="accordion" id="accordionRequests">
+				<% if @requests.length > 0 %>
+					<% @requests.each_with_index do |request, i| -%>
+					    <div class="accordion-group">
+					      <div class="accordion-heading">
+					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
+					          <% user = User.find(request.user_id) %>
+					          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+					        </a>
+					      </div>
+					      <div id="collapse<%= i -%>" class="accordion-body collapse">
+					        <div class="accordion-inner">
+					          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
+					        </div>
+					      </div>
+					    </div>
+					<% end -%>
+				<% else %>
+					&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+				<% end -%>
+			</div>
+			<br />
+			<div>הודעות מערכת:</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;אין הודעות מערכת.
 	</div>
-	<div class="tab-pane fade" id="requests">
-		<iframe src="/site_owner/cp/requests" class="tabFrame"></iframe>
+	<div class="tab-pane fade <%= @request_focused_active %> <%= @request_focused %>" id="requests">
+		<!--iframe src="/site_owner/cp/requests" class="tabFrame"></iframe-->
+		<div class="accordion" id="accordionRequests">
+			<% if @requests.length > 0 %>
+				<% @requests.each_with_index do |request, i| -%>
+				    <div class="accordion-group">
+				      <div class="accordion-heading">
+				        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
+				          <% user = User.find(request.user_id) %>
+				          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+				        </a>
+				      </div>
+				      <div id="collapse<%= i -%>" class="accordion-body collapse">
+				        <div class="accordion-inner">
+				          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
+				        </div>
+				      </div>
+				    </div>
+				<% end -%>
+			<% else %>
+				&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+			<% end -%>
+		</div>
 	</div>
-	<div class="tab-pane fade" id="siteEditor">
-		<iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe>
+	<div class="tab-pane fade <%= @update_focused_active %> <%= @update_focused %>" id="siteEditor">
+		<!--iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe-->
+		<div class="tabbable tabs-right">
+		  <ul class="nav nav-tabs">
+		    <li class="active"><a href="#rA" data-toggle="tab">עריכת תוכן כללי</a></li>
+		    <li><a href="#rB" data-toggle="tab">תמחורים</a></li>
+		    <li><a href="#rC" data-toggle="tab">גלריית תמונות כללי</a></li>
+		    <li><a href="#rD" data-toggle="tab">חדר 1</a></li>
+		    <li><a href="#rE" data-toggle="tab">חדר 2</a></li>
+		    <li><a href="#rF" data-toggle="tab">הוסף חדר +</a></li>
+		  </ul>
+		  <div class="tab-content">
+		    <div class="tab-pane active" id="rA">
+			<%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+		          <%= f.text_field(:name, {:value => "שם אתר", :class => "elementDefault"})-%>
+		          <%= f.text_field(:description, {:value => "תאור כללי אודות המקום", :class => "elementDefault"})-%>
+		          <%= f.text_field(:what_included, {:value => "כלול באירוח", :class => "elementDefault"})-%>
+
+					<div class="accordion" id="accordion2">
+						<div class="accordion-group">
+							<div class="accordion-heading">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+									מאפייני אתר
+								</a>
+							</div>
+							<div id="collapseOne" class="accordion-body collapse">
+								<div class="accordion-inner">
+									<% if @site[0].room_properties.length > 0 %>
+										<% @site[0].room_properties.each_with_index do |prop, i| -%>
+											<div id='room_porperties_site'>
+												<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+												<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
+												<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+											</div>
+										<% end -%>
+									<% else %>
+										לא קיימים מאפייני אתר
+									<% end -%>
+
+
+									<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
+
+
+									<div id="myModal" class="modal fade">
+										<div class="modal-header">
+										  <a class="close" data-dismiss="modal" >&times;</a>
+										  <h3>&nbsp;הוספת מאפיינים</h3>
+										</div>
+										<div class="modal-body">
+											<% @room_properties.each do |prop| %>
+												<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+												<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+												<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%><br />
+											<% end -%>
+										</div>
+										<div class="modal-footer">
+										  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
+										  <script type="text/javascript">
+										  	function addSiteProperties() {
+										  		$("input:checkbox[id^='room_porperty_list']:checked").each(function (index) {
+										  			//alert($(this).attr('id'));
+										  			$(this).clone().attr('id', $(this).attr('id').replace('room_porperty', 'room_porperty_site')).attr('name', $(this).attr('name').replace('room_porperty', 'room_porperty_site')).appendTo('#room_porperties_site');
+										  		});
+										  		
+										  		
+
+										  	}
+										  </script>
+										  <input type="button" onclick="addSiteProperties();" class="btn btn-primary" style="float: left;" value="שמור שינויים">
+										  
+										</div>
+									</div>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+		          <%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
+		          <%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
+		          <%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
+		          <%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
+		          <%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
+		          <%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
+		          <%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
+		          <%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
+		          <%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+		          <%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+		      <% end -%>
+		    </div>
+		    <div class="tab-pane" id="rB">
+		      <p>תמחורים</p>
+		    </div>
+		    <div class="tab-pane" id="rC">
+		      <p>גלריית תמונות כללי</p>
+		    </div>
+		    <div class="tab-pane" id="rD">
+		      <p>חדר 1</p>
+		    </div>
+		    <div class="tab-pane" id="rE">
+		      <p>חדר 2</p>
+		    </div>
+		    <div class="tab-pane" id="rF">
+		      <p>הוסף חדר +</p>
+		    </div>
+		  </div>
+		</div>
 	</div>
 	<!--div class="tab-pane fade" id="dropdown1">
 		<p>dropdown1</p>

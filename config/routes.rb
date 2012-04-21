@@ -3,10 +3,11 @@ Zimmerman::Application.routes.draw do
 
   get 'site_owner/home/' => 'site_owner/home#index'
   get 'site_owner/cp/' => 'site_owner/cp#index'
-  get 'site_owner/cp/main' => 'site_owner/cp#main'
-  get 'site_owner/cp/requests' => 'site_owner/cp#requests'
-  get 'site_owner/cp/site_editor' => 'site_owner/cp#site_editor'
-  get 'site_owner/cp/update_site' => 'site_owner/cp#update_site'
+  post 'site_owner/cp/update' => 'site_owner/cp#update'
+  put 'site_owner/cp/update' => 'site_owner/cp#update'
+  #get 'site_owner/cp/main' => 'site_owner/cp#main'
+  #get 'site_owner/cp/requests' => 'site_owner/cp#requests'
+  #get 'site_owner/cp/site_editor' => 'site_owner/cp#site_editor'
 
   devise_for :site_owners, :controllers => {:registrations => 'site_owner/registrations', :sessions => 'site_owner/sessions'}
   #devise_scope :site_owners do 
