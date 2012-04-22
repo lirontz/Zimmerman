@@ -49,8 +49,12 @@
 					      </div>
 					    </div>
 					<% end -%>
-				<% else %>
-					&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+					<% else %>
+					<% if @site[0].id %>
+						&nbsp;&nbsp;&nbsp;&nbsp;לא התקבלו בקשות.
+					<% else %>
+						&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+					<% end %>
 				<% end -%>
 			</div>
 			<br />
@@ -77,7 +81,11 @@
 				    </div>
 				<% end -%>
 			<% else %>
-				&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+				<% if @site[0].id %>
+					&nbsp;&nbsp;&nbsp;&nbsp;לא התקבלו בקשות.
+				<% else %>
+					&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+				<% end %>
 			<% end -%>
 		</div>
 	</div>
@@ -108,69 +116,33 @@
 							</div>
 							<div id="collapseOne" class="accordion-body collapse">
 								<div class="accordion-inner">
+									<div id='room_porperties_site'>
 									<% if @site[0].room_properties.length > 0 %>
 										<% @site[0].room_properties.each_with_index do |prop, i| -%>
-											<div id='room_porperties_site'>
-												<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-												<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
-												<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-											</div>
+											<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+											<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
+											<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
 										<% end -%>
 									<% else %>
-										לא קיימים מאפייני אתר
+										<p id="propSiteEmptyLabel">לא קיימים מאפייני אתר</p>
 									<% end -%>
-
-
+								</div>
 									<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
-
-
-									<div id="myModal" class="modal fade">
-										<div class="modal-header">
-										  <a class="close" data-dismiss="modal" >&times;</a>
-										  <h3>&nbsp;הוספת מאפיינים</h3>
-										</div>
-										<div class="modal-body">
-											<% @room_properties.each do |prop| %>
-												<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-												<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
-												<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%><br />
-											<% end -%>
-										</div>
-										<div class="modal-footer">
-										  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
-										  <script type="text/javascript">
-										  	function addSiteProperties() {
-										  		$("input:checkbox[id^='room_porperty_list']:checked").each(function (index) {
-										  			//alert($(this).attr('id'));
-										  			$(this).clone().attr('id', $(this).attr('id').replace('room_porperty', 'room_porperty_site')).attr('name', $(this).attr('name').replace('room_porperty', 'room_porperty_site')).appendTo('#room_porperties_site');
-										  		});
-										  		
-										  		
-
-										  	}
-										  </script>
-										  <input type="button" onclick="addSiteProperties();" class="btn btn-primary" style="float: left;" value="שמור שינויים">
-										  
-										</div>
-									</div>
-
-
-
 								</div>
 							</div>
 						</div>
 					</div>
-
-		          <%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
-		          <%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
-		          <%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
-		          <%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
-		          <%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
-		          <%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
-		          <%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
-		          <%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
-		          <%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
-		          <%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+					<%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
+					<%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
+					<%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
+					<%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
+					<%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
+					<%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
+					<%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
+					<%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
+					<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+					
+					<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 		      <% end -%>
 		    </div>
 		    <div class="tab-pane" id="rB">
@@ -198,3 +170,49 @@
 		<p>dropdown2</p>
 	</div-->
 </div>
+
+<div id="myModal" class="modal fade">
+	<div class="modal-header">
+	  <a class="close" data-dismiss="modal" >&times;</a>
+	  <h3>&nbsp;הוספת מאפיינים</h3>
+	</div>
+	<div class="modal-body">
+		<% if @room_properties.length > 0 %>
+			<% @room_properties.each do |prop| %>
+				<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+				<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+				<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%><br />
+			<% end -%>
+		<% else -%>
+			לא קיימים מאפייני אתר נוספים.
+		<% end -%>
+	</div>
+	<div class="modal-footer">
+	  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
+	  <input type="button" onclick="addSiteProperties();" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
+	  
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+	function addSiteProperties() {
+		$("input:checkbox[id^='room_porperty_list']:checked").each(function (index) {
+			var checkbox = $(this);
+			var id = checkbox.attr('id');
+			var name = checkbox.attr('name');
+			var newId = id.replace('room_porperty', 'room_porperty_site');
+			var newName = name.replace('room_porperty', 'room_porperty_site');
+			var label = $('label[for="' + id + '"]');
+
+			checkbox.clone().attr('id', newId).attr('name', newName).appendTo('#room_porperties_site').after("&nbsp;");
+			label.clone().attr('for', newId).appendTo('#room_porperties_site').after("&nbsp;&nbsp;");
+			label.hide();
+			checkbox.hide();
+			$('#propSiteEmptyLabel').remove();
+		});
+		$('#myModal').modal('hide');
+	}
+</script>

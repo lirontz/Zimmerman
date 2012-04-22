@@ -26,13 +26,16 @@ class SiteOwner::CpController < ApplicationController
 		else
 			@site[0] = Site.create(params[:site])
 		end
-		#return render :text => @site[0].room_properties[0].id
+
 		request_room_porperty_list = params[:room_porperty_site][:list]
 		request_room_porperty_list.each do |prop_id|
   			if prop_id != ""
-  				if !@site[0].room_properties.find(prop_id.to_i)
+  				begin
+  					site_prop = @site[0].room_properties.find(prop_id.to_i)
+  				rescue ActiveRecord::RecordNotFound
   					@site[0].room_properties << RoomProperty.find(prop_id.to_i)
-				end
+  				end
+  				
   			end
 	    end
 
@@ -41,6 +44,7 @@ class SiteOwner::CpController < ApplicationController
 	    end
 
 		@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
+		@room_properties = RoomProperty.all - @site[0].room_properties
 		return render :index
 	end
 

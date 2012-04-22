@@ -35,6 +35,9 @@ Zimmerman::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+  config.serve_static_assets = false
+  
   # My Configurations:
   config.action_mailer.default_url_options = { :host => 'localhost:3000', :only_path => false }
 
