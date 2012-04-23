@@ -116,17 +116,32 @@
 							</div>
 							<div id="collapseOne" class="accordion-body collapse">
 								<div class="accordion-inner">
-									<div id='room_porperties_site'>
-									<% if @site[0].room_properties.length > 0 %>
-										<% @site[0].room_properties.each_with_index do |prop, i| -%>
-											<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-											<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
-											<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-										<% end -%>
-									<% else %>
-										<p id="propSiteEmptyLabel">לא קיימים מאפייני אתר</p>
-									<% end -%>
-								</div>
+									<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+									   <thead>
+									      <tr>
+									        <th>
+									        	<input id="current_site_properties_select_all" type="checkbox" />
+									        </th>
+									        <th>תאור</th>
+									      </tr>
+									    </thead>
+										<tbody>
+											<% @site[0].room_properties.each_with_index do |prop, i| -%>
+												<tr id="current_room_porperty_list_<%= prop.id -%>_container">
+													<td>
+														<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+														<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
+													</td>
+													<td>
+														<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+													</td>
+												</tr>
+											<% end -%>
+										</tbody>
+									</table>
+									<div style="display: <% if @site[0].room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_porperty_list_empty_container">
+										לא קיימים מאפייני אתר
+									</div>															
 									<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
 								</div>
 							</div>
@@ -177,15 +192,32 @@
 	  <h3>&nbsp;הוספת מאפיינים</h3>
 	</div>
 	<div class="modal-body">
-		<% if @room_properties.length > 0 %>
-			<% @room_properties.each do |prop| %>
-				<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-				<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
-				<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%><br />
-			<% end -%>
-		<% else -%>
+		<table id="room_porperty_list_table" style="width: auto;" class="table table-bordered table-striped">
+		   <thead>
+		      <tr>
+		        <th>
+		        	<input id="site_properties_select_all" type="checkbox" />
+		        </th>
+		        <th>תאור</th>
+		      </tr>
+		    </thead>
+			<tbody>
+				<% @room_properties.each do |prop| %>
+						<tr id="room_porperty_list_<%= prop.id -%>_container">
+							<td>
+								<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+								<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+							</td>
+							<td>
+								<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+							</td>
+						</tr>
+				<% end -%>
+			</tbody>
+		</table>
+		<div style="display: <% if @room_properties.length > 0 %>  none <% else -%>  <% end -%>" id="room_porperty_list_empty_container">
 			לא קיימים מאפייני אתר נוספים.
-		<% end -%>
+		</div>
 	</div>
 	<div class="modal-footer">
 	  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
@@ -193,9 +225,6 @@
 	  
 	</div>
 </div>
-
-
-
 
 <script type="text/javascript">
 	function addSiteProperties() {
@@ -206,13 +235,48 @@
 			var newId = id.replace('room_porperty', 'room_porperty_site');
 			var newName = name.replace('room_porperty', 'room_porperty_site');
 			var label = $('label[for="' + id + '"]');
+			var tableTr = $('<tr id="current_' + newId + '_container"></tr>')
+			var tableTd1 = $('<td></td>').appendTo(tableTr);
+			var tableTd2 = $('<td></td>').appendTo(tableTr);
+			var newCheckbox = checkbox.clone().attr('id', newId).attr('name', newName);
+			var newlabel = label.clone().attr('for', newId);
+			
+			$('#current_room_porperty_list_empty_container').hide();
+			$('#current_room_porperty_list_table').show();
+			tableTd1.append(newCheckbox);
+			tableTd2.append(newlabel);
 
-			checkbox.clone().attr('id', newId).attr('name', newName).appendTo('#room_porperties_site').after("&nbsp;");
-			label.clone().attr('for', newId).appendTo('#room_porperties_site').after("&nbsp;&nbsp;");
-			label.hide();
-			checkbox.hide();
-			$('#propSiteEmptyLabel').remove();
+			newCheckbox.click(function () {
+				var me = $(this);
+				var tr = me.parent().parent();
+				var tbody = tr.parent();
+				var label = $('label[for="' + me.attr('id') + '"]');
+
+				if (tbody.children().length == 1) {
+					$("#current_room_porperty_list_table").hide();
+					$("#current_room_porperty_list_empty_container").show();
+				}
+
+				tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
+				me.attr('id', me.attr('id').replace('current_', '').replace('site_', ''));
+				me.attr('name', me.attr('name').replace('current_', '').replace('site_', ''));
+				label.attr('for', label.attr('for').replace('current_', '').replace('site_', ''));
+				me.unbind('click');
+				$('#room_porperty_list_table > tbody:last').append(tr);
+				$("#room_porperty_list_table").show();
+				$("#room_porperty_list_empty_container").hide();
+			});
+
+			$('#current_room_porperty_list_table > tbody:last').append(tableTr);
+
+			checkbox.attr('checked', false);
+			$("#site_properties_select_all").attr('checked', false);
+			$('#' + id + '_container').remove();
 		});
+		if ($("input:checkbox[id^='room_porperty_list']:visible").length == 0) {
+			$("#room_porperty_list_table").hide();
+			$("#room_porperty_list_empty_container").show();
+		}
 		$('#myModal').modal('hide');
 	}
 </script>

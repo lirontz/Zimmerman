@@ -18,7 +18,39 @@
 $(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
+	initSiteEditorTab();
 });
+
+function initSiteEditorTab() {
+	$("#current_site_properties_select_all").click(function () {
+		$("input:checkbox[id^='room_porperty_site_list']").attr('checked', this.checked);
+	});
+
+	$("#site_properties_select_all").click(function () {
+		$("input:checkbox[id^='room_porperty_list']:visible").attr('checked', this.checked);
+	});
+
+	$("input:checkbox[id^='room_porperty_site_list']").click(function () {		
+		var me = $(this);
+		var tr = me.parent().parent();
+		var tbody = tr.parent();
+		var label = $('label[for="' + me.attr('id') + '"]');
+
+		if (tbody.children().length == 1) {
+			$("#current_room_porperty_list_table").hide();
+			$("#current_room_porperty_list_empty_container").show();
+		}
+
+		tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
+		me.attr('id', me.attr('id').replace('current_', '').replace('site_', ''));
+		me.attr('name', me.attr('name').replace('current_', '').replace('site_', ''));
+		label.attr('for', label.attr('for').replace('current_', '').replace('site_', ''));
+		me.unbind('click');
+		$('#room_porperty_list_table > tbody:last').append(tr);
+		$("#room_porperty_list_table").show();
+		$("#room_porperty_list_empty_container").hide();
+	});
+}
 
 function initRequestFields() {
 	//$("#accordion2").collapse({hide:true});
