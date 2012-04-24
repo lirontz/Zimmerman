@@ -22,7 +22,7 @@ class SiteOwner::CpController < ApplicationController
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 		
 
 		if (@site.length > 0)
-			
+			@site[0].update_attributes(params[:site])
 		else
 			@site[0] = Site.create(params[:site])
 		end
@@ -35,7 +35,6 @@ class SiteOwner::CpController < ApplicationController
   				rescue ActiveRecord::RecordNotFound
   					@site[0].room_properties << RoomProperty.find(prop_id.to_i)
   				end
-  				
   			end
 	    end
 

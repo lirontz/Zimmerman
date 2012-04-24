@@ -61,6 +61,7 @@
 			<div>הודעות מערכת:</div>
 			&nbsp;&nbsp;&nbsp;&nbsp;אין הודעות מערכת.
 	</div>
+
 	<div class="tab-pane fade <%= @request_focused_active %> <%= @request_focused %>" id="requests">
 		<!--iframe src="/site_owner/cp/requests" class="tabFrame"></iframe-->
 		<div class="accordion" id="accordionRequests">
@@ -89,6 +90,7 @@
 			<% end -%>
 		</div>
 	</div>
+	
 	<div class="tab-pane fade <%= @update_focused_active %> <%= @update_focused %>" id="siteEditor">
 		<!--iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe-->
 		<div class="tabbable tabs-right">
@@ -103,62 +105,65 @@
 		  <div class="tab-content">
 		    <div class="tab-pane active" id="rA">
 			<%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-		          <%= f.text_field(:name, {:value => "שם אתר", :class => "elementDefault"})-%>
-		          <%= f.text_field(:description, {:value => "תאור כללי אודות המקום", :class => "elementDefault"})-%>
-		          <%= f.text_field(:what_included, {:value => "כלול באירוח", :class => "elementDefault"})-%>
+				<%= f.text_field(:name, {:value => "שם אתר", :class => "elementDefault"})-%>
+				<%= f.text_field(:description, {:value => "תאור כללי אודות המקום", :class => "elementDefault"})-%>
+				<%= f.text_field(:what_included, {:value => "כלול באירוח", :class => "elementDefault"})-%>
 
-					<div class="accordion" id="accordion2">
-						<div class="accordion-group">
-							<div class="accordion-heading">
-								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-									מאפייני אתר
-								</a>
-							</div>
-							<div id="collapseOne" class="accordion-body collapse">
-								<div class="accordion-inner">
-									<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
-									   <thead>
-									      <tr>
-									        <th>
-									        	<input id="current_site_properties_select_all" type="checkbox" />
-									        </th>
-									        <th>תאור</th>
-									      </tr>
-									    </thead>
-										<tbody>
-											<% @site[0].room_properties.each_with_index do |prop, i| -%>
-												<tr id="current_room_porperty_list_<%= prop.id -%>_container">
-													<td>
-														<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-														<%= check_box("room_porperty_site", "list", {:multiple => true}, prop.id, nil) -%>
-													</td>
-													<td>
-														<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-													</td>
-												</tr>
-											<% end -%>
-										</tbody>
-									</table>
-									<div style="display: <% if @site[0].room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_porperty_list_empty_container">
-										לא קיימים מאפייני אתר
-									</div>															
-									<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
-								</div>
+				<div class="accordion" id="accordion2">
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+								מאפייני אתר
+							</a>
+						</div>
+						<div id="collapseOne" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+								   <thead>
+								      <tr>
+								        <th>
+								        	<a href="#" rel="tooltip" title="מחק הכל">
+								        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
+								        	</a>
+								        </th>
+								        <th>תאור</th>
+								      </tr>
+								    </thead>
+									<tbody>
+										<% @site[0].room_properties.each_with_index do |prop, i| -%>
+											<tr id="current_room_porperty_list_<%= prop.id -%>_container">
+												<td>
+													<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+													<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
+												</td>
+												<td>
+													<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+												</td>
+											</tr>
+										<% end -%>
+									</tbody>
+								</table>
+								<div style="display: <% if @site[0].room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_porperty_list_empty_container">
+									לא קיימים מאפייני אתר
+								</div>															
+								<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
 							</div>
 						</div>
 					</div>
-					<%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
-					<%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
-					<%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
-					<%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
-					<%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
-					<%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
-					<%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
-					<%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
-					<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+				</div>
+				<%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
+				<%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
+				<%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
+				<%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
+				<%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
+				<%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
+				<%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
+				<%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
+				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
 					
-					<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
-		      <% end -%>
+				<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+		    <% end -%>
+
 		    </div>
 		    <div class="tab-pane" id="rB">
 		      <p>תמחורים</p>
@@ -192,7 +197,7 @@
 	  <h3>&nbsp;הוספת מאפיינים</h3>
 	</div>
 	<div class="modal-body">
-		<table id="room_porperty_list_table" style="width: auto;" class="table table-bordered table-striped">
+		<table id="room_porperty_list_table" style="width: auto; display: <% if @room_properties.length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
 		   <thead>
 		      <tr>
 		        <th>
@@ -215,7 +220,7 @@
 				<% end -%>
 			</tbody>
 		</table>
-		<div style="display: <% if @room_properties.length > 0 %>  none <% else -%>  <% end -%>" id="room_porperty_list_empty_container">
+		<div style="display: <% if @room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="room_porperty_list_empty_container">
 			לא קיימים מאפייני אתר נוספים.
 		</div>
 	</div>

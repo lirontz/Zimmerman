@@ -23,7 +23,11 @@ $(document).ready(function () {
 
 function initSiteEditorTab() {
 	$("#current_site_properties_select_all").click(function () {
-		$("input:checkbox[id^='room_porperty_site_list']").attr('checked', this.checked);
+		if (this.checked) {
+			$("input:checkbox[id^='room_porperty_site_list']").attr('checked', this.checked);
+		} else {
+			$("input:checkbox[id^='room_porperty_site_list']").click();
+		}
 	});
 
 	$("#site_properties_select_all").click(function () {
