@@ -90,7 +90,7 @@
 			<% end -%>
 		</div>
 	</div>
-	
+
 	<div class="tab-pane fade <%= @update_focused_active %> <%= @update_focused %>" id="siteEditor">
 		<!--iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe-->
 		<div class="tabbable tabs-right">
@@ -105,9 +105,9 @@
 		  <div class="tab-content">
 		    <div class="tab-pane active" id="rA">
 			<%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-				<%= f.text_field(:name, {:value => "שם אתר", :class => "elementDefault"})-%>
-				<%= f.text_field(:description, {:value => "תאור כללי אודות המקום", :class => "elementDefault"})-%>
-				<%= f.text_field(:what_included, {:value => "כלול באירוח", :class => "elementDefault"})-%>
+				<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
+				<%= f.text_field(:description, {:placeholder => "תאור כללי אודות המקום", :class => "elementDefault", :autocomplete => "off"})-%>
+				<%= f.text_field(:what_included, {:placeholder => "כלול באירוח", :class => "elementDefault", :autocomplete => "off"})-%>
 
 				<div class="accordion" id="accordion2">
 					<div class="accordion-group">
@@ -151,15 +151,15 @@
 						</div>
 					</div>
 				</div>
-				<%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault"})-%>
-				<%= f.text_field(:mobile, {:value => "נייד", :class => "elementDefault"})-%>
-				<%= f.text_field(:fax, {:value => "פקס", :class => "elementDefault"})-%>
-				<%= f.text_field(:email, {:value => "מייל", :class => "elementDefault"})-%>
-				<%= f.text_field(:contact_point_name, {:value => "שם איש קשר", :class => "elementDefault"})-%>
-				<%= f.text_field(:region_id, {:value => "1", :class => "elementDefault"})-%>
-				<%= f.text_field(:city_id, {:value => "1", :class => "elementDefault"})-%>
-				<%= f.text_field(:address, {:value => "כתובת", :class => "elementDefault"})-%>
-				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+				<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"})-%>
+				<%= f.text_field(:mobile, {:placeholder => "נייד", :class => "elementDefault"})-%>
+				<%= f.text_field(:fax, {:placeholder => "פקס", :class => "elementDefault"})-%>
+				<%= f.text_field(:email, {:placeholder => "מייל", :class => "elementDefault"})-%>
+				<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר", :class => "elementDefault"})-%>
+				<%= f.text_field(:region_id, {:placeholder => "1", :class => "elementDefault"})-%>
+				<%= f.text_field(:city_id, {:placeholder => "1", :class => "elementDefault"})-%>
+				<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
+				<%= f.hidden_field(:site_owner_id, :placeholder => current_site_owner.id) %>
 					
 				<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 		    <% end -%>
