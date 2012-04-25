@@ -105,14 +105,19 @@
 		  <div class="tab-content">
 		    <div class="tab-pane active" id="rA">
 			<%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-				<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
-				<%= f.text_field(:description, {:placeholder => "תאור כללי אודות המקום", :class => "elementDefault", :autocomplete => "off"})-%>
-				<%= f.text_field(:what_included, {:placeholder => "כלול באירוח", :class => "elementDefault", :autocomplete => "off"})-%>
-
-				<div class="accordion" id="accordion2">
+				<a rel="tooltip" title="שם אתר">
+					<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
+				</a>
+				<a rel="tooltip" title="תאור כללי אודות המקום">
+					<%= f.text_field(:description, {:placeholder => "תאור כללי אודות המקום", :class => "elementDefault", :autocomplete => "off"})-%>
+				</a>
+				<a rel="tooltip" title="מה כלול באירוח">
+					<%= f.text_field(:what_included, {:placeholder => "כלול באירוח", :class => "elementDefault", :autocomplete => "off"})-%>
+				</a>
+				<div class="accordion" id="accordion2" style="width: 400px;">
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+							<a rel="tooltip" title="הוספת מאפייני אתר" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
 								מאפייני אתר
 							</a>
 						</div>
@@ -151,16 +156,31 @@
 						</div>
 					</div>
 				</div>
-				<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"})-%>
-				<%= f.text_field(:mobile, {:placeholder => "נייד", :class => "elementDefault"})-%>
-				<%= f.text_field(:fax, {:placeholder => "פקס", :class => "elementDefault"})-%>
-				<%= f.text_field(:email, {:placeholder => "מייל", :class => "elementDefault"})-%>
-				<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר", :class => "elementDefault"})-%>
-				<%= f.text_field(:region_id, {:placeholder => "1", :class => "elementDefault"})-%>
-				<%= f.text_field(:city_id, {:placeholder => "1", :class => "elementDefault"})-%>
-				<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
+				<a rel="tooltip" title="טלפון">
+					<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="נייד">
+					<%= f.text_field(:mobile, {:placeholder => "נייד", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="פקס">
+					<%= f.text_field(:fax, {:placeholder => "פקס", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="דוא''ל">
+					<%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="שם איש קשר">
+					<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="אזור">
+					<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
+				</a>
+				<a rel="tooltip" title="עיר">
+					<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
+				</a>
+				<a rel="tooltip" title="כתובת">
+					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
+				</a>
 				<%= f.hidden_field(:site_owner_id, :placeholder => current_site_owner.id) %>
-					
 				<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 		    <% end -%>
 

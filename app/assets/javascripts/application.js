@@ -19,7 +19,9 @@ $(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
 	initSiteEditorTab();
-	jQuery('.input').defaultValue();
+	$('input[placeholder]').defaultValue();
+	$("a[rel='tooltip']").css('textDecoration', 'none');
+	$("a[rel='tooltip']").css('padding', 7);
 });
 
 function initSiteEditorTab() {
@@ -105,7 +107,7 @@ function initRequestFields() {
 			self.val("עד מחיר");
 		}
 	});
-	$("#user_email").focus(function () {
+	/*$("#user_email").focus(function () {
 		var self = $(this);
 		var val = self.val();
 
@@ -121,7 +123,7 @@ function initRequestFields() {
 			self.val('דוא"ל');
 		}
 	});
-	/*$("#user_email_confirmation").focus(function () {
+	$("#user_email_confirmation").focus(function () {
 		var self = $(this);
 		var val = self.val();
 
@@ -136,7 +138,7 @@ function initRequestFields() {
 		if (val === '') {
 			self.val('אימות דוא"ל');
 		}
-	});*/
+	});
 	$("#user_first_name").focus(function () {
 		var self = $(this);
 		var val = self.val();
@@ -184,7 +186,7 @@ function initRequestFields() {
 		if (val === '') {
 			self.val('טלפון');
 		}
-	});
+	});*/
 	$("#site_owner_email").focus(function () {
 		var self = $(this);
 		var val = self.val();

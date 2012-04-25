@@ -9,7 +9,10 @@ class HomeController < ApplicationController
   }
 
   def index
-  	@request = Request.new
+  	if user_signed_in?
+      @user = User.find(current_user.id)
+    end
+    @request = Request.new
   	@regions = Region.all
   	@room_types = RoomType.all
   	@room_porperties = RoomProperty.all
@@ -50,6 +53,9 @@ class HomeController < ApplicationController
         end
       end
       @request.user = @user
+    else
+      @user = User.find(current_user.id)
+      @user.update_attributes(params[:user])
     end
 
     @request.status = 1 #1 = pending TODO: add constants for status

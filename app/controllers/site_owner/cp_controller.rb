@@ -2,6 +2,8 @@ class SiteOwner::CpController < ApplicationController
 	before_filter :authenticate_site_owner!
 	
 	def index
+		@regions = Region.all
+		@cities = City.all
 		@main_focused= "active"
 		@main_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
@@ -16,7 +18,8 @@ class SiteOwner::CpController < ApplicationController
 	end
 	
 	def update
-		#return render :text => params["room_porperty_site"]["list"]
+		@regions = Region.all
+		@cities = City.all
 		@update_focused= "active"
 		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 		
@@ -28,6 +31,7 @@ class SiteOwner::CpController < ApplicationController
 		end
 
 		request_room_porperty_list = params[:room_porperty_site][:list]
+		@site[0].room_properties.delete_all
 		request_room_porperty_list.each do |prop_id|
   			if prop_id != ""
   				begin
