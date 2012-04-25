@@ -19,6 +19,7 @@ $(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
 	initSiteEditorTab();
+	jQuery('.input').defaultValue();
 });
 
 function initSiteEditorTab() {
