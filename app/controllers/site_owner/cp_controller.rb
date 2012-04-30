@@ -38,7 +38,7 @@ class SiteOwner::CpController < ApplicationController
 			@site[0] = Site.create(params[:site])
 		end
 
-		if params[:room_porperty_site]
+		if params[:room_porperty_site] && params[:room_porperty_site][:list]
 			request_room_porperty_list = params[:room_porperty_site][:list]
 			@site[0].site_properties.destroy_all
 			request_room_porperty_list.each do |prop_id|
