@@ -29,3 +29,11 @@ body {
 .i-brand {
 	float: right !important;
 }
+
+input::-webkit-input-placeholder {
+	color: #08C;
+}
+
+input:-moz-placeholder {
+	color: #08C;
+}

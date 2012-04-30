@@ -14,6 +14,14 @@ class SiteOwner::CpController < ApplicationController
 		else
 			@site[0] = Site.new
 		end
+		
+		#workaround - start TODO: fix the model so "has_many :room_properties, through => :site_properties" will work
+		@site[0].room_properties = []
+		@site[0].site_properties.each do |site_prop|
+			@site[0].room_properties << RoomProperty.find(site_prop.room_property_id)
+		end
+		#workaround - end
+
 		@room_properties = RoomProperty.all - @site[0].room_properties
 	end
 	
@@ -30,16 +38,17 @@ class SiteOwner::CpController < ApplicationController
 			@site[0] = Site.create(params[:site])
 		end
 
-		request_room_porperty_list = params[:room_porperty_site][:list]
-		@site[0].room_properties.delete_all
-		request_room_porperty_list.each do |prop_id|
-  			if prop_id != ""
-  				begin
-  					site_prop = @site[0].room_properties.find(prop_id.to_i)
-  				rescue ActiveRecord::RecordNotFound
-  					@site[0].room_properties << RoomProperty.find(prop_id.to_i)
-  				end
-  			end
+		if params[:room_porperty_site]
+			request_room_porperty_list = params[:room_porperty_site][:list]
+			@site[0].site_properties.destroy_all
+			request_room_porperty_list.each do |prop_id|
+	  			if prop_id != ""
+	  				price = params[:room_porperty_site]["price" + prop_id]
+	  				@site[0].site_properties << SiteProperty.new(:room_property_id => prop_id.to_i, :site_id => @site[0].id, :price => price)
+	  			end
+		    end
+	    else
+	    	@site[0].site_properties.destroy_all
 	    end
 
 	    if @site[0].save
@@ -47,6 +56,15 @@ class SiteOwner::CpController < ApplicationController
 	    end
 
 		@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
+		
+		#workaround - start TODO: fix the model so "has_many :room_properties, through => :site_properties" will work
+		@site[0].room_properties = []
+		@site[0].site_properties.each do |site_prop|
+			room_property = RoomProperty.find(site_prop.room_property_id)
+			room_property.price = site_prop.price
+			@site[0].room_properties << room_property
+		end
+		#workaround - end
 		@room_properties = RoomProperty.all - @site[0].room_properties
 		return render :index
 	end

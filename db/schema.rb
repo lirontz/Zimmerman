@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120417185901) do
+ActiveRecord::Schema.define(:version => 20120427071222) do
 
   create_table "cities", :force => true do |t|
     t.datetime "created_at",                 :null => false
@@ -116,6 +116,16 @@ ActiveRecord::Schema.define(:version => 20120417185901) do
 
   add_index "site_owners", ["email"], :name => "index_site_owners_on_email", :unique => true
   add_index "site_owners", ["reset_password_token"], :name => "index_site_owners_on_reset_password_token", :unique => true
+
+  create_table "site_properties", :force => true do |t|
+    t.integer  "site_id"
+    t.integer  "room_property_id"
+    t.integer  "price"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "site_properties", ["site_id", "room_property_id"], :name => "index_site_properties_on_site_id_and_room_property_id"
 
   create_table "sites", :force => true do |t|
     t.string   "name"

@@ -29,6 +29,7 @@ function initSiteEditorTab() {
 		if (this.checked) {
 			$("input:checkbox[id^='room_porperty_site_list']").attr('checked', this.checked);
 		} else {
+			$(this).attr('checked', true);
 			$("input:checkbox[id^='room_porperty_site_list']").click();
 		}
 	});
@@ -39,19 +40,21 @@ function initSiteEditorTab() {
 
 	$("input:checkbox[id^='room_porperty_site_list']").click(function () {		
 		var me = $(this);
-		var tr = me.parent().parent();
+		var tr = me.parent().parent().parent();
 		var tbody = tr.parent();
 		var label = $('label[for="' + me.attr('id') + '"]');
-
+		var priceTd = tr.children('td:last-child');
+		
+		priceTd.remove();
 		if (tbody.children().length == 1) {
 			$("#current_room_porperty_list_table").hide();
 			$("#current_room_porperty_list_empty_container").show();
 		}
 
 		tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
-		me.attr('id', me.attr('id').replace('current_', '').replace('site_', ''));
-		me.attr('name', me.attr('name').replace('current_', '').replace('site_', ''));
-		label.attr('for', label.attr('for').replace('current_', '').replace('site_', ''));
+		me.attr('id', me.attr('id').replace('_site', ''));
+		me.attr('name', me.attr('name').replace('_site', ''));
+		label.attr('for', label.attr('for').replace('_site', ''));
 		me.unbind('click');
 		$('#room_porperty_list_table > tbody:last').append(tr);
 		$("#room_porperty_list_table").show();

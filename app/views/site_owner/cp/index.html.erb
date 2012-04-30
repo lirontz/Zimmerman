@@ -132,17 +132,24 @@
 								        	</a>
 								        </th>
 								        <th>תאור</th>
+								        <th>מחיר</th>
 								      </tr>
 								    </thead>
 									<tbody>
 										<% @site[0].room_properties.each_with_index do |prop, i| -%>
-											<tr id="current_room_porperty_list_<%= prop.id -%>_container">
+											<tr id="current_room_porperty_site_list_<%= prop.id -%>_container">
 												<td>
 													<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-													<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
+													<a rel="tooltip" title="מחק מאפיין">
+														<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
+													</a>
 												</td>
 												<td>
 													<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+												</td>
+												<td>
+													<% #TODO: replace all room_properties params to be fields_for %>
+													<%= text_field("room_porperty_site", "price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
 												</td>
 											</tr>
 										<% end -%>
@@ -186,7 +193,49 @@
 
 		    </div>
 		    <div class="tab-pane" id="rB">
-		      <p>תמחורים</p>
+		      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		    </div>
 		    <div class="tab-pane" id="rC">
 		      <p>גלריית תמונות כללי</p>
@@ -221,7 +270,9 @@
 		   <thead>
 		      <tr>
 		        <th>
-		        	<input id="site_properties_select_all" type="checkbox" />
+		        	<a href="#" rel="tooltip" title="הוסף הכל">
+		        		<input id="site_properties_select_all" type="checkbox" />
+	        		</a>
 		        </th>
 		        <th>תאור</th>
 		      </tr>
@@ -230,8 +281,9 @@
 				<% @room_properties.each do |prop| %>
 						<tr id="room_porperty_list_<%= prop.id -%>_container">
 							<td>
-								<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-								<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+								<a rel="tooltip" title="מחק מאפיין">
+									<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+								</a>
 							</td>
 							<td>
 								<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
@@ -254,29 +306,36 @@
 <script type="text/javascript">
 	function addSiteProperties() {
 		$("input:checkbox[id^='room_porperty_list']:checked").each(function (index) {
-			var checkbox = $(this);
-			var id = checkbox.attr('id');
-			var name = checkbox.attr('name');
-			var newId = id.replace('room_porperty', 'room_porperty_site');
-			var newName = name.replace('room_porperty', 'room_porperty_site');
-			var label = $('label[for="' + id + '"]');
-			var tableTr = $('<tr id="current_' + newId + '_container"></tr>')
-			var tableTd1 = $('<td></td>').appendTo(tableTr);
-			var tableTd2 = $('<td></td>').appendTo(tableTr);
-			var newCheckbox = checkbox.clone().attr('id', newId).attr('name', newName);
-			var newlabel = label.clone().attr('for', newId);
+			var me = $(this);
+			var tr = me.parent().parent().parent();
+			var tbody = tr.parent();
+			var label = $('label[for="' + me.attr('id') + '"]');
+		
+			$("<input>", {
+			    type: "text",
+			    val: "",
+			    id: me.attr('id').replace("list_", "site_price"),
+			    name: me.attr('id').replace("list_", "site[price") + "]",
+			    size: 30,
+			    "class": "elementDefault"
+			}).appendTo('<td>').parent().appendTo(tr);
+
+			tr.attr('id', tr.attr('id').replace('room', 'current_room').replace('room_porperty', 'room_porperty_site'));
+			me.attr('id', me.attr('id').replace('room_porperty', 'room_porperty_site'));
+			me.attr('name', me.attr('name').replace('room_porperty', 'room_porperty_site'));
+			label.attr('for', label.attr('for').replace('room_porperty', 'room_porperty_site'));
 			
 			$('#current_room_porperty_list_empty_container').hide();
 			$('#current_room_porperty_list_table').show();
-			tableTd1.append(newCheckbox);
-			tableTd2.append(newlabel);
 
-			newCheckbox.click(function () {
+			me.click(function () {
 				var me = $(this);
-				var tr = me.parent().parent();
+				var tr = me.parent().parent().parent();
 				var tbody = tr.parent();
 				var label = $('label[for="' + me.attr('id') + '"]');
-
+				var priceTd = tr.children('td:last-child');
+				
+				priceTd.remove();
 				if (tbody.children().length == 1) {
 					$("#current_room_porperty_list_table").hide();
 					$("#current_room_porperty_list_empty_container").show();
@@ -292,11 +351,10 @@
 				$("#room_porperty_list_empty_container").hide();
 			});
 
-			$('#current_room_porperty_list_table > tbody:last').append(tableTr);
+			$('#current_room_porperty_list_table > tbody:last').append(tr);
 
-			checkbox.attr('checked', false);
+			me.attr('checked', true);
 			$("#site_properties_select_all").attr('checked', false);
-			$('#' + id + '_container').remove();
 		});
 		if ($("input:checkbox[id^='room_porperty_list']:visible").length == 0) {
 			$("#room_porperty_list_table").hide();
