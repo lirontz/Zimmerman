@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120427071222) do
+ActiveRecord::Schema.define(:version => 20120508173812) do
 
   create_table "cities", :force => true do |t|
     t.datetime "created_at",                 :null => false
@@ -81,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20120427071222) do
   end
 
   add_index "room_properties_sites", ["room_property_id", "site_id"], :name => "index_room_properties_sites_on_room_property_id_and_site_id"
+
+  create_table "room_site_properties", :force => true do |t|
+    t.integer  "room_id"
+    t.integer  "room_property_id"
+    t.integer  "price"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "room_site_properties", ["room_id", "room_property_id"], :name => "index_room_site_properties_on_room_id_and_room_property_id"
 
   create_table "room_types", :force => true do |t|
     t.string   "name"

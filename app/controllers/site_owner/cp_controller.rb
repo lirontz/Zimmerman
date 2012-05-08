@@ -8,8 +8,12 @@ class SiteOwner::CpController < ApplicationController
 		@main_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
 		@requests = []
-
+		@rooms = []
+		
 		if (@site.length > 0)
+			@rooms = Room.where(:site_id => @site[0].id)
+			#@room[0].room_site_properties << RoomSiteProperty.new(:room_property_id => 1, :room_id => 1, :price => 50)
+			#return render :text => @rooms[0].room_site_properties[0].price
 			@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
 		else
 			@site[0] = Site.new
@@ -31,6 +35,7 @@ class SiteOwner::CpController < ApplicationController
 		@update_focused= "active"
 		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 		
+		@room = Room.find(1)
 
 		if (@site.length > 0)
 			@site[0].update_attributes(params[:site])
@@ -69,7 +74,9 @@ class SiteOwner::CpController < ApplicationController
 		return render :index
 	end
 
-
+def update_room
+	@room = Room.find(1)
+end
 =begin
 	def main
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 

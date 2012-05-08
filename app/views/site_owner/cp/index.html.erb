@@ -96,11 +96,11 @@
 		<div class="tabbable tabs-right">
 		  <ul class="nav nav-tabs">
 		    <li class="active"><a href="#rA" data-toggle="tab">עריכת תוכן כללי</a></li>
-		    <li><a href="#rB" data-toggle="tab">תמחורים</a></li>
-		    <li><a href="#rC" data-toggle="tab">גלריית תמונות כללי</a></li>
-		    <li><a href="#rD" data-toggle="tab">חדר 1</a></li>
-		    <li><a href="#rE" data-toggle="tab">חדר 2</a></li>
-		    <li><a href="#rF" data-toggle="tab">הוסף חדר +</a></li>
+		    <li><a href="#rB" data-toggle="tab">גלריית תמונות כללי</a></li>
+		    <% @rooms.each_with_index do |room, i| -%>
+		    	<li><a href="#rC<%= i -%>" data-toggle="tab"><%= room.name -%></a></li>
+		    <% end %>
+		    <li><a href="#rD" data-toggle="tab">הוסף חדר +</a></li>
 		  </ul>
 		  <div class="tab-content">
 		    <div class="tab-pane active" id="rA">
@@ -187,66 +187,66 @@
 				<a rel="tooltip" title="כתובת">
 					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
 				</a>
-				<%= f.hidden_field(:site_owner_id, :placeholder => current_site_owner.id) %>
+				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
 				<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 		    <% end -%>
 
 		    </div>
 		    <div class="tab-pane" id="rB">
-		      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		    </div>
-		    <div class="tab-pane" id="rC">
 		      <p>גלריית תמונות כללי</p>
 		    </div>
+
+		    
+
+		    <% @rooms.each_with_index do |room, i| -%>
+			    <div class="tab-pane" id="rC<%= i -%>">
+					<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+						<a rel="tooltip" title="שם חדר">
+							<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
+						</a>
+						<a rel="tooltip" title="תאור כללי אודות המקום">
+							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
+						</a>
+
+
+
+
+
+
+
+
+									<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+									   <thead>
+									      <tr>
+									        <th>
+									        	<a href="#" rel="tooltip" title="מחק הכל">
+									        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
+									        	</a>
+									        </th>
+									        <th>תאור</th>
+									        <th>מחיר</th>
+									      </tr>
+									    </thead>
+										<tbody>
+
+										</tbody>
+									</table>
+
+
+
+
+
+
+						<%= f.hidden_field(:site_id, :value => current_site_owner.id) %>
+						<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+			    	<% end -%>
+			    </div>
+
+			<% end %>
+
+
+
 		    <div class="tab-pane" id="rD">
-		      <p>חדר 1</p>
-		    </div>
-		    <div class="tab-pane" id="rE">
-		      <p>חדר 2</p>
-		    </div>
-		    <div class="tab-pane" id="rF">
 		      <p>הוסף חדר +</p>
 		    </div>
 		  </div>
