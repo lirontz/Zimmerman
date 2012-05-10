@@ -202,7 +202,7 @@
 			    <div class="tab-pane" id="rC<%= i -%>">
 					<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
 						<a rel="tooltip" title="שם חדר">
-							<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
+							<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
 						<a rel="tooltip" title="תאור כללי אודות המקום">
 							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
@@ -237,7 +237,7 @@
 
 
 
-						<%= f.hidden_field(:site_id, :value => current_site_owner.id) %>
+						<%= f.hidden_field(:site_id, :value => @site[0].id) %>
 						<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 			    	<% end -%>
 			    </div>
@@ -247,7 +247,16 @@
 
 
 		    <div class="tab-pane" id="rD">
-		      <p>הוסף חדר +</p>
+		      	<%= form_for(:room, :url => {:action => "create_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+			      	<a rel="tooltip" title="שם חדר">
+						<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
+					</a>
+			      	<a rel="tooltip" title="תאור כללי אודות החדר">
+						<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
+					</a>
+					<%= f.hidden_field(:site_id, :value => @site[0].id) %>
+					<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+				<% end %>
 		    </div>
 		  </div>
 		</div>

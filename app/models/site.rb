@@ -8,4 +8,5 @@ class Site < ActiveRecord::Base
 	#has_and_belongs_to_many :room_properties
 	has_many :site_properties
 	has_many :responses
+	has_many :rooms
 end
