@@ -77,7 +77,26 @@ class SiteOwner::CpController < ApplicationController
 	end
 
 def update_room
+	@regions = Region.all
+	@cities = City.all
+	@update_focused= "active"
+	@update_focused_active = "in"
+	@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
 	
+	if (!params[:delete_room].nil?)
+		Room.delete(params[:room][:id])
+	else
+		room = @site[0].rooms.find(params[:room][:id])
+		room.update_attributes(params[:room])	
+	end
+	@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
+	@rooms = @site[0].rooms
+	@site[0].room_properties = []
+	@site[0].site_properties.each do |site_prop|
+		@site[0].room_properties << RoomProperty.find(site_prop.room_property_id)
+	end
+	@room_properties = RoomProperty.all - @site[0].room_properties
+	return render :index
 end
 
 def create_room

@@ -196,8 +196,6 @@
 		      <p>גלריית תמונות כללי</p>
 		    </div>
 
-		    
-
 		    <% @rooms.each_with_index do |room, i| -%>
 			    <div class="tab-pane" id="rC<%= i -%>">
 					<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
@@ -207,44 +205,29 @@
 						<a rel="tooltip" title="תאור כללי אודות המקום">
 							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
+						<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+						   <thead>
+						      <tr>
+						        <th>
+						        	<a href="#" rel="tooltip" title="מחק הכל">
+						        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
+						        	</a>
+						        </th>
+						        <th>תאור</th>
+						        <th>מחיר</th>
+						      </tr>
+						    </thead>
+							<tbody>
 
-
-
-
-
-
-
-
-									<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
-									   <thead>
-									      <tr>
-									        <th>
-									        	<a href="#" rel="tooltip" title="מחק הכל">
-									        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
-									        	</a>
-									        </th>
-									        <th>תאור</th>
-									        <th>מחיר</th>
-									      </tr>
-									    </thead>
-										<tbody>
-
-										</tbody>
-									</table>
-
-
-
-
-
-
-						<%= f.hidden_field(:site_id, :value => @site[0].id) %>
+							</tbody>
+						</table>
+						<%= f.hidden_field(:id, :value => room.id) %>
 						<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+						<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary btn-large submitBtn"}) -%>
 			    	<% end -%>
 			    </div>
 
 			<% end %>
-
-
 
 		    <div class="tab-pane" id="rD">
 		      	<%= form_for(:room, :url => {:action => "create_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
@@ -258,6 +241,7 @@
 					<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
 				<% end %>
 		    </div>
+
 		  </div>
 		</div>
 	</div>
