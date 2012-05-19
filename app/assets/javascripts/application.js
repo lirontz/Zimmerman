@@ -22,6 +22,12 @@ $(document).ready(function () {
 	$('input[placeholder]').defaultValue();
 	$("a[rel='tooltip']").css('textDecoration', 'none');
 	$("a[rel='tooltip']").css('padding', 7);
+
+	$("input[type=file]").filestyle({ 
+	     buttonHeight : 26,
+	     buttonWidth : 70,
+	     width : 170
+	});
 });
 
 function initSiteEditorTab() {

@@ -9,4 +9,6 @@ class Site < ActiveRecord::Base
 	has_many :site_properties
 	has_many :responses
 	has_many :rooms
+	has_many :assets
+	accepts_nested_attributes_for :assets, :allow_destroy => true
 end

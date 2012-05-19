@@ -188,12 +188,45 @@
 					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
 				</a>
 				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
-				<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+				<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
 		    <% end -%>
 
 		    </div>
 		    <div class="tab-pane" id="rB">
-		      <p>גלריית תמונות כללי</p>
+				<%= form_for @site[0], :url => {:action => "update"}, :html => { :multipart => true } do |f| %>
+
+					<h4>הוסף תמונות:</h4>
+
+					<%= f.fields_for :assets do |asset_fields| %>
+						<% if asset_fields.object.new_record? %>
+						<p>
+							<a rel="tooltip" title="בחר קובץ">
+								<%= asset_fields.file_field :asset %>
+							</a>
+						</p>
+						<% end %>
+					<% end %>
+
+					<h4>תמונות קיימות (סמן תמונות למחיקה):</h4>
+					<% if !@site_assets_exist %>
+						<%= f.fields_for :assets do |asset_fields| %>
+							<% unless asset_fields.object.new_record? %>
+								<div class="thumb">
+									<a rel="tooltip" title="סמן למחיקה">
+										<%= asset_fields.check_box :_destroy %>
+									</a>
+									<a rel="tooltip" title="<%= asset_fields.object.asset.name -%>">
+										<%= link_to image_tag(asset_fields.object.asset.url(:thumb)), asset_fields.object.asset.url(:large), :target => "_blank" %>
+									</a>
+								</div>	
+							<% end %>
+						<% end %>
+					<% else %>
+						לא קיימות תמונות.
+					<% end -%>
+
+				  <p><%= f.submit('שמור', {:class => "btn-primary submitBtn"})  %></p>
+				<% end %>
 		    </div>
 
 		    <% @rooms.each_with_index do |room, i| -%>
@@ -205,12 +238,12 @@
 						<a rel="tooltip" title="תאור כללי אודות המקום">
 							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
-						<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+						<table id="current_room<%= i -%>_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
 						   <thead>
 						      <tr>
 						        <th>
 						        	<a href="#" rel="tooltip" title="מחק הכל">
-						        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
+						        		<input id="current_room<%= i -%>_properties_select_all" type="checkbox" checked="true"/>
 						        	</a>
 						        </th>
 						        <th>תאור</th>
@@ -219,18 +252,47 @@
 						    </thead>
 							<tbody>
 
+
+
+
+
+
+
+								<% room.room_properties.each_with_index do |prop, j| -%>
+									<tr id="current_room<%= i -%>_porperty_site_list_<%= prop.id -%>_container">
+										<td>
+											<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
+											<a rel="tooltip" title="מחק מאפיין">
+												<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
+											</a>
+										</td>
+										<td>
+											<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+										</td>
+										<td>
+											<% #TODO: replace all room_properties params to be fields_for %>
+											<%= text_field("room_porperty_site", "price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
+										</td>
+									</tr>
+								<% end -%>
+
+
+
+
+
+
 							</tbody>
 						</table>
 						<%= f.hidden_field(:id, :value => room.id) %>
-						<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
-						<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary btn-large submitBtn"}) -%>
+						<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
+						<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary submitBtn"}) -%>
 			    	<% end -%>
 			    </div>
 
 			<% end %>
 
 		    <div class="tab-pane" id="rD">
-		      	<%= form_for(:room, :url => {:action => "create_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+		      	<%= form_for(:room, :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
 			      	<a rel="tooltip" title="שם חדר">
 						<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
 					</a>
@@ -238,7 +300,7 @@
 						<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
 					</a>
 					<%= f.hidden_field(:site_id, :value => @site[0].id) %>
-					<%= submit_tag('שמור', {:class => "btn-primary btn-large submitBtn"}) -%>
+					<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
 				<% end %>
 		    </div>
 
