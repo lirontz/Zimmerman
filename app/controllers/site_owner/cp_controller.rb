@@ -11,7 +11,8 @@ class SiteOwner::CpController < ApplicationController
 		@rooms = []
 		
 		if (@site.length > 0)
-			@rooms = @site[0].rooms
+			@rooms = @site[0].rooms			
+			
 			@rooms.each do |room|
 				room.room_properties = []
 				room.room_site_properties.each do |room_site_prop|
@@ -19,6 +20,7 @@ class SiteOwner::CpController < ApplicationController
 					room_site_property.price = room_site_prop.price
 					room.room_properties << room_site_property
 				end
+				instance_variable_set("@room#{room.id}_room_properties", (RoomProperty.all - room.room_properties))
 			end
 			@site_assets_exist = @site[0].assets.empty?
 			5.times { @site[0].assets.build } 
@@ -38,7 +40,7 @@ class SiteOwner::CpController < ApplicationController
 		end
 		#workaround - end
 
-		@room_properties = RoomProperty.all - @site[0].room_properties
+		@site_room_properties = RoomProperty.all - @site[0].room_properties
 	end
 	
 	def update
@@ -64,6 +66,7 @@ class SiteOwner::CpController < ApplicationController
 					room_site_property.price = room_site_prop.price
 					room.room_properties << room_site_property
 				end
+				instance_variable_set("@room#{room.id}_room_properties", (RoomProperty.all - room.room_properties))	
 			end
 		else
 			@site[0] = Site.create(params[:site])
@@ -101,94 +104,59 @@ class SiteOwner::CpController < ApplicationController
 			@site[0].room_properties << room_property
 		end
 		#workaround - end
-		@room_properties = RoomProperty.all - @site[0].room_properties
+		@site_room_properties = RoomProperty.all - @site[0].room_properties
 		return render :index
 	end
 
-def update_room
-	@regions = Region.all
-	@cities = City.all
-	@update_focused= "active"
-	@update_focused_active = "in"
-	@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
-	
-	if (!params[:delete_room].nil?)
-		Room.delete(params[:room][:id])
-	else
-		room = @site[0].rooms.find(params[:room][:id])
-		room.update_attributes(params[:room])	
-	end
-	@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
-	@site_assets_exist = @site[0].assets.empty?
-	5.times { @site[0].assets.build }
-	@rooms = @site[0].rooms
-	@rooms.each do |room|
-		room.room_properties = []
-		room.room_site_properties.each do |room_site_prop|
-			room_site_property = RoomProperty.find(room_site_prop.room_property_id)
-			room_site_property.price = room_site_prop.price
-			room.room_properties << room_site_property
-		end
-	end
-	@site[0].room_properties = []
-	@site[0].site_properties.each do |site_prop|
-		@site[0].room_properties << RoomProperty.find(site_prop.room_property_id)
-	end
-	@room_properties = RoomProperty.all - @site[0].room_properties
-	return render :index
-end
-
-def create_room
-	@regions = Region.all
-	@cities = City.all
-	@update_focused= "active"
-	@update_focused_active = "in"
-	@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
-	@site[0].rooms << Room.new(params[:room])
-	@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
-	@rooms = @site[0].rooms
-	@site[0].room_properties = []
-	@site[0].site_properties.each do |site_prop|
-		@site[0].room_properties << RoomProperty.find(site_prop.room_property_id)
-	end
-	@room_properties = RoomProperty.all - @site[0].room_properties
-	return render :index
-end
-
-=begin
-	def main
-		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
-		@requests = []
-
-		if (@site.length > 0)
-			@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC").limit(3)
-		else
-			
-		end
-		render :layout => 'siteOwnerTabContent'
-	end
-
-	def requests
-		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
-		@requests = []
-
-		if (@site.length > 0)
-			@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
-		else
-			
-		end
-		render :layout => 'siteOwnerTabContent'
-	end
-
-	def site_editor
+	def update_room
+		@regions = Region.all
+		@cities = City.all
+		@update_focused= "active"
+		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
 		
-		if (@site.length > 0)
-
+		if (!params[:delete_room].nil?)
+			Room.delete(params[:room][:id])
 		else
-			@site[0] = Site.new
+			room = @site[0].rooms.find(params[:room][:id])
+			room.update_attributes(params[:room])
+
+
+			room_room_porperty_site = params["room_" + params[:room][:id] + "_room_porperty_site"]
+			if room_room_porperty_site && room_room_porperty_site[:list]
+				room_room_porperty_list = room_room_porperty_site[:list]
+				room.room_site_properties.destroy_all
+				room_room_porperty_list.each do |prop_id|
+		  			if prop_id != ""
+		  				price = room_room_porperty_site["room_" + room.id.to_s + "_price" + prop_id.to_s]
+		  				room.room_site_properties << RoomSiteProperty.new(:room_property_id => prop_id.to_i, :room_id => room.id.to_i, :price => price)
+		  			end
+			    end
+		    else
+		    	room.room_site_properties.destroy_all
+		    end
+
+			
+
 		end
-		render :layout => 'siteOwnerTabContent'		
+		@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
+		@site_assets_exist = @site[0].assets.empty?
+		5.times { @site[0].assets.build }
+		@rooms = @site[0].rooms
+		@rooms.each do |room|
+			room.room_properties = []
+			room.room_site_properties.each do |room_site_prop|
+				room_site_property = RoomProperty.find(room_site_prop.room_property_id)
+				room_site_property.price = room_site_prop.price
+				room.room_properties << room_site_property
+			end
+			instance_variable_set("@room#{room.id}_room_properties", (RoomProperty.all - room.room_properties))	
+		end
+		@site[0].room_properties = []
+		@site[0].site_properties.each do |site_prop|
+			@site[0].room_properties << RoomProperty.find(site_prop.room_property_id)
+		end
+		@site_room_properties = RoomProperty.all - @site[0].room_properties
+		return render :index
 	end
-=end
 end

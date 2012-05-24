@@ -1,0 +1,18 @@
+<p>שם אתר: <%= @site.name -%></p>
+<p>בעל האתר: <%= @site_owner.first_name -%></p>
+<p>תאור: <%= @site.description -%></p>
+<p>מה באתר: <%= @site.what_included -%></p>
+<p>עיר: <%= @site.city.name -%></p>
+<p>כתובת: <%= @site.address -%></p>
+<p>אזור: <%= @site.region.name -%></p>
+<p>סוג חדר: <%= @site.room_type.name -%></p>
+<p>טלפון: <%= @site.phone -%></p>
+<p>נייד: <%= @site.mobile -%></p>
+<p>פקס: <%= @site.fax -%></p>
+<p>דוא"ל: <%= @site.email -%></p>
+<p>איש קשר: <%= @site.contact_point_name -%></p>
+<p>תמונות:
+	<% @site.assets.each do |asset_fields| %>
+		<p><%= link_to image_tag(asset_fields.asset.url(:thumb)), asset_fields.asset.url(:large), :target => "_blank" %></p>
+	<% end -%>
+</p>

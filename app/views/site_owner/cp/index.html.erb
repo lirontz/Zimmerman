@@ -19,6 +19,7 @@
 	<li class="<%= @main_focused %>"><a href="#home" data-toggle="tab">ראשי</a></li>
 	<li class="<%= @request_focused %>"><a href="#requests" data-toggle="tab">בקשות</a></li>
 	<li class="<%= @update_focused %>"><a href="#siteEditor" data-toggle="tab">ערוך אתר</a></li>
+	<li><a href="#runSite" data-toggle="tab">אתר</a></li>
 	<!--li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 		<ul class="dropdown-menu">
@@ -91,6 +92,7 @@
 		</div>
 	</div>
 
+
 	<div class="tab-pane fade <%= @update_focused_active %> <%= @update_focused %>" id="siteEditor">
 		<!--iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe-->
 		<div class="tabbable tabs-right">
@@ -158,7 +160,7 @@
 								<div style="display: <% if @site[0].room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_porperty_list_empty_container">
 									לא קיימים מאפייני אתר
 								</div>															
-								<a data-toggle="modal" href="#myModal" class="btn">הוסף מאפיניים +</a>
+								<a data-toggle="modal" href="#sitePropertiesModal" class="btn">הוסף מאפיניים +</a>
 							</div>
 						</div>
 					</div>
@@ -228,7 +230,9 @@
 				  <p><%= f.submit('שמור', {:class => "btn-primary submitBtn"})  %></p>
 				<% end %>
 		    </div>
-
+		    <script type="text/javascript">
+		    	var roomRoomPropertiesSite = [];
+		    </script>
 		    <% @rooms.each_with_index do |room, i| -%>
 			    <div class="tab-pane" id="rC<%= i -%>">
 					<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
@@ -238,12 +242,12 @@
 						<a rel="tooltip" title="תאור כללי אודות המקום">
 							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
-						<table id="current_room<%= i -%>_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+						<table id="current_room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if room.room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
 						   <thead>
 						      <tr>
 						        <th>
 						        	<a href="#" rel="tooltip" title="מחק הכל">
-						        		<input id="current_room<%= i -%>_properties_select_all" type="checkbox" checked="true"/>
+						        		<input id="current_room_<%= room.id -%>_properties_select_all" type="checkbox" checked="true"/>
 						        	</a>
 						        </th>
 						        <th>תאור</th>
@@ -251,43 +255,81 @@
 						      </tr>
 						    </thead>
 							<tbody>
-
-
-
-
-
-
-
 								<% room.room_properties.each_with_index do |prop, j| -%>
-									<tr id="current_room<%= i -%>_porperty_site_list_<%= prop.id -%>_container">
+									<tr id="current_room_<%= room.id -%>_room_porperty_site_list_<%= prop.id -%>_container">
 										<td>
 											<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
 											<a rel="tooltip" title="מחק מאפיין">
-												<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
+												<%= check_box("room_#{room.id}_room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
 											</a>
 										</td>
 										<td>
-											<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+											<%= label("room_#{room.id}_room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
 										</td>
 										<td>
 											<% #TODO: replace all room_properties params to be fields_for %>
-											<%= text_field("room_porperty_site", "price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
+											<%= text_field("room_#{room.id}_room_porperty_site", "room_#{room.id}_price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
 										</td>
 									</tr>
 								<% end -%>
-
-
-
-
-
-
 							</tbody>
 						</table>
+						<div style="display: <% if room.room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_<%= room.id -%>_room_porperty_list_empty_container">
+							לא קיימים מאפייני אתר
+						</div>
+						<a data-toggle="modal" href="#room<%= room.id -%>PropertiesModal" class="btn">הוסף מאפיניים +</a>
 						<%= f.hidden_field(:id, :value => room.id) %>
 						<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
 						<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary submitBtn"}) -%>
+						
+						<script type="text/javascript">
+							roomRoomPropertiesSite.push(["room_<%= room.id -%>_properties_select_all", "room_<%= room.id -%>_room_porperty_site", "room_<%= room.id -%>_room_porperty_list"]);
+						</script>
 			    	<% end -%>
 			    </div>
+
+				<div id="room<%= room.id -%>PropertiesModal" class="modal fade">
+					<div class="modal-header">
+					  <a class="close" data-dismiss="modal" >&times;</a>
+					  <h3>&nbsp;הוספת מאפיינים</h3>
+					</div>
+					<div class="modal-body">
+						<table id="room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if eval("@room#{room.id}_room_properties").length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
+						   <thead>
+						      <tr>
+						        <th>
+						        	<a href="#" rel="tooltip" title="הוסף הכל">
+						        		<input id="room_<%= room.id -%>_properties_select_all" type="checkbox" />
+					        		</a>
+						        </th>
+						        <th>תאור</th>
+						      </tr>
+						    </thead>
+							<tbody>
+								<% eval("@room#{room.id}_room_properties").each do |prop| %>
+										<tr id="room_<%= room.id -%>_room_porperty_list_<%= prop.id -%>_container">
+											<td>
+												<a rel="tooltip" title="מחק מאפיין">
+													<%= check_box("room_#{room.id}_room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+												</a>
+											</td>
+											<td>
+												<%= label("room_#{room.id}_room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+											</td>
+										</tr>
+								<% end -%>
+							</tbody>
+						</table>
+						<div style="display: <% if eval("@room#{room.id}_room_properties").length > 0 %>   <% else -%> none <% end -%>;" id="room<%= i -%>_room_porperty_list_empty_container">
+							לא קיימים מאפייני אתר נוספים.
+						</div>
+					</div>
+					<div class="modal-footer">
+					  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
+					  <input type="button" onclick="addSiteProperties('room<%= room.id -%>PropertiesModal', 'room_<%= room.id -%>_properties_select_all', 'room_<%= room.id -%>_room_porperty_list');" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
+					  
+					</div>
+				</div>
 
 			<% end %>
 
@@ -307,6 +349,11 @@
 		  </div>
 		</div>
 	</div>
+	
+	<div class="tab-pane fade" id="runSite">
+		<%= link_to "צפה באתרך", {:controller => 'site_owner/site', :id => @site[0].id}, :class => "btn btn-primary", :target => "_blank" -%>
+	</div>
+
 	<!--div class="tab-pane fade" id="dropdown1">
 		<p>dropdown1</p>
 	</div>
@@ -315,13 +362,13 @@
 	</div-->
 </div>
 
-<div id="myModal" class="modal fade">
+<div id="sitePropertiesModal" class="modal fade">
 	<div class="modal-header">
 	  <a class="close" data-dismiss="modal" >&times;</a>
 	  <h3>&nbsp;הוספת מאפיינים</h3>
 	</div>
 	<div class="modal-body">
-		<table id="room_porperty_list_table" style="width: auto; display: <% if @room_properties.length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
+		<table id="room_porperty_list_table" style="width: auto; display: <% if @site_room_properties.length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
 		   <thead>
 		      <tr>
 		        <th>
@@ -333,7 +380,7 @@
 		      </tr>
 		    </thead>
 			<tbody>
-				<% @room_properties.each do |prop| %>
+				<% @site_room_properties.each do |prop| %>
 						<tr id="room_porperty_list_<%= prop.id -%>_container">
 							<td>
 								<a rel="tooltip" title="מחק מאפיין">
@@ -347,74 +394,13 @@
 				<% end -%>
 			</tbody>
 		</table>
-		<div style="display: <% if @room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="room_porperty_list_empty_container">
+		<div style="display: <% if @site_room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="room_porperty_list_empty_container">
 			לא קיימים מאפייני אתר נוספים.
 		</div>
 	</div>
 	<div class="modal-footer">
 	  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
-	  <input type="button" onclick="addSiteProperties();" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
+	  <input type="button" onclick="addSiteProperties('sitePropertiesModal', 'site_properties_select_all', 'room_porperty_list');" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
 	  
 	</div>
 </div>
-
-<script type="text/javascript">
-	function addSiteProperties() {
-		$("input:checkbox[id^='room_porperty_list']:checked").each(function (index) {
-			var me = $(this);
-			var tr = me.parent().parent().parent();
-			var tbody = tr.parent();
-			var label = $('label[for="' + me.attr('id') + '"]');
-		
-			$("<input>", {
-			    type: "text",
-			    val: "",
-			    id: me.attr('id').replace("list_", "site_price"),
-			    name: me.attr('id').replace("list_", "site[price") + "]",
-			    size: 30,
-			    "class": "elementDefault"
-			}).appendTo('<td>').parent().appendTo(tr);
-
-			tr.attr('id', tr.attr('id').replace('room', 'current_room').replace('room_porperty', 'room_porperty_site'));
-			me.attr('id', me.attr('id').replace('room_porperty', 'room_porperty_site'));
-			me.attr('name', me.attr('name').replace('room_porperty', 'room_porperty_site'));
-			label.attr('for', label.attr('for').replace('room_porperty', 'room_porperty_site'));
-			
-			$('#current_room_porperty_list_empty_container').hide();
-			$('#current_room_porperty_list_table').show();
-
-			me.click(function () {
-				var me = $(this);
-				var tr = me.parent().parent().parent();
-				var tbody = tr.parent();
-				var label = $('label[for="' + me.attr('id') + '"]');
-				var priceTd = tr.children('td:last-child');
-				
-				priceTd.remove();
-				if (tbody.children().length == 1) {
-					$("#current_room_porperty_list_table").hide();
-					$("#current_room_porperty_list_empty_container").show();
-				}
-
-				tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
-				me.attr('id', me.attr('id').replace('current_', '').replace('site_', ''));
-				me.attr('name', me.attr('name').replace('current_', '').replace('site_', ''));
-				label.attr('for', label.attr('for').replace('current_', '').replace('site_', ''));
-				me.unbind('click');
-				$('#room_porperty_list_table > tbody:last').append(tr);
-				$("#room_porperty_list_table").show();
-				$("#room_porperty_list_empty_container").hide();
-			});
-
-			$('#current_room_porperty_list_table > tbody:last').append(tr);
-
-			me.attr('checked', true);
-			$("#site_properties_select_all").attr('checked', false);
-		});
-		if ($("input:checkbox[id^='room_porperty_list']:visible").length == 0) {
-			$("#room_porperty_list_table").hide();
-			$("#room_porperty_list_empty_container").show();
-		}
-		$('#myModal').modal('hide');
-	}
-</script>

@@ -7,7 +7,8 @@ Zimmerman::Application.routes.draw do
   put 'site_owner/cp/update' => 'site_owner/cp#update'
   post 'site_owner/cp/create_room' => 'site_owner/cp#create_room'
   put 'site_owner/cp/update_room' => 'site_owner/cp#update_room'
-  
+  get 'site_owner/site/' => 'site_owner/site#index'
+
   #get 'site_owner/cp/main' => 'site_owner/cp#main'
   #get 'site_owner/cp/requests' => 'site_owner/cp#requests'
   #get 'site_owner/cp/site_editor' => 'site_owner/cp#site_editor'

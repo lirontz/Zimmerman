@@ -19,6 +19,9 @@ $(document).ready(function () {
 	initDatepicker();
 	initRequestFields();
 	initSiteEditorTab();
+});
+
+function initSiteEditorTab() {
 	$('input[placeholder]').defaultValue();
 	$("a[rel='tooltip']").css('textDecoration', 'none');
 	$("a[rel='tooltip']").css('padding', 7);
@@ -28,23 +31,31 @@ $(document).ready(function () {
 	     buttonWidth : 70,
 	     width : 170
 	});
-});
 
-function initSiteEditorTab() {
-	$("#current_site_properties_select_all").click(function () {
+	addListenersToRoomPropertiesTable("site_properties_select_all", "room_porperty_site_list", "room_porperty_list");
+	for (var i = 0; i < roomRoomPropertiesSite.length; i++) {
+		addListenersToRoomPropertiesTable.apply(this, roomRoomPropertiesSite[i]);
+	}
+}
+
+function addListenersToRoomPropertiesTable(selectAllId, itemId, partialItemId) {
+	//add listener to current table
+	$("#current_" + selectAllId).click(function () {
 		if (this.checked) {
-			$("input:checkbox[id^='room_porperty_site_list']").attr('checked', this.checked);
+			$("input:checkbox[id^='" + itemId + "']").attr('checked', this.checked);
 		} else {
 			$(this).attr('checked', true);
-			$("input:checkbox[id^='room_porperty_site_list']").click();
+			$("input:checkbox[id^='" + itemId + "']").click();
 		}
 	});
 
-	$("#site_properties_select_all").click(function () {
-		$("input:checkbox[id^='room_porperty_list']:visible").attr('checked', this.checked);
+	//add listener to modal
+	$("#" + selectAllId).click(function () {
+		$("input:checkbox[id^='" + partialItemId + "']:visible").attr('checked', this.checked);
 	});
 
-	$("input:checkbox[id^='room_porperty_site_list']").click(function () {		
+	//add listener to current table - move tr from current to modal 
+	$("input:checkbox[id^='" + itemId + "']").click(function () {		
 		var me = $(this);
 		var tr = me.parent().parent().parent();
 		var tbody = tr.parent();
@@ -53,8 +64,8 @@ function initSiteEditorTab() {
 		
 		priceTd.remove();
 		if (tbody.children().length == 1) {
-			$("#current_room_porperty_list_table").hide();
-			$("#current_room_porperty_list_empty_container").show();
+			$('#current_' + partialItemId + '_table').hide();
+			$('#current_' + partialItemId + '_empty_container').show();
 		}
 
 		tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
@@ -62,10 +73,69 @@ function initSiteEditorTab() {
 		me.attr('name', me.attr('name').replace('_site', ''));
 		label.attr('for', label.attr('for').replace('_site', ''));
 		me.unbind('click');
-		$('#room_porperty_list_table > tbody:last').append(tr);
-		$("#room_porperty_list_table").show();
-		$("#room_porperty_list_empty_container").hide();
+		$('#' + partialItemId + '_table > tbody:last').append(tr);//add tr to modal table
+		$('#' + partialItemId + '_table').show();//show modal
+		$('#' + partialItemId + '_empty_container').hide();//hide empty label
 	});
+}
+
+function addSiteProperties(modalId, selectAllId, partialItemId) {
+	$("input:checkbox[id^='" + partialItemId + "']:checked").each(function (index) {
+		var me = $(this);
+		var tr = me.parent().parent().parent();
+		var tbody = tr.parent();
+		var label = $('label[for="' + me.attr('id') + '"]');
+	
+		$("<input>", {
+		    type: "text",
+		    val: "",
+		    id: me.attr('id').replace("list_", "site_price"),
+		    name: me.attr('id').replace("list_", "site[price") + "]",
+		    size: 30,
+		    "class": "elementDefault"
+		}).appendTo('<td>').parent().appendTo(tr);
+
+		tr.attr('id', tr.attr('id').replace('room', 'current_room').replace('room_porperty', 'room_porperty_site'));
+		me.attr('id', me.attr('id').replace('room_porperty', 'room_porperty_site'));
+		me.attr('name', me.attr('name').replace('room_porperty', 'room_porperty_site'));
+		label.attr('for', label.attr('for').replace('room_porperty', 'room_porperty_site'));
+		
+		$('#current_' + partialItemId + '_empty_container').hide();
+		$('#current_' + partialItemId + '_table').show();
+
+		me.click(function () {
+			var me = $(this);
+			var tr = me.parent().parent().parent();
+			var tbody = tr.parent();
+			var label = $('label[for="' + me.attr('id') + '"]');
+			var priceTd = tr.children('td:last-child');
+			
+			priceTd.remove();
+			if (tbody.children().length == 1) {
+				$("#current_" + partialItemId + "_table").hide();
+				$("#current_" + partialItemId + "_empty_container").show();
+			}
+
+			tr.attr('id', tr.attr('id').replace('current_', '').replace('site_', ''));
+			me.attr('id', me.attr('id').replace('current_', '').replace('site_', ''));
+			me.attr('name', me.attr('name').replace('current_', '').replace('site_', ''));
+			label.attr('for', label.attr('for').replace('current_', '').replace('site_', ''));
+			me.unbind('click');
+			$('#' + partialItemId + '_table > tbody:last').append(tr);
+			$('#' + partialItemId + '_table').show();
+			$('#' + partialItemId + '_empty_container').hide();
+		});
+
+		$('#current_' + partialItemId + '_table > tbody:last').append(tr);
+
+		me.attr('checked', true);
+		$("#" + selectAllId).attr('checked', false);
+	});
+	if ($("input:checkbox[id^='" + partialItemId + "']:visible").length == 0) {
+		$('#' + partialItemId + '_table').hide();
+		$('#' + partialItemId + '_empty_container').show();
+	}
+	$('#' + modalId).modal('hide');
 }
 
 function initRequestFields() {
