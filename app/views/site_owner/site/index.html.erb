@@ -2,10 +2,10 @@
 <p>בעל האתר: <%= @site_owner.first_name -%></p>
 <p>תאור: <%= @site.description -%></p>
 <p>מה באתר: <%= @site.what_included -%></p>
-<p>עיר: <%= @site.city.name -%></p>
+<p>עיר: <%= @site.city ? @site.city.name : '' -%></p>
 <p>כתובת: <%= @site.address -%></p>
-<p>אזור: <%= @site.region.name -%></p>
-<p>סוג חדר: <%= @site.room_type.name -%></p>
+<p>אזור: <%= @site.region ? @site.region.name : '' -%></p>
+<p>סוג חדר: <%= @site.room_type ? @site.room_type.name : '' -%></p>
 <p>טלפון: <%= @site.phone -%></p>
 <p>נייד: <%= @site.mobile -%></p>
 <p>פקס: <%= @site.fax -%></p>
