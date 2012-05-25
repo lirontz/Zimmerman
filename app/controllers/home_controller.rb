@@ -73,6 +73,10 @@ class HomeController < ApplicationController
         sites_counter = 0
         matched_sites = Site.where(:region_id => params[:request][:region_id], :room_type_id => params[:request][:room_type_id])
         matched_sites.each do |site|
+          site.room_properties = []
+          site.site_properties.each do |site_prop|
+            site.room_properties << RoomProperty.find(site_prop.room_property_id)
+          end
           if is_array_included(@request.room_properties, site.room_properties)
             sites_counter += 1
             @request.responses << Response.new( :site_id => site.id)
