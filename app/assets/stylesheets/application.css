@@ -37,3 +37,12 @@ input::-webkit-input-placeholder {
 input:-moz-placeholder {
 	color: #08C;
 }
+
+.logo {
+	background-image: url(../assets/logo.jpg);
+	width: 400px;
+	height:400px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}

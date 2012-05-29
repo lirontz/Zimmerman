@@ -16,8 +16,8 @@ class Request < ActiveRecord::Base
 	validates_presence_of :end_date
 	validate :is_start_date_is_valid_datetime
 	validate :is_end_date_is_valid_datetime
-	validates_numericality_of :price_from, :greater_than => 0
-	validates_numericality_of :price_to, :greater_than => 0
+	#validates_numericality_of :price_from, :greater_than => 0
+	#validates_numericality_of :price_to, :greater_than => 0
 
   #TODO:create one function
   def is_start_date_is_valid_datetime

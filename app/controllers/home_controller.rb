@@ -88,7 +88,7 @@ class HomeController < ApplicationController
           send_mail @user, MAIL_TYPES[:confirmation], @request
           render 'request_confirmation'
         else
-          flash[:notice] = "לא נמצאו צימרים העונים לדרישתך! אנא שנה את מאפייני החיפוש שלך ונסה שוב."
+          flash[:error] = "לא נמצאו צימרים העונים לדרישתך! אנא שנה את מאפייני החיפוש שלך ונסה שוב."
           render :index
         end
   		else

@@ -310,12 +310,11 @@ function initDatepicker() {
 		maxDate: "+6M +15D",
 		changeMonth: true,
 		onSelect: function( selectedDate ) {
-			var option = this.id == "request_end_date" ?  "maxDate" : "minDate",
-				instance = $( this ).data( "datepicker" ),
-				date = $.datepicker.parseDate(
-					instance.settings.dateFormat ||
-					$.datepicker._defaults.dateFormat,
-					selectedDate, instance.settings );
+			var option = this.id == "request_end_date" ?  "maxDate" : "minDate";
+			var instance = $( this ).data( "datepicker" );
+			var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
+			
+			date.setDate(date.getDate() + 2);
 			dates.not( this ).datepicker( "option", option, date );
 		}
 	});
@@ -408,10 +407,10 @@ function validateNewUserForm(elem) {
 function validateRequestForm(elem) {
 	var $howManyRoomsElem = $("#request_how_many_rooms");
 	var howManyRoomsVal = parseInt($howManyRoomsElem.val());
-	var $priceFromElem = $('#request_price_from');
+	/*var $priceFromElem = $('#request_price_from');
 	var $priceToElem = $('#request_price_to');
 	var priceFromVal = parseInt($priceFromElem.val());
-	var priceToVal = parseInt($priceToElem.val());
+	var priceToVal = parseInt($priceToElem.val());*/
 	var $startDateElem = $('#request_start_date');
 	var $endDateElem = $('#request_end_date');
 	var startDateVal = $startDateElem.val();
@@ -441,7 +440,7 @@ function validateRequestForm(elem) {
 		$endDateElem.focus();
 		return false;
 	}
-	if (isNaN(priceFromVal) || priceFromVal < 0 || priceFromVal > 10000) {
+	/*if (isNaN(priceFromVal) || priceFromVal < 0 || priceFromVal > 10000) {
 		$priceFromElem.val("");
 		$priceFromElem.focus();
 		return false;
@@ -456,7 +455,7 @@ function validateRequestForm(elem) {
 		$priceFromElem.val("");
 		$priceFromElem.focus();
 		return false;
-	}
+	}*/
 	if (firstNameVal == "" || firstNameVal == "שם פרטי") {
 		$firstNameElem.focus();
 		return false;
