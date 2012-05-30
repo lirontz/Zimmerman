@@ -186,6 +186,9 @@
 				<a rel="tooltip" title="עיר">
 					<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
 				</a>
+				<a rel="tooltip" title="סוג">
+					<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
+				</a>
 				<a rel="tooltip" title="כתובת">
 					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
 				</a>

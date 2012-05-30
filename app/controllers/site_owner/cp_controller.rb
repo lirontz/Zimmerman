@@ -4,6 +4,7 @@ class SiteOwner::CpController < ApplicationController
 	def index
 		@regions = Region.all
 		@cities = City.all
+		@room_types = RoomType.all
 		@main_focused= "active"
 		@main_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
@@ -46,6 +47,7 @@ class SiteOwner::CpController < ApplicationController
 	def update
 		@regions = Region.all
 		@cities = City.all
+		@room_types = RoomType.all
 		@update_focused = "active"
 		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 		
@@ -111,6 +113,7 @@ class SiteOwner::CpController < ApplicationController
 	def update_room
 		@regions = Region.all
 		@cities = City.all
+		@room_types = RoomType.all
 		@update_focused= "active"
 		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
