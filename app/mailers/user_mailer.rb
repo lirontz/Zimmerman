@@ -17,4 +17,11 @@ class UserMailer < ActionMailer::Base
   	@user = user
   	mail(:to => user.email, :subject => "גברת צימר - שגיאה בתהליך.")
   end
+
+  def response_pending(request, site)
+    @request = request
+    @response = request.responses.last
+    @site_owner = site.site_owner
+    mail(:to => @site_owner.email, :subject => "גברת צימר - בקשה להצעה.")
+  end
 end

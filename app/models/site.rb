@@ -1,7 +1,7 @@
 class Site < ActiveRecord::Base
 	attr_accessor :room_properties
 
-	belongs_to :site_owners
+	belongs_to :site_owner
 	belongs_to :region
 	belongs_to :city
 	belongs_to :room_type

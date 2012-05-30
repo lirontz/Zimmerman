@@ -5,7 +5,8 @@ class HomeController < ApplicationController
   MAIL_TYPES = {
     :registration => 0,
     :confirmation => 1,
-    :failure => 2
+    :failure => 2,
+    :response_pending => 3
   }
 
   def index
@@ -80,6 +81,7 @@ class HomeController < ApplicationController
           if is_array_included(@request.room_properties, site.room_properties)
             sites_counter += 1
             @request.responses << Response.new( :site_id => site.id)
+            send_mail @user, MAIL_TYPES[:response_pending], @request, site
           end
         end
 
@@ -107,7 +109,7 @@ class HomeController < ApplicationController
     (arr_1 - arr_2).size == 0
   end
 
-  def send_mail user, type, request = nil
+  def send_mail user, type, request = nil, site = nil
     #begin
       #status = Timeout::timeout(4) {
         case type
@@ -117,6 +119,8 @@ class HomeController < ApplicationController
           UserMailer.request_confirmation(user, request).deliver
         when MAIL_TYPES[:failure]
           UserMailer.failure(user).deliver
+        when MAIL_TYPES[:response_pending]
+          UserMailer.response_pending(request, site).deliver
         else
 
         end
