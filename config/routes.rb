@@ -2,6 +2,7 @@ Zimmerman::Application.routes.draw do
   devise_for :users
 
   get 'user/cp/' => 'user/cp#index'
+  put 'user/cp/user_details_update' => 'user/cp#user_details_update'
 
   get 'site_owner/home/' => 'site_owner/home#index'
   get 'site_owner/cp/' => 'site_owner/cp#index'
