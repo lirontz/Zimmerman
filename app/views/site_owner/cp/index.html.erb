@@ -192,6 +192,9 @@
 				<a rel="tooltip" title="כתובת">
 					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
 				</a>
+				
+				<%= link_to "שנה סיסמא", '/site_owners/edit' %><br />
+
 				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
 				<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
 		    <% end -%>
