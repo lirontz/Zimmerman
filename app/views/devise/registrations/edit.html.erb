@@ -1,26 +1,25 @@
-<h2>ערוך <%= resource_name.to_s.humanize %></h2><br />
+<h2>שנה את סיסמתך</h2><br />
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <!--div><%= f.label :email %><br /-->
-  <div><%= f.label :email %>
-  <%= f.email_field :email %></div><br />
+  <a rel="tooltip" title="דוא'ל">
+    <%= f.email_field(:email, {:placeholder => "דוא'ל", :class => "elementDefault"})-%>
+  </a><br />
 
-  <!--div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br /-->
-  <div><%= f.label "סיסמה"%> <i>(השאר ריק אם אין ברצונך לשנות שדה זה)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div><br />
+  <a rel="tooltip" title="סיסמא">
+    <%= f.password_field(:password, {:placeholder => "סיסמא", :class => "elementDefault", :autocomplete => "off"})%>
+  </a><i>(השאר ריק אם אין ברצונך לשנות שדה זה)</i><br />
 
-  <!--div><%= f.label ":password_confirmation" %>-->
-  <div><%= f.label "אימות סיסמה" %>
-  <%= f.password_field :password_confirmation %></div><br />
+  <a rel="tooltip" title="אימות סיסמא">
+    <%= f.password_field(:password_confirmation, {:placeholder => "אימות סיסמא", :class => "elementDefault"}) %>
+  </a><br />
 
-  <!--div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br /-->
-  <div><%= f.label "סיסמה נוכחית" %> <i>(אנו צריכים את הסיסמה שלך לאשר את השינויים)</i><br />
-  <%= f.password_field :current_password %></div>
+  <a rel="tooltip" title="סיסמא נוכחית">
+    <%= f.password_field(:current_password, {:placeholder => "אימות נוכחית", :class => "elementDefault"}) %>
+  </a><i>(אנו צריכים את הסיסמה שלך לאשר את השינויים)</i><br />
 
-  <!--div><%= f.submit "Update" %></div-->
-  <div><%= f.submit "עדכון" %></div>
+  <%= f.submit "עדכון", {:class => "btn-primary submitBtn"} %>
 <% end %>
 
 <h3>בטל את חשבוני</h3>

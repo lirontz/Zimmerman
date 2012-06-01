@@ -99,6 +99,8 @@
 			<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
 			<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
 
+			<%= link_to "שנה סיסמא", '/users/edit' %><br />
+
 			<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
 		<% end -%>
 	</div>
