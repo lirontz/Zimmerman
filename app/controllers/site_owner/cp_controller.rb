@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class SiteOwner::CpController < ApplicationController
 	before_filter :authenticate_site_owner!
 	
@@ -90,7 +92,11 @@ class SiteOwner::CpController < ApplicationController
 	    end
 
 	    if @site[0].save
+	    	flash[:error] = nil
+	    	flash[:notice] = 'פרטיך עודכנו בהצלחה!'
 	    else
+	    	flash[:notice] = nil
+	    	flash[:error] = 'העדכון נכשל!'
 	    end
 
 	    @site_assets_exist = @site[0].assets.empty?

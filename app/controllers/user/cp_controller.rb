@@ -13,13 +13,12 @@ class User::CpController < ApplicationController
 		@user_details_focused_active = "in"
 		@requests = Request.where(:user_id => current_user.id)
 		
-		#current_user.update_attributes(params[:user])
-		
-		if current_user.update_with_password(params[:user])
-		  sign_in(current_user, :bypass => true)
+		if current_user.update_attributes(params[:user])
+		  flash[:error] = nil
 		  flash[:notice] = 'פרטיך עודכנו בהצלחה!'
 		else
-		  flash[:notice] = 'העדכון נכשל!'
+		  flash[:notice] = nil
+		  flash[:error] = 'העדכון נכשל!'
 		end
 		render :index
 	end
