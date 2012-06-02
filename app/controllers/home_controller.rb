@@ -10,7 +10,9 @@ class HomeController < ApplicationController
   }
 
   def index
-  	if user_signed_in?
+    flash[:error] = nil
+    flash[:notice] = nil
+    if user_signed_in?
       @user = User.find(current_user.id)
     end
     @request = Request.new
@@ -20,6 +22,8 @@ class HomeController < ApplicationController
   end
 
   def create
+    flash[:error] = nil
+    flash[:notice] = nil
     params[:request][:start_date] = DateTime.strptime(params[:request][:start_date], "%d/%m/%Y").to_time()
     params[:request][:end_date] = DateTime.strptime(params[:request][:end_date], "%d/%m/%Y").to_time()
     
@@ -71,7 +75,7 @@ class HomeController < ApplicationController
 	    end
 
   		if @request.save
-        sites_counter = 0
+        @sites_counter = 0
         matched_sites = Site.where(:region_id => params[:request][:region_id], :room_type_id => params[:request][:room_type_id])
         matched_sites.each do |site|
           site.room_properties = []
@@ -79,14 +83,13 @@ class HomeController < ApplicationController
             site.room_properties << RoomProperty.find(site_prop.room_property_id)
           end
           if is_array_included(@request.room_properties, site.room_properties)
-            sites_counter += 1
+            @sites_counter += 1
             @request.responses << Response.new( :site_id => site.id)
             send_mail @user, MAIL_TYPES[:response_pending], @request, site
           end
         end
 
-        if sites_counter > 0
-          flash[:notice] = nil
+        if @sites_counter > 0
           send_mail @user, MAIL_TYPES[:confirmation], @request
           render 'request_confirmation'
         else

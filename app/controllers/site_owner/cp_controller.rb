@@ -13,6 +13,8 @@ class SiteOwner::CpController < ApplicationController
 		@requests = []
 		@rooms = []
 		
+		flash[:error] = nil
+		flash[:notice] = nil
 		if (@site.length > 0)
 			@rooms = @site[0].rooms			
 			
@@ -56,6 +58,8 @@ class SiteOwner::CpController < ApplicationController
 		@requests = []
 		@rooms = []
 
+		flash[:error] = nil
+		flash[:notice] = nil
 		if (@site.length > 0)
 			if params[:room]
 				@site[0].rooms << Room.new(params[:room])
@@ -92,11 +96,9 @@ class SiteOwner::CpController < ApplicationController
 	    end
 
 	    if @site[0].save
-	    	flash[:error] = nil
-	    	flash[:notice] = 'פרטיך עודכנו בהצלחה!'
+	    	flash[:notice] = 'פרטי האתר עודכנו בהצלחה!'
 	    else
-	    	flash[:notice] = nil
-	    	flash[:error] = 'העדכון נכשל!'
+	    	flash[:error] = 'עדכון פרטי האתר נכשל!'
 	    end
 
 	    @site_assets_exist = @site[0].assets.empty?
@@ -124,12 +126,22 @@ class SiteOwner::CpController < ApplicationController
 		@update_focused_active = "in"
 		@site = Site.where(:site_owner_id => current_site_owner.id.to_s).limit(1)#TODO: limit should be removed in phase 2 
 		
+		flash[:error] = nil
+		flash[:notice] = nil
 		if (!params[:delete_room].nil?)
-			Room.delete(params[:room][:id])
+		    if Room.delete(params[:room][:id])
+		    	flash[:notice] = 'החדר נמחק בהצלחה!'
+		    else
+		    	flash[:error] = 'מחיקת החדר נכשלה!'
+		    end			
 		else
 			room = @site[0].rooms.find(params[:room][:id])
-			room.update_attributes(params[:room])
-
+			
+		    if room.update_attributes(params[:room])
+		    	flash[:notice] = 'פרטי החדר עודכנו בהצלחה!'
+		    else
+		    	flash[:error] = 'עדכון פרטי החדר נכשל!'
+		    end
 
 			room_room_porperty_site = params["room_" + params[:room][:id] + "_room_porperty_site"]
 			if room_room_porperty_site && room_room_porperty_site[:list]
@@ -144,9 +156,6 @@ class SiteOwner::CpController < ApplicationController
 		    else
 		    	room.room_site_properties.destroy_all
 		    end
-
-			
-
 		end
 		@requests = Request.joins(:responses).where(:responses => {:site_id => @site[0].id}).order("created_at DESC")
 		@site_assets_exist = @site[0].assets.empty?
@@ -168,4 +177,11 @@ class SiteOwner::CpController < ApplicationController
 		@site_room_properties = RoomProperty.all - @site[0].room_properties
 		return render :index
 	end
+=begin
+	
+	@site[0].errors.full_messages.each do |msg|
+		return render :text => msg
+	end
+	
+=end
 end
