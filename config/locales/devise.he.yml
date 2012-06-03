@@ -13,7 +13,7 @@ he:
 
   devise:
     failure:
-      already_authenticated: 'הנך רשום במערת.'
+      already_authenticated: 'הנך רשום במערכת.'
       unauthenticated: 'אנא הרשם או הכנס בכדי להמשיך.'
       unconfirmed: 'אנא אשר את חשבונך בכדי להמשיך.'
       locked: 'חשבונך נעול.'

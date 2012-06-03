@@ -111,10 +111,10 @@
 					<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
 				</a>
 				<a rel="tooltip" title="תאור כללי אודות המקום">
-					<%= f.text_field(:description, {:placeholder => "תאור כללי אודות המקום", :class => "elementDefault", :autocomplete => "off"})-%>
+					<%= f.text_area(:description, {:placeholder => "תאור כללי אודות המקום", :class => "textAreaDefault"})-%>
 				</a>
 				<a rel="tooltip" title="מה כלול באירוח">
-					<%= f.text_field(:what_included, {:placeholder => "כלול באירוח", :class => "elementDefault", :autocomplete => "off"})-%>
+					<%= f.text_area(:what_included, {:placeholder => "כלול באירוח", :class => "textAreaDefault"})-%>
 				</a>
 				<div class="accordion" id="accordion2" style="width: 400px;">
 					<div class="accordion-group">
@@ -246,7 +246,10 @@
 							<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
 						<a rel="tooltip" title="תאור כללי אודות המקום">
-							<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
+							<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
+						</a>
+						<a rel="tooltip" title="מחיר">
+							<%= f.text_field(:price, {:placeholder => "מחיר", :class => "elementDefault", :autocomplete => "off"})-%>
 						</a>
 						<table id="current_room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if room.room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
 						   <thead>
@@ -345,7 +348,7 @@
 						<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
 					</a>
 			      	<a rel="tooltip" title="תאור כללי אודות החדר">
-						<%= f.text_field(:description, {:placeholder => "תאור כללי אודות החדר", :class => "elementDefault", :autocomplete => "off"})-%>
+						<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
 					</a>
 					<%= f.hidden_field(:site_id, :value => @site[0].id) %>
 					<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
