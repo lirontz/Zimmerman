@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120603191843) do
+ActiveRecord::Schema.define(:version => 20120605185533) do
 
   create_table "assets", :force => true do |t|
     t.string   "asset_file_name"
@@ -40,11 +40,11 @@ ActiveRecord::Schema.define(:version => 20120603191843) do
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
     t.integer  "user_id",            :default => 0,                     :null => false
-    t.integer  "how_many_rooms",     :default => 0,                     :null => false
+    t.integer  "how_many_rooms",                                        :null => false
     t.datetime "start_date",         :default => '2012-03-10 12:09:26', :null => false
     t.datetime "end_date",           :default => '2012-03-10 12:09:26', :null => false
-    t.integer  "price_from",         :default => 0,                     :null => false
-    t.integer  "price_to",           :default => 0,                     :null => false
+    t.integer  "price_from",                                            :null => false
+    t.integer  "price_to",                                              :null => false
     t.integer  "room_properties_id", :default => 0,                     :null => false
     t.boolean  "sms_enabled",        :default => false,                 :null => false
     t.integer  "room_type_id",       :default => 0,                     :null => false

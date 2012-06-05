@@ -1,20 +1,25 @@
-<h2>Sign up</h2>
+<h2>בעל צימר, הצטרף</h2>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <% if @site_owner %>
   	<%= devise_error_messages! %>
   <% end -%>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <br />
+  
+  <a rel="tooltip" title="דוא''ל">
+    <%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
+  </a><br />
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+  <a rel="tooltip" title="סיסמא">
+    <%= f.password_field(:password, {:placeholder => "סיסמא", :class => "elementDefault"}) %>
+  </a><br />
+  
+  <a rel="tooltip" title="אימות סיסמא">
+    <%= f.password_field(:password_confirmation, {:placeholder => "אימות סיסמא", :class => "elementDefault"}) %>
+  </a><br />
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.submit "Sign up" %></div>
+  <%= f.submit('הרשם', {:class => "btn-primary submitBtn"}) -%>
 <% end %>
 
 <%= render "links" %>

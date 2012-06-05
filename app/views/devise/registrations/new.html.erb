@@ -2,26 +2,27 @@
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :onsubmit => "return validateNewUserForm(this);" }) do |f| %>
   <%= devise_error_messages! %>
-
-  <%= f.email_field(:email, {:value => "דוא\"ל", :class => "elementDefault elementWide"} ) %><br /><br />
-  <%= f.text_field(:first_name, {:value => "שם פרטי", :class => "elementDefault elementWide"} ) %><br /><br />
-  <%= f.text_field(:last_name, {:value => "שם משפחה", :class => "elementDefault elementWide"} ) %><br /><br />
   
+  <br />
 
-  <div id="div1">
-   <input class="elementDefault elementWide" name="pass_temp" type="text" value='סיסמה' size="20" maxlength="20" onfocus="changePassBox();" /><br /><br />
-  </div>
-  <div id="div2" style="display:none">
-    <%= f.password_field(:password, {:class => "elementDefault elementWide", :onBlur => 'restorePassBox();'} ) %><br /><br />
-  </div>
-  <div id="div3">
-    <input class="elementDefault elementWide" name="pass_temp1" type="text" value='אימות סיסמה' size="20" maxlength="20" onfocus="changePassBox1();" /><br /><br />
-  </div>
-  <div id="div4" style="display:none">
-     <%= f.password_field(:password_confirmation, {:class => "elementDefault elementWide", :onBlur => 'restorePassBox1();'} ) %><br /><br />
-  </div>
-  
-  <%= f.text_field(:phone, {:value => "טלפון", :class => "elementDefault elementWide"} ) %><br /><br />
+  <a rel="tooltip" title="דוא''ל">
+    <%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
+  </a><br />
+  <a rel="tooltip" title="שם פרטי">
+    <%= f.text_field(:first_name, {:placeholder => "שם פרטי", :class => "elementDefault"})-%>
+  </a><br />
+  <a rel="tooltip" title="שם משפחה">
+    <%= f.text_field(:last_name, {:placeholder => "שם משפחה", :class => "elementDefault"})-%>
+  </a><br />
+  <a rel="tooltip" title="סיסמא">
+    <%= f.password_field(:password, {:placeholder => 'סיסמא', :class => "elementDefault"} ) %>
+  </a><br />
+  <a rel="tooltip" title="אימות סיסמא">
+    <%= f.password_field(:password_confirmation, {:placeholder => 'אימות סיסמא', :class => "elementDefault"} ) %>
+  </a><br />
+  <a rel="tooltip" title="טלפון">
+    <%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"} ) %>
+  </a><br />
   <%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
   <%= f.check_box(:sms_enabled, {}, "true", "false") -%><br /><br /><br />
 

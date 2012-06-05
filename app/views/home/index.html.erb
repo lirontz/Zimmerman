@@ -34,27 +34,27 @@
 				<br />
 
 				<a rel="tooltip" title="מספר יחידות">
-					<%= f.text_field(:how_many_rooms, {:value => "מספר יחידות", :class => "elementDefault"})-%>
+					<%= f.text_field(:how_many_rooms, {:placeholder => "מספר יחידות", :class => "elementDefault"})-%>
 				</a>
 
 				<br />
 				<br />
 
 				<a rel="tooltip" title="מתאריך">
-					<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :class => "elementDefault"})-%>
+					<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :class => "elementDefault", :autocomplete => "off"})-%>
 				</a>
 				<a rel="tooltip" title="עד תאריך">
-					<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault"})-%>
+					<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault", :autocomplete => "off"})-%>
 				</a>
 
 				<br />
 				<br />
 
 				<a rel="tooltip" title="ממחיר">
-					<%= f.text_field(:price_from, {:value => "ממחיר", :class => "elementDefault"})-%>
+					<%= f.text_field(:price_from, {:placeholder => "ממחיר", :class => "elementDefault"})-%>
 				</a>
 				<a rel="tooltip" title="עד מחיר">
-					<%= f.text_field(:price_to, {:value => "עד מחיר", :class => "elementDefault"})-%>
+					<%= f.text_field(:price_to, {:placeholder => "עד מחיר", :class => "elementDefault"})-%>
 				</a>
 
 				<br />

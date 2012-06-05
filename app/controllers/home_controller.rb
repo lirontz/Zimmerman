@@ -26,6 +26,12 @@ class HomeController < ApplicationController
     flash[:notice] = nil
     params[:request][:start_date] = DateTime.strptime(params[:request][:start_date], "%d/%m/%Y").to_time()
     params[:request][:end_date] = DateTime.strptime(params[:request][:end_date], "%d/%m/%Y").to_time()
+    if params[:request][:price_from].empty?
+      params[:request][:price_from] = 0
+    end
+    if params[:request][:price_to].empty?
+      params[:request][:price_to] = 0
+    end
     
     @regions = Region.all
   	@room_types = RoomType.all
