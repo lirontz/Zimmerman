@@ -66,8 +66,8 @@ Zimmerman::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # My Configurations: 
-  config.action_mailer.default_url_options = { :host => 'http://freezing-samurai-8093.herokuapp.com', :only_path => false }
+  config.action_mailer.default_url_options = { :host => 'gzimmer.com', :only_path => false }
 
-  config.action_mailer.asset_host = "http://freezing-samurai-8093.herokuapp.com"
+  config.action_mailer.asset_host = "http://gzimmer.com"
 
 end
