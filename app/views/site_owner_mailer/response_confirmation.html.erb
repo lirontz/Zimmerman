@@ -638,10 +638,14 @@
 						                                                            <div mc:edit="std_content00">
 						                                                                <h1 class="h1">תודה שבחרת גברת צימר!</h1>
 						                                                                
-																						<strong><%= @site_owner.first_name -%>, <br />בקשה להצעה נרשמה במערכת.</strong>
+																						<strong><%= @user.first_name -%>, <br />מצאנו צימרים המתאימים לדרישתך!</strong>
 						                                                                <br />
 						                                                                <br />
-						                                                                פרטי הבקשה להלן:
+						                                                                <div>
+						                                                                	האתר <%= @site.name -%> נמצא מתאים לדרישתך.
+						                                                                	התקשר לתיאום תאריכים מדויק, <%= @site.phone -%>.
+						                                                                </div>
+						                                                                פרטי בקשתך להלן:
 																						<div style="width: 250px; background-color: lightblue; padding-right: 20px;">
 																							<ul>
 																								<li>אזור:&nbsp;<%= @request.region.name -%></li>
@@ -662,13 +666,6 @@
 																								<li>טווח מחירים:&nbsp;<%= @request.price_from -%> - <%= @request.price_to -%></li>
 																							</ul>
 																						</div>
-						                                                                <br />
-						                                                                <br />
-						                                                                <%= link_to("אשר בלחיצה", "#{root_url}site_owner/cp/response_confirmation/#{@request.responses.last.id}") -%>
-						                                                                <br />
-						                                                                או
-						                                                                <br />
-						                                                                <%= link_to("כנס לחשבונך", "#{root_url}site_owner/cp") -%>
 						                                                            </div>
                                                                                 </td>
                                                                             </tr>

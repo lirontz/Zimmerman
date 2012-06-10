@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class UserMailer < ActionMailer::Base
-  default :from => "customerservices@missz.com"
+  default :from => "customerservices@gzimmer.com"
 
   def registration_confirmation(user)
   	@user = user

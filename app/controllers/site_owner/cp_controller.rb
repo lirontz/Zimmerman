@@ -3,6 +3,12 @@
 class SiteOwner::CpController < ApplicationController
 	before_filter :authenticate_site_owner!
 	
+	RESPONSE_STATUSES = {
+		:PENDING => 0,
+		:ACCEPTED => 1,
+		:DECLINED => 2
+	}
+
 	def index
 		@regions = Region.all
 		@cities = City.all
@@ -16,7 +22,7 @@ class SiteOwner::CpController < ApplicationController
 		flash[:error] = nil
 		flash[:notice] = nil
 		if (@site.length > 0)
-			@rooms = @site[0].rooms			
+			@rooms = @site[0].rooms
 			
 			@rooms.each do |room|
 				room.room_properties = []
@@ -177,6 +183,30 @@ class SiteOwner::CpController < ApplicationController
 		@site_room_properties = RoomProperty.all - @site[0].room_properties
 		return render :index
 	end
+
+  def response_confirmation
+    response = Response.find(params[:id])
+    request = Request.find(response.request_id)
+    response.status = RESPONSE_STATUSES[:ACCEPTED]
+    if response.save
+    	send_mail(RESPONSE_STATUSES[:ACCEPTED], response, request)
+    else
+    end
+  end
+
+  private 
+
+  def send_mail type, response, request
+    case type
+    when RESPONSE_STATUSES[:ACCEPTED]
+      SiteOwnerMailer.response_confirmation(response, request).deliver
+    when RESPONSE_STATUSES[:DECLINED]
+      SiteOwnerMailer.response_confirmation(response, request).deliver
+    else
+
+    end
+  end
+
 =begin
 	
 	@site[0].errors.full_messages.each do |msg|

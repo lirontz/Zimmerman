@@ -3,6 +3,7 @@ Zimmerman::Application.routes.draw do
 
   get 'user/cp/' => 'user/cp#index'
   put 'user/cp/user_details_update' => 'user/cp#user_details_update'
+  
 
   get 'site_owner/home/' => 'site_owner/home#index'
   get 'site_owner/cp/' => 'site_owner/cp#index'
@@ -11,6 +12,7 @@ Zimmerman::Application.routes.draw do
   post 'site_owner/cp/create_room' => 'site_owner/cp#create_room'
   put 'site_owner/cp/update_room' => 'site_owner/cp#update_room'
   get 'site_owner/site/' => 'site_owner/site#index'
+  get 'site_owner/cp/response_confirmation' => 'site_owner/cp#response_confirmation'
 
   #get 'site_owner/cp/main' => 'site_owner/cp#main'
   #get 'site_owner/cp/requests' => 'site_owner/cp#requests'
