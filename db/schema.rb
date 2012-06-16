@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120608144221) do
+ActiveRecord::Schema.define(:version => 20120614103443) do
 
   create_table "assets", :force => true do |t|
     t.string   "asset_file_name"
@@ -134,6 +134,11 @@ ActiveRecord::Schema.define(:version => 20120608144221) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "phone"
+    t.date     "birthday"
+    t.boolean  "sms_enabled"
+    t.boolean  "terms_of_use_confirmed"
+    t.string   "gender"
   end
 
   add_index "site_owners", ["email"], :name => "index_site_owners_on_email", :unique => true

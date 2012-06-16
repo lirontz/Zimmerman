@@ -13,6 +13,9 @@ Zimmerman::Application.routes.draw do
   put 'site_owner/cp/update_room' => 'site_owner/cp#update_room'
   get 'site_owner/site/' => 'site_owner/site#index'
   get 'site_owner/cp/response_confirmation' => 'site_owner/cp#response_confirmation'
+  put 'site_owner/cp/update_status_1' => 'site_owner/cp#update_request_status_main'
+  put 'site_owner/cp/update_status_2' => 'site_owner/cp#update_request_status_request'
+  
 
   #get 'site_owner/cp/main' => 'site_owner/cp#main'
   #get 'site_owner/cp/requests' => 'site_owner/cp#requests'

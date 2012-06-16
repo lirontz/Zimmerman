@@ -32,21 +32,26 @@
 <div id="myTabContent" class="tab-content">
 	<div class="tab-pane fade <%= @main_focused_active %> <%= @main_focused %>" id="home">
 		<!--iframe src="/site_owner/cp/main" class="tabFrame"></iframe-->
-			<div>בקשות אחרונות:</div>
+			<div>בקשות פעילות (ממתין לאישורך):</div>
 			<div class="accordion" id="accordionRequestsMain">
-				<% if @requests.length > 0 %>
-					<% @requests.each_with_index do |request, i| -%>
+				<% if @pending_requests.length > 0 %>
+					<% @pending_requests.each_with_index do |request, i| -%>
 					    <div class="accordion-group">
 					      <div class="accordion-heading">
 					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequestsMain" href="#collapseMain<%= i -%>">
 					          <% user = User.find(request.user_id) %>
-					          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+					          	מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לאישור
 					        </a>
 					      </div>
 					      <div id="collapseMain<%= i -%>" class="accordion-body collapse">
 					        <div class="accordion-inner">
 					          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
 					        </div>
+							<%= form_for(@site[0], :url => {:action => "update_status_1"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
+								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
+								<%= submit_tag('דחה', {:name => "decline_request",:class => "btn-primary submitBtn"}) -%>
+							<% end %>
 					      </div>
 					    </div>
 					<% end -%>
@@ -72,13 +77,35 @@
 				      <div class="accordion-heading">
 				        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
 				          <% user = User.find(request.user_id) %>
-				          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+				          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: 
+				          <% response_status = request.responses.where({:site_id => @site[0].id})[0].status %>
+				          <% case response_status %>
+				          <% when 0 %>
+				          	ממתין לאישור
+			          	  <% when 1 %>
+			          	  	אישור נשלח ללקוח
+			          	  <% when 2 %>
+			          	  	נדחה
+			          	  <% end %>
 				        </a>
 				      </div>
 				      <div id="collapse<%= i -%>" class="accordion-body collapse">
 				        <div class="accordion-inner">
 				          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
 				        </div>
+						<% case response_status %>
+						<% when 0 %>
+							<%= form_for(@site[0], :url => {:action => "update_status_2"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
+								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
+								<%= submit_tag('דחה', {:name => "decline_request",:class => "btn-primary submitBtn"}) -%>
+							<% end %>
+						<% when 2 %>
+							<%= form_for(@site[0], :url => {:action => "update_status"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
+								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
+							<% end %>
+						<% end -%>
 				      </div>
 				    </div>
 				<% end -%>
@@ -360,7 +387,12 @@
 	</div>
 	
 	<div class="tab-pane fade" id="runSite">
-		<%= link_to "צפה באתרך", {:controller => 'site_owner/site', :id => @site[0].id}, :class => "btn btn-primary", :target => "_blank" -%>
+		
+		<% if @site[0].id %>
+			<%= link_to "צפה באתרך", {:controller => 'site_owner/site', :id => @site[0].id}, :class => "btn btn-primary", :target => "_blank" -%>
+		<% else %>
+			&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+		<% end -%>
 	</div>
 
 	<!--div class="tab-pane fade" id="dropdown1">
