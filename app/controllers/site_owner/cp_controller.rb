@@ -224,7 +224,6 @@ class SiteOwner::CpController < ApplicationController
   end
 
   def send_mail type, response, request
-    return
     case type
     when RESPONSE_STATUSES[:ACCEPTED]
       SiteOwnerMailer.response_confirmation(response, request).deliver

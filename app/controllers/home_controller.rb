@@ -119,7 +119,6 @@ class HomeController < ApplicationController
   end
 
   def send_mail user, type, request = nil, site = nil
-    return
     #begin
       #status = Timeout::timeout(4) {
         case type
