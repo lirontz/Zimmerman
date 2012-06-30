@@ -42,8 +42,9 @@ class HomeController < ApplicationController
       @user = User.find(:all, :conditions => {:email => params[:user][:email]}).first
 
       if !@user
-        password_length = 6
-        password = Devise.friendly_token.first(password_length)
+        #assword_length = 6
+        #password = Devise.friendly_token.first(password_length)
+        password = generate_activation_code()
         params[:user][:password] = password
         params[:user][:password_confirmation] = password
         
@@ -96,7 +97,7 @@ class HomeController < ApplicationController
         end
 
         if @sites_counter > 0
-          send_mail @user, MAIL_TYPES[:confirmation], @request
+          send_mail @user, MAIL_TYPES[:confirmation], @request, nil, password
           render 'request_confirmation'
         else
           flash[:error] = "לא נמצאו צימרים העונים לדרישתך! אנא שנה את מאפייני החיפוש שלך ונסה שוב."
@@ -118,14 +119,14 @@ class HomeController < ApplicationController
     (arr_1 - arr_2).size == 0
   end
 
-  def send_mail user, type, request = nil, site = nil
+  def send_mail user, type, request = nil, site = nil, password = nil
     #begin
       #status = Timeout::timeout(4) {
         case type
         when MAIL_TYPES[:registration]
           UserMailer.registration_confirmation(user).deliver
         when MAIL_TYPES[:confirmation]
-          UserMailer.request_confirmation(user, request).deliver
+          UserMailer.request_confirmation(user, request, password).deliver
         when MAIL_TYPES[:failure]
           UserMailer.failure(user).deliver
         when MAIL_TYPES[:response_pending]
@@ -137,5 +138,10 @@ class HomeController < ApplicationController
     #rescue
 
     #end
+  end
+
+  def generate_activation_code(size = 6)
+    charset = %w{ 2 3 4 6 7 9 A C D E F G H J K M N P Q R T V W X Y Z}
+    (0...size).map{ charset.to_a[rand(charset.size)] }.join
   end
 end

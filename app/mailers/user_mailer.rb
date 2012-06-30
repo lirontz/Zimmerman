@@ -7,9 +7,10 @@ class UserMailer < ActionMailer::Base
   	mail(:to => user.email, :subject => "גברת צימר - אישור הרשמה.")
   end
 
-  def request_confirmation(user, request)
+  def request_confirmation(user, request, password)
   	@user = user
   	@request = request
+    @password = password
   	mail(:to => user.email, :subject => "גברת צימר - אישור בקשה.")
   end
 
