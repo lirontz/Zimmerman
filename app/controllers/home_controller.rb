@@ -112,7 +112,7 @@ class HomeController < ApplicationController
       render :index
 	  end
   end
-
+ 
   private
 
   def is_array_included arr_1, arr_2
