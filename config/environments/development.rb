@@ -39,6 +39,12 @@ Zimmerman::Application.configure do
   config.serve_static_assets = false
   
   # My Configurations:
+
+  #LIRON - TODO: set differnt folder for paperclip in development env
+  #config.assets.prefix = "lironTest"
+  #config.assets.manifest = Rails.root.join("public", config.assets.prefix)
+
+
   config.action_mailer.default_url_options = { :host => 'localhost:3000', :only_path => false }
 
   config.action_mailer.asset_host = "http://localhost:3000"

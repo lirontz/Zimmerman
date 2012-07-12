@@ -1,0 +1,134 @@
+
+<div class="user_nav">
+  <% if user_signed_in? %>
+    רשום כ - <%= current_user.email %>. לא אתה?
+    <%= link_to "צא", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
+  <% end %>
+</div>
+	<div class="welcomeContainer">
+		<h1>ברוכים הבאים</h1>
+		<p>מחפשים אותכם! מצאו את ההצעה המתאימה בעבורכם!</p>
+		<div class="welcomeMainContainer">&nbsp;</div>
+		<%= link_to "בעל אתר? הצטרף", new_site_owner_registration_path, :class => "btn btn-primary siteOwnerLoginButton" %>
+		<%= link_to "או הכנס", new_site_owner_session_path %>
+	</div>
+	<div class="requestContainer">
+		<div class="requestSubContainerRight">
+			<br />
+			<br />
+			<h3>קבל הצעה:</h3>
+			<br />
+			<%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
+			<%= form_for(@request, :url => {:action => "create"}, :html => { :onsubmit => "return validateRequestForm(this);" }) do |f| -%>
+
+				<a rel="tooltip" title="סוג">
+					<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
+				</a>
+				<a rel="tooltip" title="אזור">
+					<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
+				</a>
+
+				<br />
+				<br />
+
+				<a rel="tooltip" title="מספר יחידות">
+					<%= f.text_field(:how_many_rooms, {:placeholder => "מספר יחידות", :class => "elementDefault"})-%>
+				</a>
+
+				<br />
+				<br />
+
+				<a rel="tooltip" title="מתאריך">
+					<%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :class => "elementDefault", :autocomplete => "off"})-%>
+				</a>
+				<a rel="tooltip" title="עד תאריך">
+					<%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault", :autocomplete => "off"})-%>
+				</a>
+
+				<br />
+				<br />
+
+				<a rel="tooltip" title="ממחיר">
+					<%= f.text_field(:price_from, {:placeholder => "ממחיר", :class => "elementDefault"})-%>
+				</a>
+				<a rel="tooltip" title="עד מחיר">
+					<%= f.text_field(:price_to, {:placeholder => "עד מחיר", :class => "elementDefault"})-%>
+				</a>
+
+				<br />
+				<br />
+
+				<div class="accordion" id="accordion2">
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a rel="tooltip" title="מקד את החיפוש שלך" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+								מאפייני חיפוש
+							</a>
+						</div>
+						<div id="collapseOne" class="accordion-body collapse">
+							<div class="accordion-inner">
+								<% @room_porperties.each_with_index do |prop, i| -%>
+									<% if ((i % 3) == 0) && i != 0 -%>
+										<br />
+									<% end -%>
+									<%= label(prop, :name, prop.name, {:class => "labelDefault"}) -%>
+									<%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
+								<% end -%>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<% if user_signed_in? %>
+					<%= f.hidden_field(:user_id, :value => current_user.id) %>
+				<% end -%>
+
+			</div>
+			<div class="requestSubContainerLeft">
+				
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+
+				<a rel="tooltip" title="דוא''ל">
+					<%= email_field(:user, :email, {:placeholder => "דוא\"ל", :class => "elementDefault elementWide"} ) %>
+				</a><br /><br />
+				<!--%= email_field(:user, :email_confirmation, {:value => "אימות דוא\"ל", :class => "elementDefault elementWide"} ) %><br /><br /-->
+				<a rel="tooltip" title="שם פרטי">
+					<%= text_field(:user, :first_name, {:placeholder => "שם פרטי", :class => "elementDefault elementWide"} ) %>
+				</a><br /><br />
+
+				<a rel="tooltip" title="שם משפחה">
+					<%= text_field(:user, :last_name, {:placeholder => "שם משפחה", :class => "elementDefault elementWide"} ) %>
+				</a><br /><br />
+				<a rel="tooltip" title="טלפון">
+					<%= text_field(:user, :phone, {:placeholder => "טלפון", :class => "elementDefault elementWide"} ) %>
+				</a><br />
+				<%= label(:user, :sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
+				<%= check_box(:user, :sms_enabled, {}, "true", "false") -%><br /><br /><br />
+
+				<div>
+					<center>
+						<%terms_of_use = "<p style=\"width:400px;\">תקנון לשימוש באתר האינטרנט gzimmer.co.il מטעמי נוחות נוקט התקנון בלשון זכר, ואולם כל הנאמר בו מתייחס לנשים ולגברים כאחד.</p> השימוש באתר על תכניו והשירותים הניתנים בו, מוצעים לך בכפוף לקבלתך את כל התנאים הכלולים בתקנון זה. הגלישה באתר ו/או הרשמתך כמנוי לקבלת שירותיו, ייחשבו להסכמה מצדך לתנאים אלה. הנהלת האתר רשאית להשעות, לחסום או להפסיק לאלתר את גישת הגולש לשירות אם יפר את תנאי התקנון. הנהלת האתר רשאית לעדכן את תנאי התקנון מעת לעת. אין לעשות באתר או באמצעותו כל שימוש למטרות בלתי חוקיות. ההרשמה כמנוי מיועדת ומותרת לגילאי ח\"י ומעלה בלבד. בהרשמתך הנך מצהיר כי גילך אכן מעל 18 שנה. אין לרשום אדם אחר שלא בהסכמתו ו/או ללא נוכחותו מול המסך בשעת הרישום ולאחר שהוסברו לו כל תנאי תקנון זה. הרישום באתר הוא לשימוש האישי והבלעדי של הגולש אשר אינו רשאי להעביר את הרשאת השימוש לאדם אחר כלשהו. חובה מיוחדת לדייק לחלוטין בכל הפרטים האישיים הנדרשים לצורך הרישום ולצורך הקשר השוטף עם המנוי. אין לפרסם או להעביר באמצעות האתר כל מידע שהוא שקרי, מעליב, משמיץ, מאיים, פוגע בפרטיות הזולת, פורנוגרפי, בעל אופי מיני, גזעני, או בלתי חוקי. הנך אחראי באופן בלעדי לנכונות המידע אותו תפרסם או תעביר באמצעות האתר. הנהלת האתר אינה מקבלת על עצמה כל אחריות לתכנים המפורסמים או מועברים בין המנויים. אין לעשות באתר כל שימוש מסחרי בדרך של משלוח פרסומות או בכל דרך אחרת. אין לשלוח באמצעות האתר הודעה המיועדת ליותר מ- 5 נמענים. הנך מצהיר כי ידוע לך שלהנהלת האתר אין כל יכולת או אפשרות לבדוק, לנפות או לסנן את המנויים הנרשמים לאתר. כל קשר וירטואלי או אחר שלך עם מי מהמנויים האחרים באתר, וזאת בין בהתכתבות או בצ'ט ובין במסגרת \"פגישות \"אמת\", הן באחריותך הבלעדית. מומלץ ביותר לשקול היטב ולוודא את מירב הפרטים אודות הצד השני לפני כל מפגש כזה, וכן לנקוט באמצעי זהירות מרביים לפני הפגישה הראשונה עם אדם לא מוכר. בשום מקרה לא תהיה להנהלת האתר כל אחריות לתוצאות כל קשר כאמור, ומבלי לגרוע מכלליות האמור לעיל לנזקים פיזיים, נפשיים, כספיים, רגשיים ואחרים. בכוונת הנהלת האתר כי האתר ושירותיו יהיו זמינים בכל עת. יחד עם זאת אין ביכולת הנהלת האתר להתחייב לזמינות רצופה ללא תקלות וללא \"נפילות\". כמו כן רשאית הנהלת האתר להפסיק את השימוש באתר מעת לעת לצורכי תחזוקתו וארגונו. לא יינתן כל פיצוי כספי/זיכוי בשל תקלות או הפסקות בשירות. כל זכויות הקניין הרוחני וזכויות היוצרים בקשר לאתר הם של הנהלת האתר. הנהלת האתר אינה אחראית לתוכן מודעות, \"באנרים\" או לכל חומר פרסומי באתר. האחריות לכך על המפרסמים בלבד. הימצאותם של קישורים (\"לינקים\") לאתרים אחרים אינם מהווים ערובה לתכנים באתרים אלה מבחינת מהימנותם, שלמותם, או מכל בחינה אחרת. על התקנון יחול הדין הישראלי. סמכות השיפוט לגביו לבתי המשפט המוסמכים בתל אביב." %>
+						<%= label(:user, :terms_of_use_confirmed, "אני מסכים ל<a href='#' rel='popover' title='תנאי שימוש' data-content='#{terms_of_use}'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
+						<%= check_box(:user, :terms_of_use_confirmed, {}, "true", "false") -%><br />
+
+						<%= submit_tag('שלח', {:class => "btn-primary submitBtn"}) -%>
+						<% if (ENV['RAILS_ENV'] == "development") %>
+							<br /><input type="button" value="Fill From" class="btn btn-primary" onclick="fillAutoForm()" />
+						<% end %>
+					</center>
+				</div>
+
+			</div>
+		
+		<% end -%>
+
+	</div>
+
+

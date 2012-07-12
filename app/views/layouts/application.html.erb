@@ -16,46 +16,57 @@
 
     <!-- fav and touch icons -->
     <link href="images/favicon.ico" rel="shortcut icon">
-    <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
-    <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
   </head>
-  <body style="background: #ffffff url(../assets/logo.jpg) no-repeat left top;">
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-          <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="i-bar"></span>
-            <span class="i-bar"></span>
-            <span class="i-bar"></span>
-          </a>
-          <%= link_to "גברת צימר", root_url, :class => 'brand i-brand' %>
-          <div class="container nav-collapse">
-            <ul class="nav i-navbar-nav">
-                <li><%= link_to "אודותינו", "/about_us"  %></li>
-                <li><%= link_to "צור קשר", "/contact_us"  %></li>
-                <li><%= link_to "החשבון שלי", "user/cp"  %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-    <div class="container">
-        <div class="content">
-              <% [:notice, :error, :alert].each do |level| %>
-                <% unless flash[level].blank? %>
-                  <div data-alert="alert" class="alert alert-<%= flash_class(level) %> fade in">
-                    <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    <%= content_tag :p, flash[level] %>
-                  </div>
-                <% end %>
-              <% end %>
-              <div class="mainContainer">
-                <%= yield %>
+  <body>
+    <img src="../assets/global/bg.jpg" id="bg" />
+    
+    
+    <div id="content">
+          <% [:notice, :error, :alert].each do |level| %>
+            <% unless flash[level].blank? %>
+              <div data-alert="alert" class="alert alert-<%= flash_class(level) %> fade in">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                <%= content_tag :p, flash[level] %>
               </div>
-        </div>
-    </div> <!-- /container -->
+            <% end %>
+          <% end %>
+          <div class="mainContainer">
+            <img style="position:relative;display:block;margin:auto;z-index: 3" src="../assets/global/logo.png">
+            <div style="position:relative; top:-63px;left: 0; width:925px; height:30px; background: url(../assets/global/menuBg.png) no-repeat; z-index: 2">
+              <div style="float:right; width: 115px;">&nbsp;</div>
+              <div style="float:right; width: 240px; margin-top: 5px; margin-right: 28px; color: grey; cursor: pointer;" class="noLink">
+                <a style="float:right; width: 80px;">אודות</a>
+                <a style="float:right; width: 80px;">תקנון</a>
+                <a style="float:right; width: 80px;">יצירת קשר</a>
+              </div>
+              <div style="float:right; width: 245px; margin-top: 5px; margin-right: 220px; color: grey;" class="noLink">
+                
 
+
+
+              <div style="float:right; width: 245px; color: grey;" class="noLink">
+                <% if user_signed_in? -%>
+                  <div style="float:right; width: 180px;">שלום <%= current_user.first_name %>>, אין לך הודעות חדשות</div>
+                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer;"} %>
+                <% else %>
+                  <div style="float:right; width: 180px;">שלום אורח, <%= link_to "הרשם", new_user_registration_path %> או </div>
+                  <%= link_to "הכנס", new_user_session_path, {:class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer;"} %>
+                <% end %>
+              </div>
+
+
+
+
+
+
+              </div>
+
+            </div>
+            <div style="position:relative; top:-63px;left: 0; width:925px; height:380px; background: url(../assets/global/containerBg.png); z-index: 2"></div>
+            <div style="position:relative; top:-63px;left: 0; width:925px; height:30px; background: url(../assets/global/containerBottom.png) no-repeat; z-index: 2"></div>
+            <%= yield %>
+          </div>
+    </div>
     <hr>
     <footer>
         <p>&copy; גברת צימר 2012</p>
