@@ -7,7 +7,7 @@ gem "paperclip", "~> 3.0"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#gem "twitter-bootstrap-rails", "~> 2.0.3.0"
+gem "twitter-bootstrap-rails", "~> 2.0.3.0"
 #gem "r2", "~> 0.0.3"
 
 gem 'json'
