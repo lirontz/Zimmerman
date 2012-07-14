@@ -19,8 +19,6 @@
   </head>
   <body>
     <img src="../assets/global/bg.jpg" id="bg" />
-    
-    
     <div id="content">
           <% [:notice, :error, :alert].each do |level| %>
             <% unless flash[level].blank? %>
@@ -32,38 +30,28 @@
           <% end %>
           <div class="mainContainer">
             <img style="position:relative;display:block;margin:auto;z-index: 3" src="../assets/global/logo.png">
-            <div style="position:relative; top:-63px;left: 0; width:925px; height:30px; background: url(../assets/global/menuBg.png) no-repeat; z-index: 2">
-              <div style="float:right; width: 115px;">&nbsp;</div>
-              <div style="float:right; width: 240px; margin-top: 5px; margin-right: 28px; color: grey; cursor: pointer;" class="noLink">
-                <a style="float:right; width: 80px;">אודות</a>
-                <a style="float:right; width: 80px;">תקנון</a>
-                <a style="float:right; width: 80px;">יצירת קשר</a>
+            <%= link_to "", root_url, :style => 'position:relative; display: block; top: -268px;left: -361px; width: 220px; height: 260px; z-index: 3;' %>
+            <div style="position:relative; top:-323px;left: 0; width:925px; height:30px; background: url(../assets/global/menuBg.png) no-repeat; color: #656565; z-index: 2">
+              <div style="float:right; width: 105px;">&nbsp;</div>
+              <div style="float:right; width: 248px; margin-top: 8px; margin-right: 28px; cursor: pointer; font-weight: bold;" class="noLink">
+                <a style="float:right; width: 80px; text-align: center;">אודות</a>
+                <span style="float:right; font-weight: normal;">|</span>
+                <a style="float:right; width: 80px; text-align: center;">תקנון</a>
+                <span style="float:right; font-weight: normal;"">|</span>
+                <a style="float:right; width: 80px; text-align: center;">יצירת קשר</a>
               </div>
-              <div style="float:right; width: 245px; margin-top: 5px; margin-right: 220px; color: grey;" class="noLink">
-                
-
-
-
-              <div style="float:right; width: 245px; color: grey;" class="noLink">
+              <div style="float:right; width: 245px; margin-top: 8px; margin-right: 220px;" class="noLink">
                 <% if user_signed_in? -%>
-                  <div style="float:right; width: 180px;">שלום <%= current_user.first_name %>>, אין לך הודעות חדשות</div>
-                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer;"} %>
+                  <div style="float:right; width: 180px; color: #546765;">שלום <%= current_user.first_name %>, אין לך הודעות חדשות</div>
+                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565;"} %>
                 <% else %>
-                  <div style="float:right; width: 180px;">שלום אורח, <%= link_to "הרשם", new_user_registration_path %> או </div>
-                  <%= link_to "הכנס", new_user_session_path, {:class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer;"} %>
+                  <div style="float:right; width: 180px; color: #546765;">שלום אורח, <%= link_to "הרשם", new_user_registration_path, :style => "text-decoration:underline;" %> או</div>
+                  <%= link_to "הכנס", new_user_session_path, {:class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565; font-weight: bold;"} %>
                 <% end %>
               </div>
-
-
-
-
-
-
-              </div>
-
             </div>
-            <div style="position:relative; top:-63px;left: 0; width:925px; height:380px; background: url(../assets/global/containerBg.png); z-index: 2"></div>
-            <div style="position:relative; top:-63px;left: 0; width:925px; height:30px; background: url(../assets/global/containerBottom.png) no-repeat; z-index: 2"></div>
+            <div style="position:relative; top:-323px;left: 0; width:925px; height:380px; background: url(../assets/global/containerBg.png); z-index: 2"></div>
+            <div style="position:relative; top:-323px;left: 0; width:925px; height:30px; background: url(../assets/global/containerBottom.png) no-repeat; z-index: 2"></div>
             <%= yield %>
           </div>
     </div>
