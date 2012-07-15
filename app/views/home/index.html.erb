@@ -19,10 +19,17 @@
                     <a href="#one">1. בחירת סוג חדר ואזור</a>
 
                     <ul class="sub-menu">
-                      
+                      <script type="text/javascript">
+                        function goToStep(nextStepSelector) {
+                          var nextStep = $('a[href="' + nextStepSelector + '"]');
+
+                          nextStep.click();
+                        }
+                      </script>
                       <li>
                           <%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
                           <%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
+                          <%= getButton('המשך', 'goToStep(\'#two\')').html_safe -%>
                       </li>
 
                     </ul>
@@ -45,6 +52,7 @@
                           <%= label(prop, :name, prop.name, {:class => "labelDefault"}) -%>
                           <%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
                         <% end -%>
+                        <%= getButton('המשך', 'goToStep(\'#three\')').html_safe -%>
                       </li>
 
                     </ul>
@@ -65,6 +73,7 @@
                         <%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault", :autocomplete => "off"})-%>
                         <%= f.text_field(:price_from, {:placeholder => "ממחיר", :class => "elementDefault"})-%>
                         <%= f.text_field(:price_to, {:placeholder => "עד מחיר", :class => "elementDefault"})-%>
+                        <%= getButton('המשך', 'goToStep(\'#four\')').html_safe -%>
                       </li>
 
                     </ul>

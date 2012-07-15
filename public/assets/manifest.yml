@@ -1,6 +1,9 @@
 ---
 choose-file.gif: choose-file-93253a535f98ba17fdd6b87d1cae4d05.gif
 global/bg.jpg: global/bg-ddf11cb31262d851062c5077329fb6dc.jpg
+global/btnNormalBg.png: global/btnNormalBg-171c176585d58974dc6a7ea151d034a9.png
+global/btnNormalLeft.png: global/btnNormalLeft-2b24936a55ad4095059137ab33016dcc.png
+global/btnNormalRight.png: global/btnNormalRight-73cc0d54accddbf6e0cf905a8adc7ccb.png
 global/containerBg.png: global/containerBg-7332ffd94221738cabb636dcc10808bc.png
 global/containerBottom.png: global/containerBottom-c3f731af9ff4c7a2a3309cb9e3bc345b.png
 global/logo.png: global/logo-2aa5219ecbb352e362c008e171042338.png

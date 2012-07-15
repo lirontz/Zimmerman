@@ -66,8 +66,8 @@ $(document).ready(function () {
 function initForm() {
 // Store variables
 			
-			var accordion_head = $('.accordion > li > a'),
-				accordion_body = $('.accordion li > .sub-menu');
+			var accordion_head = $('.accordion > li > a');
+			var accordion_body = $('.accordion li > .sub-menu');
 
 			// Open the first tab on load
 
