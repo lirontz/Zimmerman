@@ -33,17 +33,17 @@
             <%= link_to "", root_url, :style => 'position:relative; display: block; top: -268px;left: -361px; width: 220px; height: 260px; z-index: 3;' %>
             <div style="position:relative; top:-323px;left: 0; width:925px; height:30px; background: url(../assets/global/menuBg.png) no-repeat; color: #656565; z-index: 2">
               <div style="float:right; width: 105px;">&nbsp;</div>
-              <div style="float:right; width: 248px; margin-top: 8px; margin-right: 28px; cursor: pointer; font-weight: bold;" class="noLink">
-                <a style="float:right; width: 80px; text-align: center;">אודות</a>
+              <div style="float:right; width: 248px; margin-top: 8px; margin-right: 8px; font-weight: bold;" class="noLink">
+                <%= link_to "אודות", "/about_us", :style => "float:right; width: 80px; text-align: center; color: #656565; "  %>
                 <span style="float:right; font-weight: normal;">|</span>
-                <a style="float:right; width: 80px; text-align: center;">תקנון</a>
-                <span style="float:right; font-weight: normal;"">|</span>
-                <a style="float:right; width: 80px; text-align: center;">יצירת קשר</a>
+                <a href="http://google.com" style="float:right; width: 80px; text-align: center; color: #656565; ">תקנון</a>
+                <span style="float:right; font-weight: normal;">|</span>
+                <%= link_to "יצירת קשר", "/contact_us", :style => "float:right; width: 80px; text-align: center; color: #656565; "  %>
               </div>
-              <div style="float:right; width: 245px; margin-top: 8px; margin-right: 220px;" class="noLink">
+              <div style="float:right; width: 245px; margin-top: 8px; margin-right: 240px;" class="noLink">
                 <% if user_signed_in? -%>
                   <div style="float:right; width: 180px; color: #546765;">שלום <%= current_user.first_name %>, אין לך הודעות חדשות</div>
-                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565;"} %>
+                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565; font-weight: bold;"} %>
                 <% else %>
                   <div style="float:right; width: 180px; color: #546765;">שלום אורח, <%= link_to "הרשם", new_user_registration_path, :style => "text-decoration:underline;" %> או</div>
                   <%= link_to "הכנס", new_user_session_path, {:class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565; font-weight: bold;"} %>
