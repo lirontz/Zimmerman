@@ -67,19 +67,15 @@ input:-moz-placeholder {
 	color: #08C;
 }
 
-
-
-
-
 .accordionSperator {
 	font-family: Times New Roman;
 	font-size: 14px;
 	font-weight: normal;
 }
 
-
-
-
+.confrmationFormLine {
+	height: 10px;
+}
 /* *********************************************************************************************
 Accordion
 

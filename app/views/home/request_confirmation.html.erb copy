@@ -1,0 +1,46 @@
+<script type="text/javascript">
+</script>
+<div style="height: 550px; ">
+	<div style="float: right;">
+		<h1>תודה לך על פנייתך</h1>
+		<p><%= @request.user.first_name -%>, נמצאו <%= @sites_counter -%> אתרים העונים על בקשתך, ב-24 השעות הקרובות יישלחו אלייך כל ההצעות הרלוונטיות!</p>
+		<div style="width: 250px; background-color: lightblue; padding-right: 40px;">
+			<br />
+			<p>פרטי הבקשה:</p>
+			<ul>
+				<li>אזור:&nbsp;<%= @request.region.name -%></li>
+				<li>סוג:&nbsp;<%= @request.room_type.name -%></li>
+				<li>תאריך:&nbsp;<%= @request.start_date.strftime('%d/%m/%Y') -%> - <%= @request.end_date.strftime('%d/%m/%Y') -%></li>
+				<li>מספר יחידות:&nbsp;<%= @request.how_many_rooms -%></li>
+				<li>מאפיינים:&nbsp;
+					<ul style="margin: 0; padding-right: 20px;">
+						<% if @request.room_properties.nil? || @request.room_properties.empty? %>
+							לא נבחרו מאפייני חיפוש.
+						<% else %>
+							<% @request.room_properties.each do |prop| %>
+								<li><%= prop.name -%></li>
+							<% end -%>
+						<% end -%>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div style="background-color: lightblue; float: right; width: 300px; height: 500px; margin-right: 150px; margin-top: 40px;">
+		<h3 style="width: 100%; text-align: center;">הטיפים שלנו</h3>
+		<!-- Yahoo! Weather Badge  
+		<iframe allowtransparency="true" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" src="http://weather.yahoo.com/badge/?ip=yes&u=c&t=trans&l=horizontal" height="155px" width="278px"></iframe>
+		<noscript>
+				<a href="http://weather.yahoo.com">Yahoo! Weather</a>
+		</noscript>
+		Yahoo! Weather Badge  -->
+
+		<!-- Yahoo! Weather Badge  -->
+		<iframe allowtransparency="true" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" style="padding-right: 13px;" src="http://weather.yahoo.com/badge/?q=telaviv&u=c&t=trans&l=horizontal" height="155px" width="278px"></iframe>
+		<noscript>
+			<a href="http://weather.yahoo.com">Yahoo! Weather</a>
+		</noscript>
+		<!-- Yahoo! Weather Badge  -->
+
+	</div>
+</div>
