@@ -8,9 +8,8 @@
             <div style="position:relative; top:-975px;left: -15px; width:79px; height:36px; background: url(../assets/global/signature.png) no-repeat; z-index: 3"></div>
             
             <%= render(:partial => 'shared/error_messages', :locals => {:object => @request}) -%>
-            <%= form_for(@request, :url => {:action => "create"}, :html => { :onsubmit => "return validateRequestForm(this);" }) do |f| -%>
+            <%= form_for(@request, :url => {:action => "create"}, :html => { :style => "position:relative; top:-1310px;left: -500px; width:400px; height:345px; z-index: 3;", :onsubmit => "return validateRequestForm(this);" }) do |f| -%>
 
-              <div id="form" style="position:relative; top:-1310px;left: -500px; width:400px; height:345px; z-index: 3;">
 
                 <ul class="accordion">
                   <div class="accordionSperator">------------------------------------------------------------------------</div>
@@ -116,7 +115,6 @@
                     <% end %>
                   </center>
                 </div>
-              </div><!-- End form -->
 
               <% if user_signed_in? %>
                 <%= f.hidden_field(:user_id, :value => current_user.id) %>
