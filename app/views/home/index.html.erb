@@ -28,6 +28,7 @@
                       <li>
                           <%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
                           <%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
+                          <br /><br />
                           <%= getButton('המשך', 'goToStep(\'#two\')').html_safe -%>
                       </li>
 
@@ -51,6 +52,7 @@
                           <%= label(prop, :name, prop.name, {:class => "labelDefault"}) -%>
                           <%= check_box("room_porperty_request", "list", {:multiple => true}, prop.id, nil) -%>
                         <% end -%>
+                        <br /><br />
                         <%= getButton('המשך', 'goToStep(\'#three\')').html_safe -%>
                       </li>
 
@@ -67,11 +69,12 @@
                     <ul class="sub-menu">
                       
                       <li>
-                        <%= f.text_field(:how_many_rooms, {:placeholder => "מספר יחידות", :class => "elementDefault"})-%>
+                        <%= f.text_field(:how_many_rooms, {:placeholder => "מספר יחידות", :class => "elementDefault"})-%><br /><br />
                         <%= f.text_field(:start_date, {:read_only => true, :value => "מתאריך", :class => "elementDefault", :autocomplete => "off"})-%>
-                        <%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault", :autocomplete => "off"})-%>
+                        <%= f.text_field(:end_date, {:read_only => true, :value => "עד תאריך", :class => "elementDefault", :autocomplete => "off"})-%><br /><br />
                         <%= f.text_field(:price_from, {:placeholder => "ממחיר", :class => "elementDefault"})-%>
                         <%= f.text_field(:price_to, {:placeholder => "עד מחיר", :class => "elementDefault"})-%>
+                        <br /><br />
                         <%= getButton('המשך', 'goToStep(\'#four\')').html_safe -%>
                       </li>
 
@@ -88,10 +91,10 @@
                     <ul class="sub-menu">
                       
                       <li>
-                        <%= email_field(:user, :email, {:placeholder => "דוא\"ל", :class => "elementDefault elementWide"} ) %>
+                        <%= email_field(:user, :email, {:placeholder => "דוא\"ל", :class => "elementDefault elementWide"} ) %><br /><br />
                         <%= text_field(:user, :first_name, {:placeholder => "שם פרטי", :class => "elementDefault elementWide"} ) %>
-                        <%= text_field(:user, :last_name, {:placeholder => "שם משפחה", :class => "elementDefault elementWide"} ) %>
-                        <%= text_field(:user, :phone, {:placeholder => "טלפון", :class => "elementDefault elementWide"} ) %>
+                        <%= text_field(:user, :last_name, {:placeholder => "שם משפחה", :class => "elementDefault elementWide"} ) %><br /><br />
+                        <%= text_field(:user, :phone, {:placeholder => "טלפון", :class => "elementDefault elementWide"} ) %><br /><br />
                         <%= label(:user, :sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
                         <%= check_box(:user, :sms_enabled, {}, "true", "false") -%>
                       </li>

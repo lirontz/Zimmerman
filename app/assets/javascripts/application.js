@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require supersized.3.2.7.min
 //= require_tree ./jquery-ui-1.8.18.custom
 
 /*
