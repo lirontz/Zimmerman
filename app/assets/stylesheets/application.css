@@ -59,14 +59,6 @@ body {
 	/*border: 1px solid black;*/
 }
 
-input::-webkit-input-placeholder {
-	color: #08C;
-}
-
-input:-moz-placeholder {
-	color: #08C;
-}
-
 .accordionSperator {
 	font-family: Times New Roman;
 	font-size: 14px;
@@ -77,7 +69,7 @@ input:-moz-placeholder {
 	height: 10px;
 }
 
-input[type=text], input[type=password], input[type=email], select {
+.g input[type=text], .g input[type=password], .g input[type=email], .g select {
     height: 24px;
     padding-left: 10px;
     text-decoration: none;
@@ -88,20 +80,76 @@ input[type=text], input[type=password], input[type=email], select {
     border: 1px solid #8fc0c7;
 }
 
-.transparent {
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	-moz-opacity:0.5;
-	-khtml-opacity: 0.5;
-	opacity: 0.9;
+input::-webkit-input-placeholder {
+	color: #888;
 }
 
-hr {
+input:-moz-placeholder {
+	color: #888;
+}
+
+input[type=text], input[type=password], input[type=email] {
+	padding: 4px 8px 4px 25px;
+	overflow: hidden;
+	white-space: nowrap;
+	font: 100% arial,sans-serif;
+	border: 1px solid #D7D7D7;
+	color: #888;
+	margin: 0;
+	outline: none;
+	background: white;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.transparent {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+	filter: alpha(opacity=20);
+	-moz-opacity:0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.8;
+}
+
+.hr {
     width: 100%;
     border: 0;
     height: 0;
     border-top: 1px solid #656565;
 }
+
+a.btn {
+	color: #7D7D7D;
+	float: left;
+	font-size: 10px;
+	font-weight: bold;
+	height: 27px;
+	line-height: 29px;
+	margin: 10px 0;
+	text-align: center;
+	display: block;
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 0 15px;
+	background: #FAFAFA;
+	background-image: -webkit-linear-gradient(top, white 30%, #DEDEDE 100%);
+	-moz-box-shadow: 0 1px 5px #999999;
+	-ms-border-radius: 5px;
+	box-shadow: 0 1px 5px #999;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+a.btn:hover {
+	background-color: #000;
+	display: none;
+}
+
+.btn a:active {
+	background-color: #888;
+	display: none;
+} 
 
 /* *********************************************************************************************
 Accordion

@@ -1,23 +1,19 @@
-<h2>הכנס</h2><br />
-
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+<div style="position:relative; top:-700px;left: -15px; width:400px; height:155px; z-index: 3; font-size: 13px; color: #545559">
+  <p><b>בעל צימר? הכנס</b></p>
+  <p>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   
-  <br />
-  
-  <a rel="tooltip" title="דוא''ל">
-    <%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
-  </a><br />
+      <%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
+      <%= f.password_field(:password, {:placeholder => "סיסמא", :class => "elementDefault"}) %>
 
-  <a rel="tooltip" title="סיסמא">
-    <%= f.password_field(:password, {:placeholder => "סיסמא", :class => "elementDefault"}) %>
-  </a><br />
+      <% if devise_mapping.rememberable? -%>
+        <%= f.check_box :remember_me %>
+        <%= f.label "זכור אותי" %>
+      <% end -%>
 
-  <% if devise_mapping.rememberable? -%>
-    <%= f.check_box :remember_me %>
-    <%= f.label "זכור אותי" %>
-  <% end -%>
+      <%= f.submit('הכנס', {:class => "btn-primary submitBtn"}) -%>
+    <% end %>
 
-  <%= f.submit('הכנס', {:class => "btn-primary submitBtn"}) -%>
-<% end %>
-
-<%= render "links" %>
+    <%= render "links" %>
+  </p>
+</div>
