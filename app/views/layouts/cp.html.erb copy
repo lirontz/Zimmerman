@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>גברת צימר</title>
+<%= csrf_meta_tags %>
+<%= stylesheet_link_tag "admin", :media => "all" %>
+</head>
+
+<body onload="displayTab('main', 'content-a');">
+<div id="container">
+  <div id="topMenu">
+      <ul>
+        <li><a href="#">גברת צימר</a></li>
+        <li><a href="#">החשבון שלי</a></li>
+        <li><a href="#">צור קשר</a></li>
+        <li><a href="#">אודותינו</a></li>
+      </ul>
+    </div>
+    <div id="mainMenu">
+      <div id="leftMenuMain"><%= link_to "התנתק", destroy_user_session_path, :method => :delete, :class => "logout" %><div class="register">רשום כ: <%= current_user.email %></div></div>
+      <div id="rightMenuMain">
+        <ul>
+            <li><a href="#">אתר</a></li>
+            <li><a href="#">ערוך תוכן</a></li>
+            <li><a href="#">בקשות</a></li>
+            <li><a href="#">ראשי</a></li>
+          </ul>
+        </div>
+    </div>
+    <%= yield %>
+    <%= javascript_include_tag "application" %>
+    
+</body>
+</html>

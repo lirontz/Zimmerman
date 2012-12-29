@@ -1,447 +1,227 @@
-<div class="user_nav">
-  <% if site_owner_signed_in? %>
-    רשום כ - <%= current_site_owner.email %>. לא אתה?
-    <%= link_to "צא", destroy_site_owner_session_path, :method => :delete %>
-  <% else %>
-    <%= link_to "הרשם", new_site_owner_registration_path %> או <%= link_to "הכנס", new_site_owner_session_path %>
-  <% end %>
-</div>
+    <div id="main">
+    
+	<!------------------------------------>
 
-<div class="welcomeContainer">
-	<h1>ברוך הבא</h1>
-	<p>לשולחן העבודה שלך!</p>
-</div>
-
-<br />
-<br />
-
-<ul id="tab" class="nav nav-tabs">
-	<li class="<%= @main_focused %>"><a href="#home" data-toggle="tab">ראשי</a></li>
-	<li class="<%= @request_focused %>"><a href="#requests" data-toggle="tab">בקשות</a></li>
-	<li class="<%= @update_focused %>"><a href="#siteEditor" data-toggle="tab">ערוך אתר</a></li>
-	<li><a href="#runSite" data-toggle="tab">אתר</a></li>
-	<!--li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-		<ul class="dropdown-menu">
-			<li><a href="#dropdown1" data-toggle="tab">@fat</a></li>
-			<li><a href="#dropdown2" data-toggle="tab">@mdo</a></li>
-		</ul>
-	</li-->
-</ul>
-
-<div id="myTabContent" class="tab-content">
-	<div class="tab-pane fade <%= @main_focused_active %> <%= @main_focused %>" id="home">
-		<!--iframe src="/site_owner/cp/main" class="tabFrame"></iframe-->
-			<div>בקשות פעילות (ממתין לאישורך):</div>
-			<div class="accordion" id="accordionRequestsMain">
-				<% if @pending_requests.length > 0 %>
-					<% @pending_requests.each_with_index do |request, i| -%>
-					    <div class="accordion-group">
-					      <div class="accordion-heading">
-					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequestsMain" href="#collapseMain<%= i -%>">
-					          <% user = User.find(request.user_id) %>
-					          	מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לאישור
-					        </a>
-					      </div>
-					      <div id="collapseMain<%= i -%>" class="accordion-body collapse">
-					        <div class="accordion-inner">
-					          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
-					        </div>
-							<%= form_for(@site[0], :url => {:action => "update_status_1"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
-								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
-								<%= submit_tag('דחה', {:name => "decline_request",:class => "btn-primary submitBtn"}) -%>
-							<% end %>
-					      </div>
-					    </div>
-					<% end -%>
-					<% else %>
-					<% if @site[0].id %>
-						&nbsp;&nbsp;&nbsp;&nbsp;לא התקבלו בקשות.
-					<% else %>
-						&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
-					<% end %>
-				<% end -%>
-			</div>
-			<br />
-			<div>הודעות מערכת:</div>
-			&nbsp;&nbsp;&nbsp;&nbsp;אין הודעות מערכת.
-	</div>
-
-	<div class="tab-pane fade <%= @request_focused_active %> <%= @request_focused %>" id="requests">
-		<!--iframe src="/site_owner/cp/requests" class="tabFrame"></iframe-->
-		<div class="accordion" id="accordionRequests">
-			<% if @requests.length > 0 %>
-				<% @requests.each_with_index do |request, i| -%>
-				    <div class="accordion-group">
-				      <div class="accordion-heading">
-				        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
-				          <% user = User.find(request.user_id) %>
-				          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: 
-				          <% response_status = request.responses.where({:site_id => @site[0].id})[0].status %>
-				          <% case response_status %>
-				          <% when 0 %>
-				          	ממתין לאישור
-			          	  <% when 1 %>
-			          	  	אישור נשלח ללקוח
-			          	  <% when 2 %>
-			          	  	נדחה
-			          	  <% end %>
-				        </a>
-				      </div>
-				      <div id="collapse<%= i -%>" class="accordion-body collapse">
-				        <div class="accordion-inner">
-				          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
-				        </div>
-						<% case response_status %>
-						<% when 0 %>
-							<%= form_for(@site[0], :url => {:action => "update_status_2"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
-								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
-								<%= submit_tag('דחה', {:name => "decline_request",:class => "btn-primary submitBtn"}) -%>
-							<% end %>
-						<% when 2 %>
-							<%= form_for(@site[0], :url => {:action => "update_status"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-								<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
-								<%= submit_tag('אשר', {:class => "btn-primary submitBtn"}) -%>
-							<% end %>
-						<% end -%>
-				      </div>
-				    </div>
-				<% end -%>
-			<% else %>
-				<% if @site[0].id %>
-					&nbsp;&nbsp;&nbsp;&nbsp;לא התקבלו בקשות.
-				<% else %>
-					&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
-				<% end %>
-			<% end -%>
-		</div>
-	</div>
-
-
-	<div class="tab-pane fade <%= @update_focused_active %> <%= @update_focused %>" id="siteEditor">
-		<!--iframe src="/site_owner/cp/site_editor" class="tabFrame"></iframe-->
-		<div class="tabbable tabs-right">
-		  <ul class="nav nav-tabs">
-		    <li class="active"><a href="#rA" data-toggle="tab">עריכת תוכן כללי</a></li>
-		    <li><a href="#rB" data-toggle="tab">גלריית תמונות כללי</a></li>
-		    <% @rooms.each_with_index do |room, i| -%>
-		    	<li><a href="#rC<%= i -%>" data-toggle="tab"><%= room.name -%></a></li>
-		    <% end %>
-		    <li><a href="#rD" data-toggle="tab">הוסף חדר +</a></li>
-		  </ul>
-		  <div class="tab-content">
-		    <div class="tab-pane active" id="rA">
-			<%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-				<a rel="tooltip" title="שם אתר">
-					<%= f.text_field(:name, {:placeholder => "שם אתר", :class => "elementDefault", :autocomplete => "off"})-%>
-				</a>
-				<a rel="tooltip" title="תאור כללי אודות המקום">
-					<%= f.text_area(:description, {:placeholder => "תאור כללי אודות המקום", :class => "textAreaDefault"})-%>
-				</a>
-				<a rel="tooltip" title="מה כלול באירוח">
-					<%= f.text_area(:what_included, {:placeholder => "כלול באירוח", :class => "textAreaDefault"})-%>
-				</a>
-				<div class="accordion" id="accordion2" style="width: 400px;">
-					<div class="accordion-group">
-						<div class="accordion-heading">
-							<a rel="tooltip" title="הוספת מאפייני אתר" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-								מאפייני אתר
-							</a>
-						</div>
-						<div id="collapseOne" class="accordion-body collapse">
-							<div class="accordion-inner">
-								<table id="current_room_porperty_list_table" style="width: auto; display: <% if @site[0].room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
-								   <thead>
-								      <tr>
-								        <th>
-								        	<a href="#" rel="tooltip" title="מחק הכל">
-								        		<input id="current_site_properties_select_all" type="checkbox" checked="true"/>
-								        	</a>
-								        </th>
-								        <th>תאור</th>
-								        <th>מחיר</th>
-								      </tr>
-								    </thead>
-									<tbody>
-										<% @site[0].room_properties.each_with_index do |prop, i| -%>
-											<tr id="current_room_porperty_site_list_<%= prop.id -%>_container">
-												<td>
-													<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-													<a rel="tooltip" title="מחק מאפיין">
-														<%= check_box("room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
-													</a>
-												</td>
-												<td>
-													<%= label("room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-												</td>
-												<td>
-													<% #TODO: replace all room_properties params to be fields_for %>
-													<%= text_field("room_porperty_site", "price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
-												</td>
-											</tr>
-										<% end -%>
-									</tbody>
-								</table>
-								<div style="display: <% if @site[0].room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_porperty_list_empty_container">
-									לא קיימים מאפייני אתר
-								</div>															
-								<a data-toggle="modal" href="#sitePropertiesModal" class="btn">הוסף מאפיניים +</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<a rel="tooltip" title="טלפון">
-					<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"})-%>
-				</a>
-				<a rel="tooltip" title="נייד">
-					<%= f.text_field(:mobile, {:placeholder => "נייד", :class => "elementDefault"})-%>
-				</a>
-				<a rel="tooltip" title="פקס">
-					<%= f.text_field(:fax, {:placeholder => "פקס", :class => "elementDefault"})-%>
-				</a>
-				<a rel="tooltip" title="דוא''ל">
-					<%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
-				</a>
-				<a rel="tooltip" title="שם איש קשר">
-					<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר", :class => "elementDefault"})-%>
-				</a>
-				<a rel="tooltip" title="אזור">
-					<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
-				</a>
-				<a rel="tooltip" title="עיר">
-					<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
-				</a>
-				<a rel="tooltip" title="סוג">
-					<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:class => "elementDefault"}) -%>
-				</a>
-				<a rel="tooltip" title="כתובת">
-					<%= f.text_field(:address, {:placeholder => "כתובת", :class => "elementDefault"})-%>
-				</a>
-				
-				<%= link_to "שנה סיסמא", '/site_owners/edit' %><br />
-
-				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
-				<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
-		    <% end -%>
-
-		    </div>
-		    <div class="tab-pane" id="rB">
-				<%= form_for @site[0], :url => {:action => "update"}, :html => { :multipart => true } do |f| %>
-
-					<h4>הוסף תמונות:</h4>
-
-					<%= f.fields_for :assets do |asset_fields| %>
-						<% if asset_fields.object.new_record? %>
-						<p>
-							<a rel="tooltip" title="בחר קובץ">
-								<%= asset_fields.file_field :asset %>
-							</a>
-						</p>
-						<% end %>
-					<% end %>
-
-					<h4>תמונות קיימות (סמן תמונות למחיקה):</h4>
-					<% if !@site_assets_exist %>
-						<%= f.fields_for :assets do |asset_fields| %>
-							<% unless asset_fields.object.new_record? %>
-								<div class="thumb">
-									<a rel="tooltip" title="סמן למחיקה">
-										<%= asset_fields.check_box :_destroy %>
-									</a>
-									<a rel="tooltip" title="<%= asset_fields.object.asset.name -%>">
-										<%= link_to image_tag(asset_fields.object.asset.url(:thumb)), asset_fields.object.asset.url(:large), :target => "_blank" %>
-									</a>
-								</div>	
-							<% end %>
-						<% end %>
-					<% else %>
-						לא קיימות תמונות.
-					<% end -%>
-
-				  <p><%= f.submit('שמור', {:class => "btn-primary submitBtn"})  %></p>
-				<% end %>
-		    </div>
-		    <script type="text/javascript">
-		    	var roomRoomPropertiesSite = [];
-		    </script>
-		    <% @rooms.each_with_index do |room, i| -%>
-			    <div class="tab-pane" id="rC<%= i -%>">
-					<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-						<a rel="tooltip" title="שם חדר">
-							<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
-						</a>
-						<a rel="tooltip" title="תאור כללי אודות המקום">
-							<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
-						</a>
-						<a rel="tooltip" title="מחיר">
-							<%= f.text_field(:price, {:placeholder => "מחיר", :class => "elementDefault", :autocomplete => "off"})-%>
-						</a>
-						<table id="current_room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if room.room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
-						   <thead>
-						      <tr>
-						        <th>
-						        	<a href="#" rel="tooltip" title="מחק הכל">
-						        		<input id="current_room_<%= room.id -%>_properties_select_all" type="checkbox" checked="true"/>
-						        	</a>
-						        </th>
-						        <th>תאור</th>
-						        <th>מחיר</th>
-						      </tr>
-						    </thead>
-							<tbody>
-								<% room.room_properties.each_with_index do |prop, j| -%>
-									<tr id="current_room_<%= room.id -%>_room_porperty_site_list_<%= prop.id -%>_container">
-										<td>
-											<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
-											<a rel="tooltip" title="מחק מאפיין">
-												<%= check_box("room_#{room.id}_room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
-											</a>
-										</td>
-										<td>
-											<%= label("room_#{room.id}_room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-										</td>
-										<td>
-											<% #TODO: replace all room_properties params to be fields_for %>
-											<%= text_field("room_#{room.id}_room_porperty_site", "room_#{room.id}_price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
-										</td>
-									</tr>
-								<% end -%>
-							</tbody>
-						</table>
-						<div style="display: <% if room.room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_<%= room.id -%>_room_porperty_list_empty_container">
-							לא קיימים מאפייני אתר
-						</div>
-						<a data-toggle="modal" href="#room<%= room.id -%>PropertiesModal" class="btn">הוסף מאפיניים +</a>
-						<%= f.hidden_field(:id, :value => room.id) %>
-						<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
-						<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary submitBtn"}) -%>
-						
-						<script type="text/javascript">
-							roomRoomPropertiesSite.push(["room_<%= room.id -%>_properties_select_all", "room_<%= room.id -%>_room_porperty_site", "room_<%= room.id -%>_room_porperty_list"]);
-						</script>
-			    	<% end -%>
-			    </div>
-
-				<div id="room<%= room.id -%>PropertiesModal" class="modal fade">
-					<div class="modal-header">
-					  <a class="close" data-dismiss="modal" >&times;</a>
-					  <h3>&nbsp;הוספת מאפיינים</h3>
-					</div>
-					<div class="modal-body">
-						<table id="room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if eval("@room#{room.id}_room_properties").length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
-						   <thead>
-						      <tr>
-						        <th>
-						        	<a href="#" rel="tooltip" title="הוסף הכל">
-						        		<input id="room_<%= room.id -%>_properties_select_all" type="checkbox" />
-					        		</a>
-						        </th>
-						        <th>תאור</th>
-						      </tr>
-						    </thead>
-							<tbody>
-								<% eval("@room#{room.id}_room_properties").each do |prop| %>
-										<tr id="room_<%= room.id -%>_room_porperty_list_<%= prop.id -%>_container">
+		<div id="content-a">
+			<h2>עריכת תוכן כללי</h2>
+            <%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "getNewUserProperties('propertiesList', 'userNewProp'); validateForm(this); return false;" }) do |f| -%>
+	            <div id="leftForm">
+					<a rel="tooltip" title="תאור כללי אודות המקום">
+						<%= f.text_area(:description, {:placeholder => "תאור כללי אודות המקום"})-%>
+					</a>
+	                <a rel="tooltip" title="מה כלול באירוח">
+						<%= f.text_area(:what_included, {:placeholder => "כלול באירוח"})-%>
+					</a>
+		            <div id="propertiesContainer">
+		                <h2>עריכת מאפיינים</h2>
+		                <p>בחר מתוך רשימת המאפיינים הקיימת.<br /> ניתן להוסיף מאפיינים שאינם קיימים ברשימה.</p>
+		            	<div id="properties" >
+							<ul id="propertiesList">
+								<li><input type="checkbox" name="properties"  value="airCondition"/><span class="propertyTitle">מזגן</span></li>
+			                    <li><input type="checkbox" name="properties"  value="pool"/><span class="propertyTitle">בריכה</span></li>
+			                    <li><input type="checkbox" name="properties"  value="BabiesBed"/><span class="propertyTitle">מיטת תינוק</span></li>
+			                    <li><input type="checkbox" name="properties"  value="parking"/><span class="propertyTitle">חניה</span></li>
+								<% @site_room_properties.each do |prop| %>
+										
+										<tr id="room_porperty_list_<%= prop.id -%>_container">
 											<td>
 												<a rel="tooltip" title="מחק מאפיין">
-													<%= check_box("room_#{room.id}_room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+													<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
 												</a>
 											</td>
 											<td>
-												<%= label("room_#{room.id}_room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+												<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
 											</td>
 										</tr>
 								<% end -%>
-							</tbody>
-						</table>
-						<div style="display: <% if eval("@room#{room.id}_room_properties").length > 0 %>   <% else -%> none <% end -%>;" id="room<%= i -%>_room_porperty_list_empty_container">
-							לא קיימים מאפייני אתר נוספים.
-						</div>
-					</div>
-					<div class="modal-footer">
-					  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
-					  <input type="button" onclick="addSiteProperties('room<%= room.id -%>PropertiesModal', 'room_<%= room.id -%>_properties_select_all', 'room_<%= room.id -%>_room_porperty_list');" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
-					  
-					</div>
-				</div>
-
-			<% end %>
-
-		    <div class="tab-pane" id="rD">
-		      	<%= form_for(:room, :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
-			      	<a rel="tooltip" title="שם חדר">
-						<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
+			                </ul>
+		            	</div>
+	                	<input type="text" name="newProperty" id="newProperty" placeholder="הוספת מאפיין חדש" style="width:180px;" onkeydown="if (event.keyCode == 13 ) {
+	                         if(this.value.length >0){ 
+	                            addNewProperty('newProperty', 'propertiesList'); 
+	                        }
+	                        return (false);
+	                    }"
+	                	/>
+		                <input type="button" value="הוספה" onclick="addNewProperty('newProperty', 'propertiesList');" />
+		                <input type="hidden" name="userNewProp"  id="userNewProp"  />
+		            </div>
+		            <p class="changePassword"><%= link_to ">> שנה סיסמא", '/site_owners/edit'%></p>
+		           	<%= submit_tag('שמור', {:class => "topMargin"}) -%>
+	            </div>	
+	            <div id="rightForm">
+	            	<a rel="tooltip" title="שם אתר">
+						<%= f.text_field(:name, {:placeholder => "שם אתר", :autocomplete => "off"})-%>
 					</a>
-			      	<a rel="tooltip" title="תאור כללי אודות החדר">
-						<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
+					<a rel="tooltip" title="טלפון">
+						<%= f.text_field(:phone, {:placeholder => "טלפון"})-%>
 					</a>
-					<%= f.hidden_field(:site_id, :value => @site[0].id) %>
-					<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
-				<% end %>
-		    </div>
-
-		  </div>
+					<a rel="tooltip" title="נייד">
+						<%= f.text_field(:mobile, {:placeholder => "נייד"})-%>
+					</a>
+					<a rel="tooltip" title="פקס">
+						<%= f.text_field(:fax, {:placeholder => "פקס"})-%>
+					</a>
+					<a rel="tooltip" title="מייל">
+						<%= f.text_field(:email, {:placeholder => "מייל"})-%>
+					</a>
+					<a rel="tooltip" title="שם איש קשר">
+						<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר"})-%>
+					</a>
+					<a rel="tooltip" title="אזור">
+						<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }) -%>
+					</a>
+					<a rel="tooltip" title="עיר">
+						<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }) -%>
+					</a>
+					<a rel="tooltip" title="סוג">
+						<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }) -%>
+					</a>
+					<a rel="tooltip" title="כתובת">
+						<%= f.text_field(:address, {:placeholder => "כתובת"})-%>
+					</a>
+	            	<input type="text" name="mapLink" placeholder="קישור למפה בגוגל"  />
+	            	<input type="text" name="email" placeholder="קישור לאתר"  /> 
+	            </div>
+	            
+	            <div class="clearFloats"></div>
+				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+		    <% end -%>
 		</div>
-	</div>
-	
-	<div class="tab-pane fade" id="runSite">
 		
-		<% if @site[0].id %>
-			<%= link_to "צפה באתרך", {:controller => 'site_owner/site', :id => @site[0].id}, :class => "btn btn-primary", :target => "_blank" -%>
-		<% else %>
-			&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
-		<% end -%>
-	</div>
-
-	<!--div class="tab-pane fade" id="dropdown1">
-		<p>dropdown1</p>
-	</div>
-	<div class="tab-pane fade" id="dropdown2">
-		<p>dropdown2</p>
-	</div-->
-</div>
-
-<div id="sitePropertiesModal" class="modal fade">
-	<div class="modal-header">
-	  <a class="close" data-dismiss="modal" >&times;</a>
-	  <h3>&nbsp;הוספת מאפיינים</h3>
-	</div>
-	<div class="modal-body">
-		<table id="room_porperty_list_table" style="width: auto; display: <% if @site_room_properties.length > 0 %>  <% else -%> none  <% end -%>;" class="table table-bordered table-striped">
-		   <thead>
-		      <tr>
-		        <th>
-		        	<a href="#" rel="tooltip" title="הוסף הכל">
-		        		<input id="site_properties_select_all" type="checkbox" />
-	        		</a>
-		        </th>
-		        <th>תאור</th>
-		      </tr>
-		    </thead>
-			<tbody>
-				<% @site_room_properties.each do |prop| %>
-						<tr id="room_porperty_list_<%= prop.id -%>_container">
-							<td>
-								<a rel="tooltip" title="מחק מאפיין">
-									<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
-								</a>
-							</td>
-							<td>
-								<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
-							</td>
-						</tr>
-				<% end -%>
-			</tbody>
-		</table>
-		<div style="display: <% if @site_room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="room_porperty_list_empty_container">
-			לא קיימים מאפייני אתר נוספים.
+        <div id="content-b">
+        	<h2>תמחור תוספות</h2>
+			<div id="extrasPricingContainer">
+            <form action="http://yanga.getmyip.com/sms/indexDev.asp" method="post" onsubmit="getNewUserExtras('extrasList', 'userNewExtras'); validateForm(this); return false;">
+            
+            
+            	<ul id="extrasList">
+                    	<li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p1"  class="extraTitle"/><input type="text" value="100" name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p2"  class="extraTitle"/><input type="text" value="200"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p3"  class="extraTitle"/><input type="text" value="300"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p4"  class="extraTitle"/><input type="text" value="400"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+                </ul>
+                        
+           </div>
+           <span id="newExtraContainer">
+           		<input type="text" value="p5"  class="extraTitle" id="newExtraTitle"/>
+                <input type="text" value="500"  class="extraPrice" id="newExtraPrice" />
+           		<input type="button" value="הוספה" onclick="addNewExtra('newExtraTitle', 'newExtraPrice', 'extrasList');" />
+                <input type="hidden" name="userNewExtras"  id="userNewExtras"  />  
+           </span>
+           <span id="saveChanges"><input type="submit" value="שמור שינויים"  /></span>
+            </form>
 		</div>
-	</div>
-	<div class="modal-footer">
-	  <a href="#" class="btn" data-dismiss="modal" style="float: left;">בטל</a>
-	  <input type="button" onclick="addSiteProperties('sitePropertiesModal', 'site_properties_select_all', 'room_porperty_list');" class="btn btn-primary" style="float: left;" value="הוסף מאפיינים">
-	  
-	</div>
+        
+        
+         <!------------------------------------>
+		<div id="content-c">
+			<h2>הוספת תמונות</h2>
+          <div id="uploadContainer">  
+              <ul id="imagesList">
+              		<li>
+                      <div class="imageContainer">
+                            <div class="imageData">
+                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+                                    <br />
+                                    <br />
+                                  <input type="file" name="imageSrc" id="imageSrc"  />
+                                  <input type="button" value="מחיקה"  class="deleteButton" />
+                            </div>
+                            <div class="imagePreview"></div>
+                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
+                        </div>
+                	</li>
+                    
+                    
+                    <li>
+                      <div class="imageContainer">
+                            <div class="imageData">
+                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+                                    <br />
+                                    <br />
+                                  <input type="file" name="imageSrc" id="imageSrc"  />
+                                  <input type="button" value="מחיקה"  class="deleteButton" />
+                            </div>
+                            <div class="imagePreview"></div>
+                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
+                        </div>
+                	</li>
+                    
+                    
+                    <li>
+                      <div class="imageContainer">
+                            <div class="imageData">
+                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+                                    <br />
+                                    <br />
+                                  <input type="file" name="imageSrc" id="imageSrc"  />
+                                  <input type="button" value="מחיקה"  class="deleteButton" />
+                            </div>
+                            <div class="imagePreview"></div>
+                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
+                        </div>
+                	</li>
+                    
+                    
+                    <li>
+                      <div class="imageContainer">
+                            <div class="imageData">
+                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+                                    <br />
+                                    <br />
+                                  <input type="file" name="imageSrc" id="imageSrc"  />
+                                  <input type="button" value="מחיקה"  class="deleteButton" />
+                            </div>
+                            <div class="imagePreview"></div>
+                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
+                        </div>
+                	</li>
+                    
+                    
+                    <li>
+                      <div class="imageContainer">
+                            <div class="imageData">
+                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+                                    <br />
+                                    <br />
+                                  <input type="file" name="imageSrc" id="imageSrc"  />
+                                  <input type="button" value="מחיקה"  class="deleteButton" />
+                            </div>
+                            <div class="imagePreview"></div>
+                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
+                        </div>
+                	</li>
+               </ul>
+            </div>
+            
+          <div id="uploadActions">
+            	<input type="button" value="הוספת תמונה " onclick="addNewImage('imagesList');" />
+                <input type="button" value="שמירה" class="floatButtonLeft"/>
+                
+            </div>
+             
+		</div>
+         <!------------------------------------>
+	
+    
+    <!------------------------------------>
+    </div>
+    <div id="separator"></div>
+    <div id="rightBar"><br /><br />
+        <h1>    שלום <%=  current_site_owner.first_name -%>,<br />
+        ברוך הבא לשולחן העבודה שלך</h1>
+        <p>
+        אני מאמינה שכבר יצא לכם לעבור את התהליך המתיש של חיפוש צימר בעבר.
+        שיטוט בין אתרי צימרים עמוסים, פניות לבעלי צימרים רבים, טלפונים, מיילים, השוואת מחירים, השוואת מאפיינים, תיאום תאריכים.... בקיצור, מעייף!</p>
+        
+    </div>
+    <div id="rightMenu">
+        <ul>
+            <li><a onclick="displayTab('main', 'content-a')" id="link-content-a">עריכת תוכן כללי</a></li>
+            <li><a onclick="displayTab('main', 'content-b')" id="link-content-b">תמחור תוספות</a></li>
+            <li><a onclick="displayTab('main', 'content-c')" id="link-content-c">גלרית תמונות כללית</a></li>
+        </ul>
+    </div>
+    <div class="clearFloats"></div>
 </div>

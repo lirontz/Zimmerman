@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class SiteOwner::CpController < ApplicationController
+  layout "cp"
   before_filter :authenticate_site_owner!
 
   RESPONSE_STATUSES = {
@@ -10,6 +11,7 @@ class SiteOwner::CpController < ApplicationController
   }
 
   def index
+  	@user = current_user
 	@main_focused= "active"
 	@main_focused_active = "in"
   	init_flash

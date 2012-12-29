@@ -1,0 +1,107 @@
+<div class="user_nav">
+  <% if user_signed_in? %>
+    רשום כ - <%= current_user.email %>. לא אתה?
+    <%= link_to "צא", destroy_user_session_path, :method => :delete %>
+  <% else %>
+    <%= link_to "הרשם", new_user_registration_path %> או <%= link_to "הכנס", new_user_session_path %>
+  <% end %>
+</div>
+
+<div class="welcomeContainer">
+	<h1>ברוך הבא</h1>
+	<p>לשולחן העבודה שלך!</p>
+</div>
+
+<br />
+<br />
+
+<ul id="tab" class="nav nav-tabs">
+	<li class="<%= @main_focused %>"><a href="#home" data-toggle="tab">ראשי</a></li>
+	<li class="<%= @request_focused %>"><a href="#requests" data-toggle="tab">בקשות</a></li>
+	<li class="<%= @user_details_focused %>"><a href="#user_details" data-toggle="tab">פרטים אישיים</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade <%= @main_focused_active %> <%= @main_focused %>" id="home">
+			<div>בקשות אחרונות:</div>
+			<div class="accordion" id="accordionRequestsMain">
+				<% if @requests.length > 0 %>
+					<% @requests.each_with_index do |request, i| -%>
+					    <div class="accordion-group">
+					      <div class="accordion-heading">
+					        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequestsMain" href="#collapseMain<%= i -%>">
+					          <% user = User.find(request.user_id) %>
+					          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+					        </a>
+					      </div>
+					      <div id="collapseMain<%= i -%>" class="accordion-body collapse">
+					        <div class="accordion-inner">
+					          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
+					        </div>
+					      </div>
+					    </div>
+					<% end -%>
+				<% else %>
+				<% end -%>
+			</div>
+			<br />
+			<div>הודעות מערכת:</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;אין הודעות מערכת.
+	</div>
+
+	<div class="tab-pane fade <%= @request_focused_active %> <%= @request_focused %>" id="requests">
+		<!--iframe src="/site_owner/cp/requests" class="tabFrame"></iframe-->
+		<div class="accordion" id="accordionRequests">
+			<% if @requests.length > 0 %>
+				<% @requests.each_with_index do |request, i| -%>
+				    <div class="accordion-group">
+				      <div class="accordion-heading">
+				        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRequests" href="#collapse<%= i -%>">
+				          <% user = User.find(request.user_id) %>
+				          מספר בקשה: <%= request.id %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;נוצר ב- <%= request.created_at.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;שם משתמש: <%= user.first_name + " " + user.last_name  -%>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;בקשה לתאריכים: <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;סטטוס: ממתין לתגובה
+				        </a>
+				      </div>
+				      <div id="collapse<%= i -%>" class="accordion-body collapse">
+				        <div class="accordion-inner">
+				          בקשה ל- <%= request.how_many_rooms -%> יחידות דיור, טווח מחירים: ₪<%= request.price_from -%> - ₪<%= request.price_to -%>
+				        </div>
+				      </div>
+				    </div>
+				<% end -%>
+			<% else %>
+			<% end -%>
+		</div>
+	</div>
+
+	<div class="tab-pane fade <%= @user_details_focused_active %> <%= @user_details_focused %>" id="user_details">
+		<%= form_for(current_user, :url => {:action => "user_details_update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+			<a rel="tooltip" title="שם פרטי">
+				<%= f.text_field(:first_name, {:placeholder => "שם פרטי", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="שם משפחה">
+				<%= f.text_field(:last_name, {:placeholder => "שם משפחה", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="דוא'ל">
+				<%= f.text_field(:email, {:placeholder => "דוא'ל", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="טלפון">
+				<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="יום הולדת">
+				<%= f.text_field(:birthday, {:placeholder => "יום הולדת", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="יום הולדת של בן הזוג">
+				<%= f.text_field(:partner_birthday, {:placeholder => "יום הולדת של בן הזוג", :class => "elementDefault"})-%>
+			</a>
+			<a rel="tooltip" title="מין">
+				<%= f.text_field(:gender, {:placeholder => "מין", :class => "elementDefault"})-%>
+			</a>
+			<%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
+			<%= f.check_box(:sms_enabled, {}, "true", "false") -%>
+
+			<%= link_to "שנה סיסמא", '/users/edit' %><br />
+
+			<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
+		<% end -%>
+	</div>
+</div>

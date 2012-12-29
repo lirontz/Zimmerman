@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class User::CpController < ApplicationController
+  layout "cp"
   before_filter :authenticate_user!
 
   def index
