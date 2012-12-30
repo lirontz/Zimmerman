@@ -70,4 +70,7 @@ Zimmerman::Application.configure do
 
   config.action_mailer.asset_host = "http://gzimmer.com"
 
+
+  config.assets.compile = true
+
 end
