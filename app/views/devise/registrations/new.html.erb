@@ -1,25 +1,25 @@
-<div style="position:relative; top:-700px;left: -15px; width:400px; height:155px; z-index: 3; font-size: 13px; color: #545559">
-  <p><b>הרשם</b></p>
-  <p>
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :onsubmit => "return validateNewUserForm(this);" }) do |f| %>
-  <%= devise_error_messages! %>
-<%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
-<%= f.text_field(:first_name, {:placeholder => "שם פרטי", :class => "elementDefault"})-%>
-<%= f.text_field(:last_name, {:placeholder => "שם משפחה", :class => "elementDefault"})-%>
-<%= f.password_field(:password, {:placeholder => 'סיסמא', :class => "elementDefault"} ) %>
-<%= f.password_field(:password_confirmation, {:placeholder => 'אימות סיסמא', :class => "elementDefault"} ) %>
-<%= f.text_field(:phone, {:placeholder => "טלפון", :class => "elementDefault"} ) %>
-  <%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:", {:class => "labelDefault"}) -%>
-  <%= f.check_box(:sms_enabled, {}, "true", "false") -%>
+<div id="main">
+  <div id="from">
+    <p><b>הרשם</b></p>
+    <p>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :onsubmit => "return validateNewUserForm(this);" }) do |f| %>
+        <%= devise_error_messages! %>
+        <%= f.text_field(:email, {:placeholder => "דוא\"ל"})-%>
+        <%= f.text_field(:first_name, {:placeholder => "שם פרטי"})-%>
+        <%= f.text_field(:last_name, {:placeholder => "שם משפחה"})-%>
+        <%= f.password_field(:password, {:placeholder => 'סיסמא'} ) %>
+        <%= f.password_field(:password_confirmation, {:placeholder => 'אימות סיסמא'} ) %>
+        <%= f.text_field(:phone, {:placeholder => "טלפון"} ) %>
+        <%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:",) -%>
+        <%= f.check_box(:sms_enabled, {}, "true", "false") -%>
 
-  <center>
-    <%= f.label(:terms_of_use_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe, {:class => "labelDefault"}) -%>
-    <%= f.check_box(:terms_of_use_confirmed, {}, "true", "false") -%><br />
-
-    <%= f.submit('הרשם', {:class => "btn-primary submitBtn"}) -%>
-  </center>
-
-  <% end %>
-  <%= render "links" %>
-  </p>
+        <center>
+          <%= f.label(:terms_of_use_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe) -%>
+          <%= f.check_box(:terms_of_use_confirmed, {}, "true", "false") -%><br />
+          <%= f.submit('הרשם') -%>
+        </center>
+      <% end %>
+      <%= render "links" %>
+    </p>
+  </div>
 </div>

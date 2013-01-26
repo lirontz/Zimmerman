@@ -11,20 +11,22 @@
 <div id="container">
   <div id="topMenu">
       <ul>
-        <li><a href="#">גברת צימר</a></li>
-        <li><a href="#">החשבון שלי</a></li>
-        <li><a href="#">צור קשר</a></li>
-        <li><a href="#">אודותינו</a></li>
+        <li><%= link_to "גברת צימר", root_url %></li>
+        <% if current_user -%>
+          <li><%= link_to "החשבון שלי", "user/cp" %></li>
+        <% end %>
+        <li><%= link_to "צור קשר", "/contact_us" %></li>
+        <li><%= link_to "אודותינו", "/about_us" %></li>
       </ul>
     </div>
     <div id="mainMenu">
       <div id="leftMenuMain"><%= link_to "התנתק", destroy_user_session_path, :method => :delete, :class => "logout" %><div class="register">רשום כ: <%= current_user ? current_user.email : current_site_owner.email %></div></div>
       <div id="rightMenuMain">
         <ul>
-            <li><a href="#">אתר</a></li>
-            <li><a href="#">ערוך תוכן</a></li>
-            <li><a href="#">בקשות</a></li>
-            <li><a href="#">ראשי</a></li>
+            <li><a onclick="displayGlobalTab('global', 'main-d')">אתר</a></li>
+            <li><a onclick="displayGlobalTab('global', 'main-c')">ערוך תוכן</a></li>
+            <li><a onclick="displayGlobalTab('global', 'main-b')">בקשות</a></li>
+            <li><a onclick="displayGlobalTab('global', 'main-a')">ראשי</a></li>
           </ul>
         </div>
     </div>
@@ -33,6 +35,7 @@
     <%= javascript_include_tag "cp_template/general" %>
     <%= javascript_include_tag "cp_template/property" %>
     <%= javascript_include_tag "cp_template/tabs" %>
+    <%= javascript_include_tag "cp_template/messages" %>
   
 </body>
 </html>

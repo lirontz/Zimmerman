@@ -1,29 +1,31 @@
-            <div style="position:relative; top:-695px;left: -419px; width:17px; height:302px; background: url(../assets/global/verticaSeparator.png) no-repeat; z-index: 3"></div>
-            <div style="position:relative; top:-1000px;left: -15px; width:400px; height:155px; z-index: 3; font-size: 13px; color: #545559">
+<div id="main">
+      <div id="form">
+            <div style="background: url(../assets/global/verticaSeparator.png) no-repeat;"></div>
+            <div>
               <p><b>פנייתכם התקבלה.</b></p>
               <p><%= @request.user.first_name -%>, נמצאו <%= @sites_counter -%> אתרים העונים על בקשתך, ב-24 השעות הקרובות יישלחו אלייך כל ההצעות הרלוונטיות!</p>
             </div>
-            <div style="position:relative; top:-1098px;left: -31px; width:364px; height:222px; z-index: 3; font-size: 13px; color: #545559">
-            	<div class="accordionSperator confrmationFormLine">------------------------------------------------------------------------</div>
-            		<p class="confrmationFormLine" style="color: #70b1b9;">פרטי ההזמנה:</p>
-            		<p class="confrmationFormLine"><b>הזמנה מספר:</b> <%= @request.id -%></p>
-            		<p class="confrmationFormLine"><b>איזור:</b> <%= @request.region.name -%></p>
-            		<p class="confrmationFormLine"><b>סוג:</b> <%= @request.room_type.name -%></p>
-            		<p class="confrmationFormLine"><b>תאריך:</b> <%= @request.start_date.strftime('%d/%m/%Y') -%> - <%= @request.end_date.strftime('%d/%m/%Y') -%></p>
-            		<p class="confrmationFormLine"><b>מספר חדרים:</b> <%= @request.how_many_rooms -%></p>
-            		<p class="confrmationFormLine">
-            			<% if @request.room_properties.nil? || @request.room_properties.empty? %>
-							לא נבחרו מאפייני חיפוש.
+            <div>
+            	<div>------------------------------------------------------------------------</div>
+                        <p>פרטי ההזמנה:</p>
+                        <p><b>הזמנה מספר:</b> <%= @request.id -%></p>
+            		<p><b>איזור:</b> <%= @request.region.name -%></p>
+            		<p><b>סוג:</b> <%= @request.room_type.name -%></p>
+            		<p><b>תאריך:</b> <%= @request.start_date.strftime('%d/%m/%Y') -%> - <%= @request.end_date.strftime('%d/%m/%Y') -%></p>
+            		<p><b>מספר חדרים:</b> <%= @request.how_many_rooms -%></p>
+            		<p>
+                              <% if @request.room_properties.nil? || @request.room_properties.empty? %>
+                                    לא נבחרו מאפייני חיפוש.
 						<% else %>
 							<% @request.room_properties.each do |prop| %>
 								<span><%= prop.name -%><% if @request.room_properties.last != prop -%>,<% end -%></span>
 							<% end -%>
 						<% end -%>
             		</p>
-            	<div class="accordionSperator confrmationFormLine">------------------------------------------------------------------------</div>
+            	<div>------------------------------------------------------------------------</div>
             </div>
-            <div style="position:relative; top:-1099px;left: -15px; width:200px; height:20px; z-index: 3;">אז שתהיה לכם חופשה מהנה.</div>
-            <div style="position:relative; top:-1099px;left: -15px; width:79px; height:36px; background: url(../assets/global/signature.png) no-repeat; z-index: 3"></div>
-			<div id="form" style="position:relative; top:-1310px;left: -500px; width:400px; height:345px; z-index: 3;">            
-				המלצות.
-			</div>
+            <div>אז שתהיה לכם חופשה מהנה.</div>
+            <div style="background: url(../assets/global/signature.png) no-repeat;"></div>
+		<div>המלצות.</div>
+      </div>
+</div>

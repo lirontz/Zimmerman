@@ -151,14 +151,14 @@ p{
 }
 
 
-#main{
+.mainContent {
 	margin-top:20px;
 	width:685px;
 	background-color:#ffffff;
-	float:left;
+	float: right;
 }
 
-#main p{
+.mainContent p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #545559;
@@ -166,13 +166,13 @@ p{
 	direction:rtl;
 }
 
-#main .info{
+.mainContent .info{
 	color:#78b1bb;
 	font-weight:bold;
 }
 
 
-#main h2{
+.mainContent h2{
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:14px;
 	font-weight:bold;
@@ -181,7 +181,7 @@ p{
 	padding:14px;
 }
 
-#main h3{
+.mainContent h3{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	font-weight: bold;
@@ -190,13 +190,13 @@ p{
 	padding: 0px 14px 5px 0px;
 }
 
-#main a{
+.mainContent a{
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	color:#70B1B9;
 }
 
-#main .changePassword{
+.mainContent .changePassword{
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	color:#6ba9b1;
@@ -209,11 +209,12 @@ p{
 	float:right;
 	direction:rtl;
 }
-#main .changePassword a{
+.mainContent .changePassword a{
 	color:#6ba9b1;
 	text-decoration:none;
 }
-#main .changePassword a:hover{
+
+.mainContent .changePassword a:hover{
 	text-decoration:underline;
 }
 
@@ -614,7 +615,7 @@ textarea:-moz-placeholder {
 #uploadContainer{
 	position:relative;
 	width:670px;
-	height:320px;
+	height:150px;
 	overflow:auto;
 }
 
@@ -672,10 +673,15 @@ textarea:-moz-placeholder {
 	text-align:center;
 }
 
-.deleteButton{
+.deleteButton {
 	background-color:#de9fc0 !important;
 	color:#e02c89 !important;
 	border: 1px solid #e02c89 !important;	
+}
+
+.deleteCheckbox {
+	float: right;
+	margin: 16px;
 }
 
 #uploadActions{
@@ -786,4 +792,7 @@ textarea:-moz-placeholder {
 	margin:0px;
 	padding: 2px ;
 	float:right;
+}
+.displayNone {
+	display: none;
 }

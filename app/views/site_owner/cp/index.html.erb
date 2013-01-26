@@ -1,227 +1,429 @@
-    <div id="main">
-    
-	<!------------------------------------>
+    <div id="global">
+		<div id="main-a" class="mainContent">
+			<h2>ראשי</h2> 
+			<h3>מידע כללי</h3> 
+			<p>
+				שלום לירון, הנך חבר של גברת צימר מ<span class="info">12/12/12.</span><br />
+				קיבלת עד כה <span class="info">54</span>, מתוכן ענית ל <span class="info">25</span> הודעות.<br />
+			    <br />
+				לדף שלך נכנסו <span  class="info">1232</span> פעמים, <span class="info">45</span> פעמים מתחילת החודש.<br />
+				ממוצע של <span class="info">34</span> לחודש.
+			</p>
+			<br /><br />
+		    <div id="messagesControls">
+		    	<a href="#" onclick="selectAll();">בחר הכל</a> | 
+		        <a href="#" onclick="unSelectAll()">בטל בחירה</a> | 
+		        <a href="#">מחיקה</a>   
+		    </div>
+			<div id="messagesContainer">
+				<div class="messagesHeader">
+			    	<div class="c0 header">&nbsp;</div>
+			        <div class="c1 header">מס.</div>
+			        <div class="c2 header">תאריך</div>
+			        <div class="c3 header">כותרת</div>
+			        <div class="c4 header">סטטוס</div>
+			        <div class="c5 header">&nbsp;</div>
+			    </div>
+			    <% if @pending_requests.length > 0 %>
+					<% @pending_requests.each_with_index do |request, i| -%>
+					    <% user = User.find(request.user_id) %>
+						<div id="msg<%= i -%>">
+							<div class="c0 body"><input type="checkbox" id="chbx<%= i -%>" /></div>
+					        <div class="c1 body"><%= request.id %></div>
+					        <div class="c2 body"><%= request.created_at.strftime("%d/%m/%Y") %></div>
+					        <div class="c3 body"><%= user.first_name + " " + user.last_name  -%> מתעניין בצימר בין התאריכים <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %></div>
+					        <div class="c4 body">
+								<select>
+									<option>חדש</option>
+					                <option>בטיפול</option>
+					                <option>טופל</option>
+					                <option>חדש</option>
+					            </select>
+					        </div>
+					        <div class="c5 body pointer"><img src="../assets/cp_template/smallArrowDown.gif" width="9" height="15" id="msg<%= i -%>arrow" onclick="showMsg(this.parentNode.parentNode.id);" /></div>
+					        <div class="clearFloats"></div>
+					        <div id="msg<%= i -%>content" class="msgContent">
+								<span class="property">טווח מחירים:</span><span class="value">₪<%= request.price_from -%> - ₪<%= request.price_to -%></span><br />
+								<span class="property">מספר חדרים מבוקש:</span><span class="value"><%= request.how_many_rooms -%></span><br />
+								<span class="property">סוג חדר:</span><span class="value"><%= request.room_type.name -%></span><br />
+								<%= form_for(@site[0], :url => {:action => "update_status_1"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+									<div class="msgControls">
+										<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
+										<a onclick="document.getElementById('edit_site_1').submit();" name="accept_request" href="#">השב</a>&nbsp;|&nbsp;
+										<a onclick="document.getElementById('edit_site_1').submit();" name="decline_request" href="#" >מחיקה</a>
+									</div>
+								<% end %>
+					        </div>
+					    </div>
+				    <% end -%>
+				<% else %>
+					<% if @site[0].id %>
+						לא התקבלו בקשות.
+					<% else %>
+						לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+					<% end %>
+			    <% end -%>
+			</div>
+		</div>
 
-		<div id="content-a">
-			<h2>עריכת תוכן כללי</h2>
-            <%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "getNewUserProperties('propertiesList', 'userNewProp'); validateForm(this); return false;" }) do |f| -%>
-	            <div id="leftForm">
-					<a rel="tooltip" title="תאור כללי אודות המקום">
-						<%= f.text_area(:description, {:placeholder => "תאור כללי אודות המקום"})-%>
+		<div id="main-b" class="displayNone mainContent">
+    		<h3>ההודעות שלך</h3>
+		    <div id="messagesControls">
+		    	<a href="#" onclick="selectAll();">בחר הכל</a> | 
+		        <a href="#" onclick="unSelectAll()">בטל בחירה</a> | 
+		        <a href="#">מחיקה</a>   
+		    </div>
+			<div id="messagesContainer">
+				<div class="messagesHeader">
+			    	<div class="c0 header">&nbsp;</div>
+			        <div class="c1 header">מס.</div>
+			        <div class="c2 header">תאריך</div>
+			        <div class="c3 header">כותרת</div>
+			        <div class="c4 header">סטטוס</div>
+			        <div class="c5 header">&nbsp;</div>
+			    </div>
+			    <% if @pending_requests.length > 0 %>
+					<% @pending_requests.each_with_index do |request, i| -%>
+					    <% user = User.find(request.user_id) %>
+						<div id="msg<%= i -%>">
+							<div class="c0 body"><input type="checkbox" id="chbx<%= i -%>" /></div>
+					        <div class="c1 body"><%= request.id %></div>
+					        <div class="c2 body"><%= request.created_at.strftime("%d/%m/%Y") %></div>
+					        <div class="c3 body"><%= user.first_name + " " + user.last_name  -%> מתעניין בצימר בין התאריכים <%= request.start_date.strftime("%d/%m/%Y") %> - <%= request.end_date.strftime("%d/%m/%Y") %></div>
+					        <div class="c4 body">
+								<select>
+									<option>חדש</option>
+					                <option>בטיפול</option>
+					                <option>טופל</option>
+					                <option>חדש</option>
+					            </select>
+					        </div>
+					        <div class="c5 body pointer"><img src="../assets/cp_template/smallArrowDown.gif" width="9" height="15" id="msg<%= i -%>arrow" onclick="showMsg(this.parentNode.parentNode.id);" /></div>
+					        <div class="clearFloats"></div>
+					        <div id="msg<%= i -%>content" class="msgContent">
+								<span class="property">טווח מחירים:</span><span class="value">₪<%= request.price_from -%> - ₪<%= request.price_to -%></span><br />
+								<span class="property">מספר חדרים מבוקש:</span><span class="value"><%= request.how_many_rooms -%></span><br />
+								<span class="property">סוג חדר:</span><span class="value"><%= request.room_type.name -%></span><br />
+								<%= form_for(@site[0], :url => {:action => "update_status_1"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+									<div class="msgControls">
+										<%= hidden_field_tag :id, request.responses.where({:site_id => @site[0].id})[0].id %>
+										<a onclick="document.getElementById('edit_site_1').submit();" name="accept_request" href="#">השב</a>&nbsp;|&nbsp;
+										<a onclick="document.getElementById('edit_site_1').submit();" name="decline_request" href="#" >מחיקה</a>
+									</div>
+								<% end %>
+					        </div>
+					    </div>
+				    <% end -%>
+				<% else %>
+					<% if @site[0].id %>
+						לא התקבלו בקשות.
+					<% else %>
+						לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+					<% end %>
+			    <% end -%>
+			</div>
+        </div>
+
+		<div id="main-c" class="displayNone mainContent">
+			<div id="main">
+				<div id="content-a">
+					<h2>עריכת תוכן כללי</h2>
+		            <%= form_for(@site[0], :url => {:action => "update"}, :html => { :onsubmit => "getNewUserProperties('propertiesList', 'userNewProp'); validateForm(this); return false;" }) do |f| -%>
+			            <div id="leftForm">
+							<a rel="tooltip" title="תאור כללי אודות המקום">
+								<%= f.text_area(:description, {:placeholder => "תאור כללי אודות המקום"})-%>
+							</a>
+			                <a rel="tooltip" title="מה כלול באירוח">
+								<%= f.text_area(:what_included, {:placeholder => "כלול באירוח"})-%>
+							</a>
+				            <div id="propertiesContainer">
+				                <h2>עריכת מאפיינים</h2>
+				                <p>בחר מתוך רשימת המאפיינים הקיימת.<br /> ניתן להוסיף מאפיינים שאינם קיימים ברשימה.</p>
+				            	<div id="properties" >
+									<ul id="propertiesList">
+										<li><input type="checkbox" name="properties"  value="airCondition"/><span class="propertyTitle">מזגן</span></li>
+					                    <li><input type="checkbox" name="properties"  value="pool"/><span class="propertyTitle">בריכה</span></li>
+					                    <li><input type="checkbox" name="properties"  value="BabiesBed"/><span class="propertyTitle">מיטת תינוק</span></li>
+					                    <li><input type="checkbox" name="properties"  value="parking"/><span class="propertyTitle">חניה</span></li>
+										<% @site_room_properties.each do |prop| %>
+												
+												<tr id="room_porperty_list_<%= prop.id -%>_container">
+													<td>
+														<a rel="tooltip" title="מחק מאפיין">
+															<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+														</a>
+													</td>
+													<td>
+														<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+													</td>
+												</tr>
+										<% end -%>
+					                </ul>
+				            	</div>
+			                	<input type="text" name="newProperty" id="newProperty" placeholder="הוספת מאפיין חדש" style="width:180px;" onkeydown="if (event.keyCode == 13 ) {
+			                         if(this.value.length >0){ 
+			                            addNewProperty('newProperty', 'propertiesList'); 
+			                        }
+			                        return (false);
+			                    }"
+			                	/>
+				                <input type="button" value="הוספה" onclick="addNewProperty('newProperty', 'propertiesList');" />
+				                <input type="hidden" name="userNewProp"  id="userNewProp"  />
+				            </div>
+				            <p class="changePassword"><%= link_to ">> שנה סיסמא", '/site_owners/edit'%></p>
+				           	<%= submit_tag('שמור', {:class => "topMargin"}) -%>
+			            </div>	
+			            <div id="rightForm">
+			            	<a rel="tooltip" title="שם אתר">
+								<%= f.text_field(:name, {:placeholder => "שם אתר", :autocomplete => "off"})-%>
+							</a>
+							<a rel="tooltip" title="טלפון">
+								<%= f.text_field(:phone, {:placeholder => "טלפון"})-%>
+							</a>
+							<a rel="tooltip" title="נייד">
+								<%= f.text_field(:mobile, {:placeholder => "נייד"})-%>
+							</a>
+							<a rel="tooltip" title="פקס">
+								<%= f.text_field(:fax, {:placeholder => "פקס"})-%>
+							</a>
+							<a rel="tooltip" title="מייל">
+								<%= f.text_field(:email, {:placeholder => "מייל"})-%>
+							</a>
+							<a rel="tooltip" title="שם איש קשר">
+								<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר"})-%>
+							</a>
+							<a rel="tooltip" title="אזור">
+								<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }) -%>
+							</a>
+							<a rel="tooltip" title="עיר">
+								<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }) -%>
+							</a>
+							<a rel="tooltip" title="סוג">
+								<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }) -%>
+							</a>
+							<a rel="tooltip" title="כתובת">
+								<%= f.text_field(:address, {:placeholder => "כתובת"})-%>
+							</a>
+			            	<input type="text" name="mapLink" placeholder="קישור למפה בגוגל"  />
+			            	<input type="text" name="email" placeholder="קישור לאתר"  /> 
+			            </div>
+			            
+			            <div class="clearFloats"></div>
+						<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
+				    <% end -%>
+				</div>
+				
+		        <div id="content-b">
+		        	<h2>תמחור תוספות</h2>
+					
+		            <form action="http://yanga.getmyip.com/sms/indexDev.asp" method="post" onsubmit="getNewUserExtras('extrasList', 'userNewExtras'); validateForm(this); return false;">
+		            	<div id="extrasPricingContainer">
+			            	<ul id="extrasList">
+			                	<li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p1"  class="extraTitle"/><input type="text" value="100" name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+			                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p2"  class="extraTitle"/><input type="text" value="200"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+			                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p3"  class="extraTitle"/><input type="text" value="300"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+			                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p4"  class="extraTitle"/><input type="text" value="400"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+			                </ul>
+			           </div>
+			           <span id="newExtraContainer">
+			           		<input type="text" value="p5"  class="extraTitle" id="newExtraTitle"/>
+			                <input type="text" value="500"  class="extraPrice" id="newExtraPrice" />
+			           		<input type="button" value="הוספה" onclick="addNewExtra('newExtraTitle', 'newExtraPrice', 'extrasList');" />
+			                <input type="hidden" name="userNewExtras"  id="userNewExtras"  />  
+			           </span>
+		           		<span id="saveChanges"><input type="submit" value="שמור שינויים"  /></span>
+		            </form>
+				</div>
+		        
+				<div id="content-c">
+					<%= form_for @site[0], :url => {:action => "update"}, :html => { :multipart => true } do |f| %>
+						<h2>הוספת תמונות:</h2>
+
+						<%= f.fields_for :assets do |asset_fields| %>
+							<% if asset_fields.object.new_record? %>
+								<div id="uploadContainer">  
+					              	<ul id="imagesList">
+					              		<li>
+					                      <div class="imageContainer">
+					                            <div class="imageData">
+					                                  <%= asset_fields.file_field :asset %>
+					                            </div>
+					                        </div>
+					                	</li>
+					                </ul>
+				            	</div>
+							<% end %>
+						<% end %>
+
+						<h2>תמונות קיימות (סמן תמונות למחיקה):</h2>
+
+						<% if !@site_assets_exist %>
+							<%= f.fields_for :assets do |asset_fields| %>
+								<% unless asset_fields.object.new_record? %>
+									<div id="uploadContainer">  
+						              	<ul id="imagesList">
+						              		<li>
+						                      <div class="imageContainer">
+						                            <div class="imageData">
+						                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
+						                                    <br />
+						                                    <br />
+						                                  <%= asset_fields.check_box :_destroy, :class => 'deleteCheckbox' %>
+						                            </div>
+						                            <%=	link_to asset_fields.object.asset.url(:large), :target => "_blank"  do %>
+						                            	<%= @container_div -%>
+						                            	<div class="imagePreview" style="url( <%= asset_fields.object.asset.url(:thumb) -%> )"></div>
+						                            <% end %>
+						                            <div class="imageArrows">
+						                            	<img src="../assets/cp_template/arrowUp.gif" width="21" height="21" />
+						                            	<img src="../assets/cp_template/spacer.gif" width="21" height="58" />
+						                            	<img src="../assets/cp_template/arrowDown.gif" width="21" height="21" />
+						                            </div>                
+						                        </div>
+						                	</li>
+						                </ul>
+					            	</div>
+								<% end %>
+							<% end %>
+						<% else %>
+							לא קיימות תמונות.
+						<% end -%>
+
+						<p><%= f.submit('שמור', {:class => "btn-primary submitBtn"})  %></p>
+					<% end %>
+				</div>
+				<div id="content-d">
+					<%= form_for(:room, :url => {:action => "update"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+			      	<a rel="tooltip" title="שם חדר">
+						<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
 					</a>
-	                <a rel="tooltip" title="מה כלול באירוח">
-						<%= f.text_area(:what_included, {:placeholder => "כלול באירוח"})-%>
+			      	<a rel="tooltip" title="תאור כללי אודות החדר">
+						<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
 					</a>
-		            <div id="propertiesContainer">
-		                <h2>עריכת מאפיינים</h2>
-		                <p>בחר מתוך רשימת המאפיינים הקיימת.<br /> ניתן להוסיף מאפיינים שאינם קיימים ברשימה.</p>
-		            	<div id="properties" >
-							<ul id="propertiesList">
-								<li><input type="checkbox" name="properties"  value="airCondition"/><span class="propertyTitle">מזגן</span></li>
-			                    <li><input type="checkbox" name="properties"  value="pool"/><span class="propertyTitle">בריכה</span></li>
-			                    <li><input type="checkbox" name="properties"  value="BabiesBed"/><span class="propertyTitle">מיטת תינוק</span></li>
-			                    <li><input type="checkbox" name="properties"  value="parking"/><span class="propertyTitle">חניה</span></li>
-								<% @site_room_properties.each do |prop| %>
-										
-										<tr id="room_porperty_list_<%= prop.id -%>_container">
+					<%= f.hidden_field(:site_id, :value => @site[0].id) %>
+					<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
+				<% end %>
+				</div>
+
+				<% @rooms.each_with_index do |room, i| -%>
+					<div id="content-e<%= i -%>">
+						<%= form_for(room, :url => {:action => "update_room"}, :html => { :onsubmit => "return true;" }) do |f| -%>
+							<a rel="tooltip" title="שם חדר">
+								<%= f.text_field(:name, {:placeholder => "שם חדר", :class => "elementDefault", :autocomplete => "off"})-%>
+							</a>
+							<a rel="tooltip" title="תאור כללי אודות המקום">
+								<%= f.text_area(:description, {:placeholder => "תאור כללי אודות החדר", :class => "textAreaDefault"})-%>
+							</a>
+							<a rel="tooltip" title="מחיר">
+								<%= f.text_field(:price, {:placeholder => "מחיר", :class => "elementDefault", :autocomplete => "off"})-%>
+							</a>
+							
+
+
+
+
+
+
+							<h2>תמחור תוספות</h2>
+							
+				            <form action="http://yanga.getmyip.com/sms/indexDev.asp" method="post" onsubmit="getNewUserExtras('extrasList', 'userNewExtras'); validateForm(this); return false;">
+				            	<div id="extrasPricingContainer">
+					            	<ul id="extrasList">
+					                	<li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p1"  class="extraTitle"/><input type="text" value="100" name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+					                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p2"  class="extraTitle"/><input type="text" value="200"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+					                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p3"  class="extraTitle"/><input type="text" value="300"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+					                    <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p4"  class="extraTitle"/><input type="text" value="400"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
+					                </ul>
+					           </div>
+					           <span id="newExtraContainer">
+					           		<input type="text" value="p5"  class="extraTitle" id="newExtraTitle"/>
+					                <input type="text" value="500"  class="extraPrice" id="newExtraPrice" />
+					           		<input type="button" value="הוספה" onclick="addNewExtra('newExtraTitle', 'newExtraPrice', 'extrasList');" />
+					                <input type="hidden" name="userNewExtras"  id="userNewExtras"  />  
+					           </span>
+				           		<span id="saveChanges"><input type="submit" value="שמור שינויים"  /></span>
+				            </form>
+
+
+
+
+
+
+
+
+
+							<table id="current_room_<%= room.id -%>_room_porperty_list_table" style="width: auto; display: <% if room.room_properties.length > 0 %>  <% else -%> none <% end -%>;" class="table table-bordered table-striped">
+							   <thead>
+							      <tr>
+							        <th>
+							        	<a href="#" rel="tooltip" title="מחק הכל">
+							        		<input id="current_room_<%= room.id -%>_properties_select_all" type="checkbox" checked="true"/>
+							        	</a>
+							        </th>
+							        <th>תאור</th>
+							        <th>מחיר</th>
+							      </tr>
+							    </thead>
+								<tbody>
+									<% room.room_properties.each_with_index do |prop, j| -%>
+										<tr id="current_room_<%= room.id -%>_room_porperty_site_list_<%= prop.id -%>_container">
 											<td>
+												<!--%= f.check_box(:room_properties, {:multiple => true}, prop.id, nil) -%-->
 												<a rel="tooltip" title="מחק מאפיין">
-													<%= check_box("room_porperty", "list", {:multiple => true}, prop.id, nil) -%>
+													<%= check_box("room_#{room.id}_room_porperty_site", "list", {:checked => true, :multiple => true}, prop.id, nil) -%>
 												</a>
 											</td>
 											<td>
-												<%= label("room_porperty",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+												<%= label("room_#{room.id}_room_porperty_site",  "list_" + prop.id.to_s, prop.name, {:class => "labelDefault"}) -%>
+											</td>
+											<td>
+												<% #TODO: replace all room_properties params to be fields_for %>
+												<%= text_field("room_#{room.id}_room_porperty_site", "room_#{room.id}_price" + prop.id.to_s, {:value => prop.price, :class => "elementDefault"})-%>
 											</td>
 										</tr>
-								<% end -%>
-			                </ul>
-		            	</div>
-	                	<input type="text" name="newProperty" id="newProperty" placeholder="הוספת מאפיין חדש" style="width:180px;" onkeydown="if (event.keyCode == 13 ) {
-	                         if(this.value.length >0){ 
-	                            addNewProperty('newProperty', 'propertiesList'); 
-	                        }
-	                        return (false);
-	                    }"
-	                	/>
-		                <input type="button" value="הוספה" onclick="addNewProperty('newProperty', 'propertiesList');" />
-		                <input type="hidden" name="userNewProp"  id="userNewProp"  />
-		            </div>
-		            <p class="changePassword"><%= link_to ">> שנה סיסמא", '/site_owners/edit'%></p>
-		           	<%= submit_tag('שמור', {:class => "topMargin"}) -%>
-	            </div>	
-	            <div id="rightForm">
-	            	<a rel="tooltip" title="שם אתר">
-						<%= f.text_field(:name, {:placeholder => "שם אתר", :autocomplete => "off"})-%>
-					</a>
-					<a rel="tooltip" title="טלפון">
-						<%= f.text_field(:phone, {:placeholder => "טלפון"})-%>
-					</a>
-					<a rel="tooltip" title="נייד">
-						<%= f.text_field(:mobile, {:placeholder => "נייד"})-%>
-					</a>
-					<a rel="tooltip" title="פקס">
-						<%= f.text_field(:fax, {:placeholder => "פקס"})-%>
-					</a>
-					<a rel="tooltip" title="מייל">
-						<%= f.text_field(:email, {:placeholder => "מייל"})-%>
-					</a>
-					<a rel="tooltip" title="שם איש קשר">
-						<%= f.text_field(:contact_point_name, {:placeholder => "שם איש קשר"})-%>
-					</a>
-					<a rel="tooltip" title="אזור">
-						<%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }) -%>
-					</a>
-					<a rel="tooltip" title="עיר">
-						<%= f.select(:city_id, @cities.map { |u| [u.name,u.id] }) -%>
-					</a>
-					<a rel="tooltip" title="סוג">
-						<%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }) -%>
-					</a>
-					<a rel="tooltip" title="כתובת">
-						<%= f.text_field(:address, {:placeholder => "כתובת"})-%>
-					</a>
-	            	<input type="text" name="mapLink" placeholder="קישור למפה בגוגל"  />
-	            	<input type="text" name="email" placeholder="קישור לאתר"  /> 
-	            </div>
-	            
-	            <div class="clearFloats"></div>
-				<%= f.hidden_field(:site_owner_id, :value => current_site_owner.id) %>
-		    <% end -%>
-		</div>
-		
-        <div id="content-b">
-        	<h2>תמחור תוספות</h2>
-			<div id="extrasPricingContainer">
-            <form action="http://yanga.getmyip.com/sms/indexDev.asp" method="post" onsubmit="getNewUserExtras('extrasList', 'userNewExtras'); validateForm(this); return false;">
-            
-            
-            	<ul id="extrasList">
-                    	<li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p1"  class="extraTitle"/><input type="text" value="100" name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
-                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p2"  class="extraTitle"/><input type="text" value="200"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
-                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p3"  class="extraTitle"/><input type="text" value="300"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
-                        <li><input type="checkbox" name="properties"  value="airCondition" class="extraActive"/><input type="text" name="extraName" id="extraName" value="p4"  class="extraTitle"/><input type="text" value="400"  name="extraPrice" id="extraPrice"  class="extraPrice" /></li>
-                </ul>
-                        
-           </div>
-           <span id="newExtraContainer">
-           		<input type="text" value="p5"  class="extraTitle" id="newExtraTitle"/>
-                <input type="text" value="500"  class="extraPrice" id="newExtraPrice" />
-           		<input type="button" value="הוספה" onclick="addNewExtra('newExtraTitle', 'newExtraPrice', 'extrasList');" />
-                <input type="hidden" name="userNewExtras"  id="userNewExtras"  />  
-           </span>
-           <span id="saveChanges"><input type="submit" value="שמור שינויים"  /></span>
-            </form>
-		</div>
-        
-        
-         <!------------------------------------>
-		<div id="content-c">
-			<h2>הוספת תמונות</h2>
-          <div id="uploadContainer">  
-              <ul id="imagesList">
-              		<li>
-                      <div class="imageContainer">
-                            <div class="imageData">
-                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
-                                    <br />
-                                    <br />
-                                  <input type="file" name="imageSrc" id="imageSrc"  />
-                                  <input type="button" value="מחיקה"  class="deleteButton" />
-                            </div>
-                            <div class="imagePreview"></div>
-                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
-                        </div>
-                	</li>
-                    
-                    
-                    <li>
-                      <div class="imageContainer">
-                            <div class="imageData">
-                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
-                                    <br />
-                                    <br />
-                                  <input type="file" name="imageSrc" id="imageSrc"  />
-                                  <input type="button" value="מחיקה"  class="deleteButton" />
-                            </div>
-                            <div class="imagePreview"></div>
-                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
-                        </div>
-                	</li>
-                    
-                    
-                    <li>
-                      <div class="imageContainer">
-                            <div class="imageData">
-                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
-                                    <br />
-                                    <br />
-                                  <input type="file" name="imageSrc" id="imageSrc"  />
-                                  <input type="button" value="מחיקה"  class="deleteButton" />
-                            </div>
-                            <div class="imagePreview"></div>
-                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
-                        </div>
-                	</li>
-                    
-                    
-                    <li>
-                      <div class="imageContainer">
-                            <div class="imageData">
-                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
-                                    <br />
-                                    <br />
-                                  <input type="file" name="imageSrc" id="imageSrc"  />
-                                  <input type="button" value="מחיקה"  class="deleteButton" />
-                            </div>
-                            <div class="imagePreview"></div>
-                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
-                        </div>
-                	</li>
-                    
-                    
-                    <li>
-                      <div class="imageContainer">
-                            <div class="imageData">
-                                  <input type="text" name="imageName" id="imageName" class="extraTitle" value="מבט לג'קוזי" /><br /><br />
-                                    <br />
-                                    <br />
-                                  <input type="file" name="imageSrc" id="imageSrc"  />
-                                  <input type="button" value="מחיקה"  class="deleteButton" />
-                            </div>
-                            <div class="imagePreview"></div>
-                            <div class="imageArrows"><img src="../assets/cp_template/arrowUp.gif" width="21" height="21" /><img src="../assets/cp_template/spacer.gif" width="21" height="58" /><img src="../assets/cp_template/arrowDown.gif" width="21" height="21" /></div>                
-                        </div>
-                	</li>
-               </ul>
-            </div>
-            
-          <div id="uploadActions">
-            	<input type="button" value="הוספת תמונה " onclick="addNewImage('imagesList');" />
-                <input type="button" value="שמירה" class="floatButtonLeft"/>
-                
-            </div>
-             
-		</div>
-         <!------------------------------------>
-	
-    
-    <!------------------------------------>
-    </div>
-    <div id="separator"></div>
-    <div id="rightBar"><br /><br />
-        <h1>    שלום <%=  current_site_owner.first_name -%>,<br />
-        ברוך הבא לשולחן העבודה שלך</h1>
-        <p>
-        אני מאמינה שכבר יצא לכם לעבור את התהליך המתיש של חיפוש צימר בעבר.
-        שיטוט בין אתרי צימרים עמוסים, פניות לבעלי צימרים רבים, טלפונים, מיילים, השוואת מחירים, השוואת מאפיינים, תיאום תאריכים.... בקיצור, מעייף!</p>
-        
-    </div>
-    <div id="rightMenu">
-        <ul>
-            <li><a onclick="displayTab('main', 'content-a')" id="link-content-a">עריכת תוכן כללי</a></li>
-            <li><a onclick="displayTab('main', 'content-b')" id="link-content-b">תמחור תוספות</a></li>
-            <li><a onclick="displayTab('main', 'content-c')" id="link-content-c">גלרית תמונות כללית</a></li>
-        </ul>
-    </div>
-    <div class="clearFloats"></div>
+									<% end -%>
+								</tbody>
+							</table>
+							<div style="display: <% if room.room_properties.length > 0 %>  none <% else -%>  <% end -%>;" id="current_room_<%= room.id -%>_room_porperty_list_empty_container">
+								לא קיימים מאפייני אתר
+							</div>
+							<a data-toggle="modal" href="#room<%= room.id -%>PropertiesModal" class="btn">הוסף מאפיניים +</a>	
+								<%= f.hidden_field(:id, :value => room.id) %>
+								<%= submit_tag('שמור', {:class => "btn-primary submitBtn"}) -%>
+								<%= submit_tag('מחק', {:name => "delete_room",:class => "btn-primary submitBtn"}) -%>
+						<% end -%>
+					</div>
+				<% end -%>
+		    </div>
+			<div id="separator"></div>
+		    <div id="rightBar"><br /><br />
+		        <h1>    שלום <%=  current_site_owner.first_name -%>,<br />
+		        ברוך הבא לשולחן העבודה שלך</h1>
+		        <p>
+		        אני מאמינה שכבר יצא לכם לעבור את התהליך המתיש של חיפוש צימר בעבר.
+		        שיטוט בין אתרי צימרים עמוסים, פניות לבעלי צימרים רבים, טלפונים, מיילים, השוואת מחירים, השוואת מאפיינים, תיאום תאריכים.... בקיצור, מעייף!</p>
+		        
+		    </div>
+		    <div id="rightMenu">
+		        <ul>
+		            <li><a onclick="displayTab('main', 'content-a')" id="link-content-a">עריכת תוכן כללי</a></li>
+		            <li><a onclick="displayTab('main', 'content-b')" id="link-content-b">תמחור תוספות</a></li>
+		            <li><a onclick="displayTab('main', 'content-c')" id="link-content-c">גלרית תמונות כללית</a></li>
+		            <li><a onclick="displayTab('main', 'content-d')" id="link-content-d">הוסף חדר +</a></li>
+		            <% @rooms.each_with_index do |room, i| -%>
+		            	<li><a onclick="displayTab('main', 'content-e<%= i -%>')" id="link-content-e<%= i -%>"><%= @rooms[i].name -%></a></li>
+		           	<% end -%>
+		        </ul>
+		    </div>
+		    <div class="clearFloats"></div>
+        </div>
+
+		<div id="main-d" class="displayNone mainContent">
+			<% if @site[0].id %>
+				<%= link_to "צפה באתרך", {:controller => 'site_owner/site', :id => @site[0].id}, :class => "btn btn-primary", :target => "_blank" -%>
+			<% else %>
+				&nbsp;&nbsp;&nbsp;&nbsp;לא קיים אתר. להקמת אתר חדש עבור ללשונית "ערוך אתר".
+			<% end -%>
+        </div>
+	</div>
 </div>

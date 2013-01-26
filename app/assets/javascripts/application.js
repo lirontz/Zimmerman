@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require twitter/bootstrap
+//= require jquery.defaultvalue
 //= require_tree ./jquery-ui-1.8.18.custom
 
 /*
@@ -56,6 +56,7 @@ jQuery(function($){
 */
 
 $(document).ready(function () {
+	openForm('form1');
 	initDatepicker();
 	initForm();
 	initRequestFields();
@@ -97,15 +98,32 @@ function initSiteEditorTab() {
 	$("a[rel='tooltip']").css('textDecoration', 'none');
 	$("a[rel='tooltip']").css('padding', 7);
 
-	$("input[type=file]").filestyle({ 
+	/*$("input[type=file]").filestyle({ 
 	     buttonHeight : 26,
 	     buttonWidth : 70,
 	     width : 170
-	});
+	});*/
 
-	addListenersToRoomPropertiesTable("site_properties_select_all", "room_porperty_site_list", "room_porperty_list");
-	for (var i = 0; i < roomRoomPropertiesSite.length; i++) {
-		addListenersToRoomPropertiesTable.apply(this, roomRoomPropertiesSite[i]);
+	//addListenersToRoomPropertiesTable("site_properties_select_all", "room_porperty_site_list", "room_porperty_list");
+	//for (var i = 0; i < roomRoomPropertiesSite.length; i++) {
+		//addListenersToRoomPropertiesTable.apply(this, roomRoomPropertiesSite[i]);
+	//}
+}
+
+
+var forms = new Array('form1', 'form2', 'form3', 'form4');
+
+function openForm(id) {
+	closeAllForms();
+	
+	var frm = document.getElementById(id);
+	frm.style.display = 'block';
+}
+
+function closeAllForms() {
+	for (var i = 0 ; i < forms.length; i++){
+		var frm = document.getElementById(forms[i]);
+		frm.style.display = 'none';
 	}
 }
 
@@ -246,8 +264,6 @@ function initDatepicker() {
 		}
 	});
 	$datepickerElem.datepicker( "option", "showAnim", "slideDown" );
-	$startDateElem.val('מתאריך');
-	$endDateElem.val('עד תאריך');
 }
 
 function changePassBox() {

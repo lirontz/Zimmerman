@@ -15,68 +15,68 @@
     <![endif]-->
 
     <!-- fav and touch icons -->
-    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="../assets/home/favicon.ico" rel="shortcut icon">
   </head>
-  <body style="background-image: url(../assets/global/bg.jpg); background-position: center top; background-attachment: fixed;">
-    <div id="content">
-          <% [:notice, :error, :alert].each do |level| %>
-            <% unless flash[level].blank? %>
-              <div data-alert="alert" class="alert alert-<%= flash_class(level) %> fade in">
-                <a class="close" data-dismiss="alert" href="#">&times;</a>
-                <%= content_tag :p, flash[level] %>
-              </div>
+  <body>
+    <% [:notice, :error, :alert].each do |level| %>
+      <% unless flash[level].blank? %>
+        <div data-alert="alert" class="alert alert-<%= flash_class(level) %> fade in">
+          <a class="close" data-dismiss="alert" href="#">&times;</a>
+          <%= content_tag :p, flash[level] %>
+        </div>
+      <% end %>
+    <% end %>
+    <div id="container">
+      <div id="header">
+        <div id="logo">
+            <%= link_to root_url do %>
+              <img src="../assets/home/logo.png" width="281" height="275" alt="גברת צימר" />
             <% end %>
-          <% end %>
-          <div class="mainContainer">
-            <img style="position:relative;display:block;margin:auto;z-index: 3" src="../assets/global/logo.png">
-            <%= link_to "", root_url, :style => 'position:relative; display: block; top: -268px;left: -361px; width: 220px; height: 260px; z-index: 3;' %>
-            <div style="position:relative; top:-323px;left: 0; width:925px; height:30px; background: url(../assets/global/menuBg.png) no-repeat; color: #656565; z-index: 2">
-              <div style="float:right; width: 105px;">&nbsp;</div>
-              <div style="float:right; width: 248px; margin-top: 7px; margin-right: 8px; font-weight: bold;" class="noLink">
-                <%= link_to "אודות", "/about_us", :style => "float:right; width: 80px; text-align: center; color: #656565; "  %>
-                <span style="float:right; font-weight: normal;">|</span>
-                <%= link_to "תקנון", "/terms_of_use", :style => "float:right; width: 80px; text-align: center; color: #656565; "  %>
-                <span style="float:right; font-weight: normal;">|</span>
-                <%= link_to "יצירת קשר", "/contact_us", :style => "float:right; width: 80px; text-align: center; color: #656565; "  %>
-              </div>
-              <div style="float:right; width: 245px; margin-top: 7px; margin-right: 240px;" class="noLink">
-                <% if user_signed_in? -%>
-                  <div style="float:right; width: 180px; color: #546765;">שלום <%= current_user.first_name %>, <%= link_to "היכנס לחשבונך.", "user/cp", :style => " font-weight: bold; width: 80px; color: #656565; "  %></div>
-                  <%= link_to "התנתק", destroy_user_session_path, {:method => :delete, :class => "noLink", :style => "float:right; width: 40; margin-right: 25px; cursor: pointer; color: #656565; font-weight: bold;"} %>
-                <% else %>
-                  <div style="float:right; width: 180px; color: #546765;">שלום אורח, <%= link_to "הרשם", new_user_registration_path, :style => "text-decoration:underline;" %> או</div>
-                  <%= link_to "הכנס", new_user_session_path, {:class => "noLink", :style => "float:right; width: 40; margin-right: 31px; cursor: pointer; color: #656565; font-weight: bold;"} %>
-                <% end %>
-              </div>
-            </div>
-            <div style="position:relative; top:-323px;left: 0; width:925px; height:380px; background: url(../assets/global/containerBg.png); z-index: 2"></div>
-            <div style="position:relative; top:-323px;left: 0; width:925px; height:30px; background: url(../assets/global/containerBottom.png) no-repeat; z-index: 2"></div>
-            <%= yield %>
+        </div>
+        <div id="menu">
+          <div id="leftMenu">
+            <% if user_signed_in? -%>
+              <div id="logout"><%= link_to "התנתק", destroy_user_session_path, {:method => :delete} %></div>
+              <div id="welcome">שלום <%= current_user.first_name %>, <%= link_to "היכנס לחשבונך", "user/cp"  %></div>
+            <% else %>
+              <div id="logout"><%= link_to "הכנס", new_user_session_path %></div>
+              <div id="welcome">שלום אורח, <%= link_to "הרשם", new_user_registration_path %> או</div>
+            <% end %>
           </div>
-    </div>
-    <div class="transparent" style="position:relative; left: 0; width:100%; height:120px; background-color:#000; z-index: 3; border-top: 4px solid #9ed5db; color: #545559;">
-      <div class="noLink" style="margin-top:30px;">
-        <div style="margin: 0 auto; width: 600px;">
-          <div style="float: right;"><img src="../assets/global/logo.png" width="80px" height="80px"/></div>
-          <div style="float: right; margin-right: 30px;">
-            <div style="text-align: center; font-size: 14px; margin-bottom: 10px;"><b>גברת צימר</b> - עובדת בשבילך, &copy; גברת צימר 2012</div>
-            <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "דף הבית", root_url, :style => "color: #656565; "  %></div>
-            <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "אודות", "/about_us", :style => "color: #656565; "  %></div>
-            <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "תקנון", "/terms_of_use", :style => "color: #656565; "  %></div>
-            <div style="text-align: center; float:right; width:60px;"><%= link_to "יצירת קשר", "/contact_us", :style => "color: #656565; "  %></div>
+          <div id="rightMenu">
+            <ul>
+              <li><%= link_to "עמוד הבית", root_url -%></li>
+              <li><%= link_to "אודות", "/about_us" -%></li>
+              <li><%= link_to "תקנון", "/terms_of_use" -%></li>
+              <li><%= link_to "יצירת קשר", "/contact_us" -%></li>
+            </ul>
           </div>
-          <div style="float: right; margin-right: 40px;">
-            <div style="width:80px; text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 2px;">בעל צימר?</div>
-            <div style="width:80px;"><%= link_to "הרשם", new_site_owner_registration_path, :style => "float:right; width: 80px; text-align: center; color: #656565; "  %></div>
-            <div style="width:80px;"><%= link_to "הכנס", new_site_owner_session_path, :style => "float:right; width: 80px; text-align: center; color: #656565; "  %></div>
-          </div>  
         </div>
       </div>
+
+      <%= yield %>
+        
+      <div id="closer"></div>
     </div>
-    
-    <!-- javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <div id="footer">
+        <div style="margin-top:15px;">
+          <div style="margin: 0 auto; width: 600px;">
+            <div style="float: right;"><img src="../assets/home/logo.png" width="80px" height="80px"/></div>
+            <div style="float: right; margin-right: 30px;">
+              <div style="text-align: center; font-size: 14px; margin-bottom: 10px;"><b>גברת צימר</b> - עובדת בשבילך, &copy; גברת צימר 2012</div>
+              <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "דף הבית", root_url, :style => "color: #656565; "  %></div>
+              <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "אודות", "/about_us", :style => "color: #656565; "  %></div>
+              <div style="text-align: center; float:right; width:60px; border-left: 1px solid gray;"><%= link_to "תקנון", "/terms_of_use", :style => "color: #656565; "  %></div>
+              <div style="text-align: center; float:right; width:60px;"><%= link_to "יצירת קשר", "/contact_us", :style => "color: #656565; "  %></div>
+            </div>
+            <div style="float: right; margin-right: 40px;">
+              <div style="width:80px; text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 2px;">בעל צימר?</div>
+              <div style="width:80px;"><%= link_to "הרשם", new_site_owner_registration_path, :style => "float:right; width: 80px; text-align: center; color: #656565; "  %></div>
+              <div style="width:80px;"><%= link_to "הכנס", new_site_owner_session_path, :style => "float:right; width: 80px; text-align: center; color: #656565; "  %></div>
+            </div>  
+          </div>
+        </div>
+    </div>
     <%= javascript_include_tag "application" %>
   </body>
 </html>
