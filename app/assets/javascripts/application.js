@@ -117,13 +117,19 @@ function openForm(id) {
 	closeAllForms();
 	
 	var frm = document.getElementById(id);
-	frm.style.display = 'block';
+	
+	if (frm) {
+		frm.style.display = 'block';
+	}
 }
 
 function closeAllForms() {
 	for (var i = 0 ; i < forms.length; i++){
 		var frm = document.getElementById(forms[i]);
-		frm.style.display = 'none';
+		
+		if (frm) {
+			frm.style.display = 'none';
+		}
 	}
 }
 

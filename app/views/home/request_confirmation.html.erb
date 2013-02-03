@@ -1,31 +1,29 @@
 <div id="main">
-      <div id="form">
-            <div style="background: url(../assets/global/verticaSeparator.png) no-repeat;"></div>
-            <div>
-              <p><b>פנייתכם התקבלה.</b></p>
-              <p><%= @request.user.first_name -%>, נמצאו <%= @sites_counter -%> אתרים העונים על בקשתך, ב-24 השעות הקרובות יישלחו אלייך כל ההצעות הרלוונטיות!</p>
+      <div id="confirmationContent">
+            <h1>תודה! פנייתכם התקבלה</h1><br />
+            <p>
+                  <%= @request.user.first_name -%>, נמצאו <%= @sites_counter -%> אתרים העונים לבקשתך.<br />
+                  ב 24 השעות הקרובות ישלחו אליך כל ההצעות הרלוונטיות.
+                  <br /><br />
+                  <img src="/assets/home/signature.png" width="79" height="36" alt="גברת צימר" />
+            </p>
+            <div id="confirmationOrderDetails">
+                  <h2>פרטי ההזמנה</h2>
+                  <span class="date"><%= @request.start_date.strftime('%d/%m/%Y') -%> - <%= @request.end_date.strftime('%d/%m/%Y') -%></span>
+                  <span class="title">הזמנה מספר: </span>&nbsp;<span class="content"><%= @request.id -%></span><br />
+                  <span class="title">איזור:</span>&nbsp;<span class="content"><%= @request.region.name -%></span><br />
+                  <span class="title">סוג:</span>&nbsp;<span class="content"><%= @request.room_type.name -%></span><br />
+                  <span class="title">מספר חדרים: </span>&nbsp;<span class="content"><%= @request.how_many_rooms -%></span><br />
+                  
+                  <% if @request.room_properties.nil? || @request.room_properties.empty? %>
+                        <span class="content">לא נבחרו מאפייני חיפוש.</span>
+                  <% else %>
+                        <% @request.room_properties.each do |prop| %>
+                              <span class="title">מאפייני חיפוש: </span>&nbsp;<span class="content"><%= prop.name -%><% if @request.room_properties.last != prop -%>,<% end -%></span><br />
+                        <% end -%>
+                  <% end -%>
             </div>
-            <div>
-            	<div>------------------------------------------------------------------------</div>
-                        <p>פרטי ההזמנה:</p>
-                        <p><b>הזמנה מספר:</b> <%= @request.id -%></p>
-            		<p><b>איזור:</b> <%= @request.region.name -%></p>
-            		<p><b>סוג:</b> <%= @request.room_type.name -%></p>
-            		<p><b>תאריך:</b> <%= @request.start_date.strftime('%d/%m/%Y') -%> - <%= @request.end_date.strftime('%d/%m/%Y') -%></p>
-            		<p><b>מספר חדרים:</b> <%= @request.how_many_rooms -%></p>
-            		<p>
-                              <% if @request.room_properties.nil? || @request.room_properties.empty? %>
-                                    לא נבחרו מאפייני חיפוש.
-						<% else %>
-							<% @request.room_properties.each do |prop| %>
-								<span><%= prop.name -%><% if @request.room_properties.last != prop -%>,<% end -%></span>
-							<% end -%>
-						<% end -%>
-            		</p>
-            	<div>------------------------------------------------------------------------</div>
-            </div>
-            <div>אז שתהיה לכם חופשה מהנה.</div>
-            <div style="background: url(../assets/global/signature.png) no-repeat;"></div>
-		<div>המלצות.</div>
-      </div>
-</div>
+            <br /><br />
+            <input type="button" value="הגש בקשה נוספת" onclick="document.location.href = '.'" />
+        </div>
+    </div>

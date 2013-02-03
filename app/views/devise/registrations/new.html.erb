@@ -1,25 +1,36 @@
 <div id="main">
-  <div id="from">
-    <p><b>הרשם</b></p>
-    <p>
-      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :onsubmit => "return validateNewUserForm(this);" }) do |f| %>
-        <%= devise_error_messages! %>
-        <%= f.text_field(:email, {:placeholder => "דוא\"ל"})-%>
-        <%= f.text_field(:first_name, {:placeholder => "שם פרטי"})-%>
-        <%= f.text_field(:last_name, {:placeholder => "שם משפחה"})-%>
-        <%= f.password_field(:password, {:placeholder => 'סיסמא'} ) %>
-        <%= f.password_field(:password_confirmation, {:placeholder => 'אימות סיסמא'} ) %>
-        <%= f.text_field(:phone, {:placeholder => "טלפון"} ) %>
-        <%= f.label(:sms_enabled, "קבל הצעות ב-  SMS:",) -%>
-        <%= f.check_box(:sms_enabled, {}, "true", "false") -%>
-
-        <center>
-          <%= f.label(:terms_of_use_confirmed, "אני מסכים ל<a href='/'>תנאי השימוש</a>".html_safe) -%>
-          <%= f.check_box(:terms_of_use_confirmed, {}, "true", "false") -%><br />
-          <%= f.submit('הרשם') -%>
-        </center>
-      <% end %>
-      <%= render "links" %>
-    </p>
-  </div>
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :onsubmit => "return validateNewUserForm(this);" }) do |f| %>
+    <%= devise_error_messages! %>
+    <div id="registerContentLeft"><br /><br /><br />
+      <label>דואר אלקטרוני</label><br />
+      <%= f.text_field(:email)-%><br />
+  
+      <label>סיסמה</label><br />
+      <%= f.password_field(:password) %><br />
+        
+      <label>אימות סיסמה</label><br />
+      <%= f.password_field(:password_confirmation) %><br />
+      <p><%= f.check_box(:terms_of_use_confirmed, {}, "true", "false") -%>&nbsp;אני מסכים <a href="#">לתנאי השימוש</a>&nbsp;</p>  
+        
+      <%= f.submit('הרשם') -%><br /><br /><br />
+      <p>
+        <%= render "links" %>
+        <br />
+      </p>
+    </div>
+    <div id="vSeparator"></div>
+    <div id="registerContentRight">
+      <h1>הרשמה לאתר</h1><br /><br />
+      <label>שם פרטי</label><br />
+      <%= f.text_field(:first_name)-%><br />
+          
+      <label>שם משפחה</label><br />
+      <%= f.text_field(:last_name)-%><br />
+          
+      <label>טלפון</label><br />
+      <%= f.text_field(:phone) %><br />
+      <p><%= f.check_box(:sms_enabled, {}, "true", "false") -%>&nbsp;אני מעוניין לקבל הודעות SMS לנייד שלי.&nbsp;</p>
+    </div>
+    <div class="clearFloats"></div>
+  <% end %>
 </div>

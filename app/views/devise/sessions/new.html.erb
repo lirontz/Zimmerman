@@ -1,18 +1,34 @@
 <div id="main">
-  <div id="form">
-    <p><b>הכנס</B></p>
+  <div id="contactDetails">
+    <h2>כתובתנו למשלוח דואר</h2>
     <p>
-      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-        <%= f.text_field(:email, {:placeholder => "דוא\"ל", :class => "elementDefault"})-%>
-        <%= f.password_field(:password, {:placeholder => "סיסמא", :class => "elementDefault"}) %>
-        <% if devise_mapping.rememberable? -%>
-          <%= f.check_box :remember_me %>
-          <%= f.label "זכור אותי" %>
-        <% end -%>
-        <%= f.submit('הכנס', {:class => "btn-primary submitBtn"}) -%>
-      <% end %>
-
-      <%= render "links" %>
+      מושב אלישמע<br />
+      ת.ד 280<br />
+      45880<br />
     </p>
-  </div>    
+    <h2>טלפון</h2>
+    <p>072-2506666</p>
+  </div>
+  <div id="vSeparator"></div>
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <div id="contactContent">
+      <h1>כניסה למערכת</h1><br /><br />
+      <label>כתובת דוא"ל</label><br />
+      <%= f.text_field(:email)-%><br />
+          
+      <label>סיסמה</label><br />
+      <%= f.password_field(:password) %><br />
+      <p>    
+        <% if devise_mapping.rememberable? -%>
+          <%= f.check_box :remember_me %>&nbsp;זכור אותי&nbsp;
+        <% end -%>
+      </p>
+          
+      <%= f.submit('הכנס') -%><br /><br /><br />
+      <p>
+      <%= render "links" %>
+      <br />
+    </div>
+  <% end -%>
+  <div class="clearFloats"></div>
 </div>

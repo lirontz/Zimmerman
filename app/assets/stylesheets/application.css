@@ -56,7 +56,7 @@ body{
 	background-attachment:fixed;
 }
 
-p, h1, h2, h3, h4, h5, h6{
+p, h1, h2, h3, h4, h5, h6, label{
 	direction:rtl;
 	font-family:Arial, Helvetica, sans-serif;	
 }
@@ -265,6 +265,92 @@ p{
 	right:-10px;
 }
 
+#container #main #aboutContent{
+	text-align:center;
+	padding:25px 60px;
+}
+/* ==== Contact Us =====*/
+#container #main #contactContent{
+	text-align:center;
+	padding:25px 60px;
+	width:500px;
+	float:left;
+}
+#container #main #contactDetails{
+	text-align:center;
+	padding:85px 60px;
+	width:160px;
+	float:left;
+}
+
+#container #main #contactContent label{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+}
+
+/* ==== Register =====*/
+#container #main #registerContentLeft{
+	text-align:center;
+	padding:25px 60px;
+	width:332px;
+	float:left;
+}
+#container #main #registerContentRight{
+	text-align:center;
+	padding:25px 60px;
+	width:332px;
+	float:left;
+}
+
+#container #main #registerContentRight label,
+#container #main #registerContentLeft label{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	direction:rtl;
+}
+/* ==== confirmation =========*/
+#container #main #confirmationContent{
+	text-align:center;
+	padding:25px 60px;
+}
+
+#container #main #confirmationContent #confirmationOrderDetails{
+	width:450px;
+	text-align:right;
+	padding:25px 60px;
+	margin:auto;
+	
+	border-bottom:#cecdd5 dashed 1px;
+	border-top:#cecdd5 dashed 1px;
+}
+#container #main #confirmationContent #confirmationOrderDetails .date{
+	color:#a4a4a4;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:normal;
+	font-size:12px;
+	text-align:left;
+	display:block;
+}
+#container #main #confirmationContent #confirmationOrderDetails h2{
+	color:#70b1b5;
+}
+
+#container #main #confirmationContent #confirmationOrderDetails .title{
+	color:#555557;
+	font-family:Alef, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+}
+
+#container #main #confirmationContent #confirmationOrderDetails .content{
+	color:#555557;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+}
+/* ====================*/
 #container #closer{
 	width:925px;
 	height:60px;
@@ -301,6 +387,7 @@ padding: 2px 12px 2px 0px;
 font-family:Arial, Helvetica, sans-serif;
 font-size:12px;
 color:#666666;
+background-color:#f6fcfd;
 
 /*
 -o-box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
@@ -313,8 +400,6 @@ text-shadow: 0 1px 1px white;
 -moz-border-radius: 3px;
 -webkit-border-radius: 3px;
 border-radius: 2px;
-
-background-color:#fff;
 
 direction:rtl;
 }
@@ -347,14 +432,13 @@ textarea{
 input[type="submit"], input[type="button"]{
 
 	height: 29px;
-	width: 75px;
-	
+	min-width:75px;
+	padding:0 15px;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	font-weight:bold;
 	color:#33757e;
 	
-	margin-right:14px;
 	
 	-o-box-shadow:  0px 0px 5px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow:  0px 0px 5px rgba(0, 0, 0, 0.3);
