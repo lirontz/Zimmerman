@@ -269,6 +269,7 @@ p{
 	text-align:center;
 	padding:25px 60px;
 }
+
 /* ==== Contact Us =====*/
 #container #main #contactContent{
 	text-align:center;
@@ -305,11 +306,38 @@ p{
 }
 
 #container #main #registerContentRight label,
-#container #main #registerContentLeft label{
+#container #main #registerContentLeft label {
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
 	font-weight:normal;
 	direction:rtl;
+	color:#70727c;
+}
+
+/* ==== siteOwner =========*/
+#container #main #siteOwnerLoginContent {
+	text-align:center;
+	padding:25px 60px;
+}
+
+#container #main #siteOwnerLoginContent label, 
+#container #main #siteOwnerLoginContent a {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#70727c;
+}
+
+#container #main #siteOwnerRegisterContent {
+	text-align:center;
+	padding:25px 60px;
+}
+
+#container #main #siteOwnerRegisterContent label, 
+#container #main #siteOwnerRegisterContent a {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
 	color:#70727c;
 }
 /* ==== confirmation =========*/
