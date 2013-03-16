@@ -254,22 +254,46 @@ function initRequestFields() {
 
 function initDatepicker() {
 	var $datepickerElem = $('#request_start_date, #request_end_date');
-	var $startDateElem = $('#request_start_date');
-	var $endDateElem = $('#request_end_date');
 	var dates = $datepickerElem.datepicker({
 		minDate: 0,
 		maxDate: "+6M +15D",
 		changeMonth: true,
-		onSelect: function( selectedDate ) {
+		beforeShow: function(input, inst) {
+			inst.dpDiv.css({marginLeft: (input.offsetLeft + 'px')});
+		},
+		onSelect: function(selectedDate) {
 			var option = this.id == "request_end_date" ?  "maxDate" : "minDate";
-			var instance = $( this ).data( "datepicker" );
-			var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
+			var instance = $(this).data("datepicker");
+			var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
 			
-			date.setDate(date.getDate() + 2);
-			dates.not( this ).datepicker( "option", option, date );
+			if (this.id == "request_start_date") {
+				date.setDate(date.getDate() + 2);
+				dates.not(this).datepicker("option", option, date);
+				dates.not(this).datepicker("setDate", date);
+			} else {
+				if (!dates.not(this).datepicker("getDate")) {
+					var dateDiff = Math.floor(((((date.valueOf() - (new Date()).valueOf()) / 1000) / 60) / 60) / 24);
+
+					if (dateDiff >= 0) {
+						switch (dateDiff) {
+							case 1:
+								date.setDate(date.getDate() - 1);
+								break;
+							case 2:
+								date.setDate(date.getDate() - 2);
+								break;
+						}
+					} else {
+						date.setDate(date.getDate());
+					}
+					dates.not(this).datepicker("option", option, date);
+					//$(this).datepicker("option", 'minDate', date);
+					dates.not(this).datepicker("setDate", date);
+				}
+			}
 		}
 	});
-	$datepickerElem.datepicker( "option", "showAnim", "slideDown" );
+	$datepickerElem.datepicker("option", "showAnim", "slideDown");
 }
 
 function changePassBox() {

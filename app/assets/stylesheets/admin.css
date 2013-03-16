@@ -19,7 +19,7 @@ p{
 	margin:auto;
 	width:1000px;
 	
-	background-image:url(../assets/cp_template//headerBG.jpg);
+	background-image:url(/assets/cp_template//headerBG.jpg);
 	background-position:top center;
 	background-repeat:no-repeat;
 	background-color:#FFF;
@@ -59,7 +59,7 @@ p{
 	width:743px;
 	height:225px;
 	margin:auto;
-	background-image:url(../assets/cp_template/menuBar.png);
+	background-image:url(/assets/cp_template/menuBar.png);
 	background-repeat:no-repeat;
 	background-position:bottom center;
 }
@@ -85,7 +85,7 @@ p{
 
 #mainMenu #rightMenuMain ul li{
 	float:left;
-	background-image:url(../assets/cp_template/topMenuSeparator.gif);
+	background-image:url(/assets/cp_template/topMenuSeparator.gif);
 	background-repeat:no-repeat;
 	background-position:left 7px;
 }
@@ -221,7 +221,7 @@ p{
 #separator{
 	width:17px;
 	height:430px;
-	background-image:url(../assets/cp_template/separator.jpg);
+	background-image:url(/assets/cp_template/separator.jpg);
 	background-position:top;
 	background-repeat:no-repeat;
 	float:left;
@@ -269,7 +269,7 @@ p{
 }
 
 #rightMenu ul li{
-	background-image:url(../assets/cp_template/separatorHr.gif);
+	background-image:url(/assets/cp_template/separatorHr.gif);
 	background-position:30px bottom;
 	background-repeat:no-repeat;
 }
@@ -285,7 +285,7 @@ p{
 #rightMenu ul li .selected{
 	color:#70b1b9;
 	text-decoration:none;
-	background-image:url(../assets/cp_template/rightMenuSelection.png);
+	background-image:url(/assets/cp_template/rightMenuSelection.png);
 	background-repeat:no-repeat;
 	
 }
@@ -293,7 +293,7 @@ p{
 #rightMenu ul li a:hover{
 	color:#70b1b9;
 	text-decoration:none;
-	background-image:url(../assets/cp_template/rightMenuSelection.png);
+	background-image:url(/assets/cp_template/rightMenuSelection.png);
 	background-repeat:no-repeat;
 	
 }

@@ -4,7 +4,7 @@
     <div id="form">
       <ol>
         <li class="selected">
-          <a href="#" onclick="openForm('form1')">בחירת סוג חדר ואיזור</a>
+          <a href="javascript:void(0);" onclick="openForm('form1')">בחירת סוג חדר ואיזור</a>
           <div id="form1">
             <%= f.select(:room_type_id, @room_types.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
             <%= f.select(:region_id, @regions.map { |u| [u.name,u.id] }, {:selected => "1"}, {:class => "elementDefault"}) -%>
@@ -13,7 +13,7 @@
           </div>
         </li>
         <li>
-          <a href="#" onclick="openForm('form2')">אבזור בחדר</a>
+          <a href="javascript:void(0);" onclick="openForm('form2')">אבזור בחדר</a>
           <div id="form2">
             <% @room_porperties.each_with_index do |prop, i| -%>
               <%= label 'room_porperty_request_list_', (i + 1) do -%>
@@ -26,7 +26,7 @@
           </div>
         </li>
         <li>
-          <a href="#" onclick="openForm('form3')">מחירים ותאריכים</a>
+          <a href="javascript:void(0);" onclick="openForm('form3')">מחירים ותאריכים</a>
           <div id="form3">
             <label class="short">מספר יחידות</label><%= f.text_field(:how_many_rooms, {:style => "width: 70px;"})-%><br />
             <label class="short">מתאריך</label><%= f.text_field(:start_date, {:read_only => true, :class => "smallInput", :autocomplete => "off"})-%>
@@ -40,7 +40,7 @@
           </div>
         </li>
         <li>
-          <a href="#" onclick="openForm('form4')">מילוי פרטים וקבלת הצעה</a>
+          <a href="javascript:void(0);" onclick="openForm('form4')">מילוי פרטים וקבלת הצעה</a>
             <div id="form4">
               <label class="short">דוא"ל</label><%= email_field(:user, :email, {:style => "width:145px;"} ) %><br />
               <label class="short">שם פרטי</label><%= text_field(:user, :first_name, {:style => "width:145px;"} ) %><br />
