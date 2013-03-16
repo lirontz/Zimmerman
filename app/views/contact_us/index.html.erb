@@ -10,24 +10,26 @@
         <p>072-2506666</p>
     </div>
     <div id="vSeparator"></div>
-	<div id="contactContent">
-    	<h1>צרו איתי קשר.</h1><br /><br />
-        <label>שם מלא</label><br />
-        <input type="text" /><br />
-        
-        <label>כתובת דוא"ל</label><br />
-        <input type="text" /><br />
-        
-        <label>טלפון</label><br />
-        <input type="text" /><br />
-        
-        <label>נושא הפניה</label><br />
-        <input type="text" /><br />
-        
-        <label>תוכן ההודעה</label><br />
-        <textarea></textarea><br />
-        
-        <input type="submit" value="שלח" />
-    </div>
+	<%= form_tag dispatch_email_path, method: :post do %>
+        <div id="contactContent">
+        	<h1>צרו איתי קשר.</h1><br /><br />
+            <%= label_tag "user_info[name]", 'שם מלא' %><br />
+            <%= text_field_tag "user_info[name]" %><br />
+            
+            <%= label_tag "user_info[email]", 'כתובת דוא"ל' %><br />
+            <%= text_field_tag "user_info[email]" %><br />
+            
+            <%= label_tag "user_info[phone]", 'טלפון' %><br />
+            <%= text_field_tag "user_info[phone]" %><br />
+            
+            <%= label_tag "user_info[title]", 'נושא הפניה' %><br />
+            <%= text_field_tag "user_info[title]" %><br />
+            
+            <%= label_tag "user_info[message]", 'תוכן ההודעה' %><br />
+            <%= text_area_tag "user_info[message]" %><br />
+            
+            <%= submit_tag "שלח" %>
+        </div>
+    <% end -%>
     <div class="clearFloats"></div>
 </div>

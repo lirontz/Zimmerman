@@ -16,6 +16,7 @@ Zimmerman::Application.routes.draw do
   put 'site_owner/cp/update_status_1' => 'site_owner/cp#update_request_status_main'
   put 'site_owner/cp/update_status_2' => 'site_owner/cp#update_request_status_request'
   
+  post 'dispatch_email' => 'contact_us#dispatch_email'
 
   #get 'site_owner/cp/main' => 'site_owner/cp#main'
   #get 'site_owner/cp/requests' => 'site_owner/cp#requests'
