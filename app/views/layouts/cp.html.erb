@@ -21,6 +21,7 @@
     </div>
     <div id="mainMenu">
       <div id="leftMenuMain"><%= link_to "התנתק", destroy_user_session_path, :method => :delete, :class => "logout" %><div class="register">רשום כ: <%= current_user ? current_user.email : current_site_owner.email %></div></div>
+      <div id="centerMenuMain" onclick="window.location = '<%= root_url %>'"></div>
       <div id="rightMenuMain">
         <ul>
             <li><a onclick="displayGlobalTab('global', 'main-d')">אתר</a></li>

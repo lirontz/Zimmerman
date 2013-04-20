@@ -32,8 +32,8 @@ group :development, :test do
 end
 
 group :production do
-	gem 'pg'
-	#gem 'sqlite3'
+	#gem 'pg'
+	gem 'sqlite3'
 end
 
 gem 'jquery-rails'
@@ -45,10 +45,10 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the web server
-# gem 'unicorn'
+# gem 'unicorn'gem
 
 # Deploy with Capistrano
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug'
+#  'ruby-debug'
